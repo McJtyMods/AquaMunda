@@ -7,6 +7,7 @@ import mcjty.aquamunda.environment.EnvironmentData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -20,10 +21,18 @@ public class CustomFarmLand extends BlockFarmland {
     public CustomFarmLand() {
         super();
         this.setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
+        setRegistryName("farmland");
+    }
+
+    @Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+        System.out.println("CustomFarmLand.onBlockPlaced");
+        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
     }
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+        System.out.println("CustomFarmLand.onBlockAdded");
         if (!world.isRemote) {
             EnvironmentData environment = EnvironmentData.getEnvironmentData(world);
             if (environment.getData().set(world.provider.getDimensionId(), pos, (byte) 0)) {
@@ -34,6 +43,7 @@ public class CustomFarmLand extends BlockFarmland {
 
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+        System.out.println("CustomFarmLand.updateTick");
         handleRain(world, pos, random);
         handleSprinkler(world, pos, random);
 
@@ -112,6 +122,4 @@ public class CustomFarmLand extends BlockFarmland {
 
         return false;
     }
-
-
 }

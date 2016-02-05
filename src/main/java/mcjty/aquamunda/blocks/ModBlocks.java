@@ -4,13 +4,18 @@ import mcjty.aquamunda.blocks.bundle.BundleBlock;
 import mcjty.aquamunda.blocks.bundle.HoseBlock;
 import mcjty.aquamunda.blocks.customblocks.BlockDeadCrop;
 import mcjty.aquamunda.blocks.customblocks.CustomFarmLand;
+import mcjty.aquamunda.blocks.customblocks.CustomFarmLandItemBlock;
 import mcjty.aquamunda.blocks.desalination.DesalinationBoilerBlock;
 import mcjty.aquamunda.blocks.desalination.DesalinationTankBlock;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerBlock;
 import mcjty.aquamunda.blocks.tank.TankBlock;
 import mcjty.aquamunda.fluid.BlockFreshWater;
 import mcjty.aquamunda.fluid.FluidSetup;
+import mcjty.aquamunda.varia.BlockReplacerHelper;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraftforge.fml.common.registry.ExistingSubstitutionException;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -38,9 +43,24 @@ public class ModBlocks {
         desalinationTankBlock = new DesalinationTankBlock();
 
         customFarmLand = new CustomFarmLand();
-//        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
+//        GameRegistry.registerBlock(customFarmLand);
+        try {
+            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
+            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));
+        } catch (ExistingSubstitutionException e) {
+            throw new RuntimeException(e);
+        }
+        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
+
+        System.out.println("Blocks.farmland = " + Blocks.farmland);
+        System.out.println("Blocks.farmland.getClass() = " + Blocks.farmland.getClass());
+
         deadCarrot = new BlockDeadCrop("dead_carrot");
         deadWheat = new BlockDeadCrop("dead_wheat");
+    }
+
+    public static void postInit() {
+        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
     }
 
     public static void initCrafting() {

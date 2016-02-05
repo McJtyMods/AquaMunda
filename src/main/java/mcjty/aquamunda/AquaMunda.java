@@ -7,6 +7,7 @@ import mcjty.aquamunda.config.ConfigSetup;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.events.ForgeEventHandlers;
+import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.HoseNetwork;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
@@ -73,9 +74,10 @@ public class AquaMunda {
 
     public static class CommonProxy {
         public void preInit(FMLPreInitializationEvent e) {
-            PacketHandler.registerMessages("immcraft");
+            PacketHandler.registerMessages("aquamunda");
 
             ConfigSetup.preInit(e);
+            FluidSetup.preInitFluids();
             ModBlocks.init();
 //            ModItems.init();
 //            WorldGen.init();
@@ -89,6 +91,7 @@ public class AquaMunda {
 
         public void postInit(FMLPostInitializationEvent e) {
             ConfigSetup.postInit();
+            ModBlocks.postInit();
         }
     }
 
