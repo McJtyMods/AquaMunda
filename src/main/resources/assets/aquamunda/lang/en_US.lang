@@ -1,19 +1,15 @@
-item.chisel.name=Chisel
-item.saw.name=Saw
+item.freshWaterBucket.name=Fresh Water Bucket
 
-tile.furnace.name=Furnace
-tile.chest.name=Chest
-tile.cupboard.name=Cupboard
-tile.workbench.name=Workbench (WIP)
-tile.workbench_sec.name=Workbench (WIP)
-tile.rock.name=Rock
-tile.sticks.name=Sticks
-tile.in_world_placer.name=Placer
-tile.in_world_vertical_placer.name=Placer
+tile.freshWaterFluid.name=Fresh Water Fluid
+tile.freshWater.name=Fresh Water
+tile.deadCarrot.name=Dead Carrot
+tile.deadWheat.name=Dead Wheat
+tile.sprinkler.name=Sprinkler
+tile.tank.name=Tank
+tile.hose.name=Hose
+tile.bundle.name=Bundle
+tile.boiler.name=Desalination Boiler
+tile.evaporator.name=Desalination Tank
 
-itemGroup.immcraft=ImmersiveCraft
-key.categories.immcraft=ImmersiveCraft
-key.nextitem=Next item craftable item
-key.previtem=Previous item craftable item
-key.placeitem=Place item in world
-
+itemGroup.AquaMunda=Aqua Munda
+key.categories.aquamunda=Aqua Munda

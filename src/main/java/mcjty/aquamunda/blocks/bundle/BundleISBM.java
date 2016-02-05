@@ -25,7 +25,7 @@ public class BundleISBM implements ISmartBlockModel {
 
     public static final float THICK = 1/16.0f;
 
-    public static final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("gaia:bundle");
+    public static final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("aquamunda:bundle");
 
     @Override
     public IBakedModel handleBlockState(IBlockState state) {
