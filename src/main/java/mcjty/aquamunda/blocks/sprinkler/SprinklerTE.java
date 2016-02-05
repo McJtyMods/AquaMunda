@@ -2,11 +2,16 @@ package mcjty.aquamunda.blocks.sprinkler;
 
 import mcjty.aquamunda.blocks.generic.GenericTE;
 import mcjty.aquamunda.cables.CableSubType;
+import mcjty.aquamunda.chunkdata.GameData;
+import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.aquamunda.varia.Vector;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
@@ -132,37 +137,36 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
     }
 
     private void sprinkle() {
-        // @todo
-//        EnvironmentData environment = EnvironmentData.getEnvironmentData(worldObj);
-//        GameData data = environment.getData();
-//        boolean dirty = false;
-//        int xCoord = getPos().getX();
-//        int yCoord = getPos().getY();
-//        int zCoord = getPos().getZ();
-//        for (int x = xCoord-4 ; x <= xCoord+4; x++) {
-//            for (int y = yCoord-1 ; y <= yCoord+2; y++) {
-//                for (int z = zCoord-4 ; z <= zCoord+4; z++) {
-//                    BlockPos pos = new BlockPos(x, y, z);
-//                    Block block = worldObj.getBlockState(pos).getBlock();
-//                    if (!worldObj.isAirBlock(pos)) {
-//                        spawnParticles(EnumParticleTypes.WATER_SPLASH, 10, x, y+1, z);
-//                        // splash, dripWater
-//                    }
-//
-//                    if (block == Blocks.farmland) {
-//                        byte moistness = data.get(worldObj.provider.getDimensionId(), pos);
-//                        if (moistness < MAX_MOISTNESS) {
-//                            moistness++;
-//                            data.set(worldObj.provider.getDimensionId(), pos, moistness);
-//                            dirty = true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        if (dirty) {
-//            environment.save(worldObj);
-//        }
+        EnvironmentData environment = EnvironmentData.getEnvironmentData(worldObj);
+        GameData data = environment.getData();
+        boolean dirty = false;
+        int xCoord = getPos().getX();
+        int yCoord = getPos().getY();
+        int zCoord = getPos().getZ();
+        for (int x = xCoord-4 ; x <= xCoord+4; x++) {
+            for (int y = yCoord-1 ; y <= yCoord+2; y++) {
+                for (int z = zCoord-4 ; z <= zCoord+4; z++) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    Block block = worldObj.getBlockState(pos).getBlock();
+                    if (!worldObj.isAirBlock(pos)) {
+                        spawnParticles(EnumParticleTypes.WATER_SPLASH, 10, x, y+1, z);
+                        // splash, dripWater
+                    }
+
+                    if (block == Blocks.farmland) {
+                        byte moistness = data.get(worldObj.provider.getDimensionId(), pos);
+                        if (moistness < MAX_MOISTNESS) {
+                            moistness++;
+                            data.set(worldObj.provider.getDimensionId(), pos, moistness);
+                            dirty = true;
+                        }
+                    }
+                }
+            }
+        }
+        if (dirty) {
+            environment.save(worldObj);
+        }
     }
 
     private static Random random = new Random();

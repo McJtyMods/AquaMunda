@@ -2,8 +2,8 @@ item.freshWaterBucket.name=Fresh Water Bucket
 
 tile.freshWaterFluid.name=Fresh Water Fluid
 tile.freshWater.name=Fresh Water
-tile.deadCarrot.name=Dead Carrot
-tile.deadWheat.name=Dead Wheat
+tile.dead_carrot.name=Dead Carrot
+tile.dead_wheat.name=Dead Wheat
 tile.sprinkler.name=Sprinkler
 tile.tank.name=Tank
 tile.hose.name=Hose

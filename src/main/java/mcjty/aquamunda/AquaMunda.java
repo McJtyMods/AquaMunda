@@ -2,9 +2,12 @@ package mcjty.aquamunda;
 
 
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.aquamunda.blocks.tank.TankNetwork;
 import mcjty.aquamunda.config.ConfigSetup;
+import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.events.ForgeEventHandlers;
+import mcjty.aquamunda.hosemultiblock.HoseNetwork;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
 import net.minecraft.creativetab.CreativeTabs;
@@ -53,7 +56,10 @@ public class AquaMunda {
 
     @Mod.EventHandler
     public void serverStopped(FMLServerStoppedEvent event) {
-            }
+        TankNetwork.clearInstance();
+        HoseNetwork.clearInstance();
+        EnvironmentData.clearInstance();
+    }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {

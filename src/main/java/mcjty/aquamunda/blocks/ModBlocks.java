@@ -2,6 +2,8 @@ package mcjty.aquamunda.blocks;
 
 import mcjty.aquamunda.blocks.bundle.BundleBlock;
 import mcjty.aquamunda.blocks.bundle.HoseBlock;
+import mcjty.aquamunda.blocks.customblocks.BlockDeadCrop;
+import mcjty.aquamunda.blocks.customblocks.CustomFarmLand;
 import mcjty.aquamunda.blocks.desalination.DesalinationBoilerBlock;
 import mcjty.aquamunda.blocks.desalination.DesalinationTankBlock;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerBlock;
@@ -22,6 +24,10 @@ public class ModBlocks {
     public static DesalinationBoilerBlock desalinationBoilerBlock;
     public static DesalinationTankBlock desalinationTankBlock;
 
+    public static CustomFarmLand customFarmLand;
+    public static BlockDeadCrop deadCarrot;
+    public static BlockDeadCrop deadWheat;
+
     public static void init() {
         blockFreshWater = new BlockFreshWater(FluidSetup.freshWater, Material.water);
         tankBlock = new TankBlock();
@@ -30,6 +36,11 @@ public class ModBlocks {
         sprinklerBlock = new SprinklerBlock();
         desalinationBoilerBlock = new DesalinationBoilerBlock();
         desalinationTankBlock = new DesalinationTankBlock();
+
+        customFarmLand = new CustomFarmLand();
+//        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
+        deadCarrot = new BlockDeadCrop("dead_carrot");
+        deadWheat = new BlockDeadCrop("dead_wheat");
     }
 
     public static void initCrafting() {
@@ -45,6 +56,9 @@ public class ModBlocks {
         sprinklerBlock.initModel();
         desalinationBoilerBlock.initModel();
         desalinationTankBlock.initModel();
+
+        deadCarrot.initModel();
+        deadWheat.initModel();
     }
 
     @SideOnly(Side.CLIENT)
