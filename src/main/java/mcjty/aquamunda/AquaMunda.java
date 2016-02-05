@@ -9,6 +9,7 @@ import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.events.ForgeEventHandlers;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.HoseNetwork;
+import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
 import net.minecraft.creativetab.CreativeTabs;
@@ -79,7 +80,7 @@ public class AquaMunda {
             ConfigSetup.preInit(e);
             FluidSetup.preInitFluids();
             ModBlocks.init();
-//            ModItems.init();
+            ModItems.init();
 //            WorldGen.init();
         }
 
@@ -105,7 +106,7 @@ public class AquaMunda {
             OBJLoader.instance.addDomain(MODID);
 
             ModBlocks.initModels();
-//            ModItems.initModels();
+            ModItems.initModels();
         }
 
         @Override

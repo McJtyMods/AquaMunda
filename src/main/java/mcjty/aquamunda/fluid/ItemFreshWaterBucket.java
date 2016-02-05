@@ -1,15 +1,24 @@
 package mcjty.aquamunda.fluid;
 
 import mcjty.aquamunda.blocks.ModBlocks;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemFreshWaterBucket extends ItemBucket {
 
     public ItemFreshWaterBucket() {
         super(ModBlocks.blockFreshWater);
-        setUnlocalizedName("freshWaterBucket");
-//        setTextureName("minecraft:bucket_water");
+        setUnlocalizedName("fresh_water_bucket");
+        setRegistryName("fresh_water_bucket");
         setContainerItem(Items.bucket);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void initModel() {
+        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 }

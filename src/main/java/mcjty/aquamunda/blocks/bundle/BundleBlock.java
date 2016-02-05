@@ -117,6 +117,16 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
     }
 
     @Override
+    public boolean isFullBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube() {
+        return false;
+    }
+
+    @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
     }
 
