@@ -1,11 +1,16 @@
 package mcjty.aquamunda;
 
 
+import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.config.ConfigSetup;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.events.ForgeEventHandlers;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -29,19 +34,19 @@ public class AquaMunda {
     @Mod.Instance
     public static AquaMunda instance;
 
-//    public static CreativeTabs creativeTab;
+    public static CreativeTabs creativeTab;
 
     public static Logger logger;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
-//        creativeTab = new CreativeTabs("immcraft") {
-//            @Override
-//            public Item getTabIconItem() {
-//                return Item.getItemFromBlock(ModBlocks.rockBlock);
-//            }
-//        };
+        creativeTab = new CreativeTabs("immcraft") {
+            @Override
+            public Item getTabIconItem() {
+                return Items.water_bucket;
+            }
+        };
         proxy.preInit(event);
         WailaCompatibility.registerWaila();
     }
@@ -65,14 +70,14 @@ public class AquaMunda {
             PacketHandler.registerMessages("immcraft");
 
             ConfigSetup.preInit(e);
-//            ModBlocks.init();
+            ModBlocks.init();
 //            ModItems.init();
 //            WorldGen.init();
         }
 
         public void init(FMLInitializationEvent e) {
             MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-//            ModBlocks.initCrafting();
+            ModBlocks.initCrafting();
 //            ModItems.initCrafting();
         }
 
@@ -88,9 +93,9 @@ public class AquaMunda {
             super.preInit(e);
 
             MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
-//            OBJLoader.instance.addDomain(MODID);
+            OBJLoader.instance.addDomain(MODID);
 
-//            ModBlocks.initModels();
+            ModBlocks.initModels();
 //            ModItems.initModels();
         }
 
