@@ -1,4 +1,4 @@
-package mcjty.hotspots.waila;
+package mcjty.aquamunda.waila;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

@@ -1,4 +1,4 @@
-package mcjty.hotspots.events;
+package mcjty.aquamunda.events;
 
 
 public class ForgeEventHandlers {

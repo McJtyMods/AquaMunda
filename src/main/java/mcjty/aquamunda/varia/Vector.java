@@ -1,4 +1,4 @@
-package mcjty.hotspots.varia;
+package mcjty.aquamunda.varia;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;

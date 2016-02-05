@@ -1,4 +1,4 @@
-package mcjty.hotspots.events;
+package mcjty.aquamunda.events;
 
 
 import net.minecraftforge.fml.relauncher.Side;

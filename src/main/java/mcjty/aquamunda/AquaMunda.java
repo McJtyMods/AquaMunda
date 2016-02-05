@@ -1,13 +1,11 @@
-package mcjty.hotspots;
+package mcjty.aquamunda;
 
 
-import mcjty.hotspots.config.ConfigSetup;
-import mcjty.hotspots.events.ClientForgeEventHandlers;
-import mcjty.hotspots.events.ForgeEventHandlers;
-import mcjty.hotspots.network.PacketHandler;
-import mcjty.hotspots.waila.WailaCompatibility;
-import mcjty.hotspots.world.HotSpotStorage;
-import mcjty.hotspots.worldgen.WorldGen;
+import mcjty.aquamunda.config.ConfigSetup;
+import mcjty.aquamunda.events.ClientForgeEventHandlers;
+import mcjty.aquamunda.events.ForgeEventHandlers;
+import mcjty.aquamunda.network.PacketHandler;
+import mcjty.aquamunda.waila.WailaCompatibility;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -17,19 +15,19 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = HotSpots.MODID, name = HotSpots.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true,
-        version = HotSpots.VERSION)
-public class HotSpots {
+@Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true,
+        version = AquaMunda.VERSION)
+public class AquaMunda {
 
-    public static final String MODID = "hotspots";
-    public static final String MODNAME = "Hot Spots";
+    public static final String MODID = "aquamunda";
+    public static final String MODNAME = "Aqua Munda";
     public static final String VERSION = "1.0.0";
 
     @SidedProxy
     public static CommonProxy proxy;
 
     @Mod.Instance
-    public static HotSpots instance;
+    public static AquaMunda instance;
 
 //    public static CreativeTabs creativeTab;
 
@@ -50,8 +48,7 @@ public class HotSpots {
 
     @Mod.EventHandler
     public void serverStopped(FMLServerStoppedEvent event) {
-        HotSpotStorage.clearInstance();
-    }
+            }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
@@ -70,7 +67,7 @@ public class HotSpots {
             ConfigSetup.preInit(e);
 //            ModBlocks.init();
 //            ModItems.init();
-            WorldGen.init();
+//            WorldGen.init();
         }
 
         public void init(FMLInitializationEvent e) {

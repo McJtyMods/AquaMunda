@@ -28,8 +28,8 @@ repositories {
 }
 
 version = "1.0.0"
-group= "mcjty.hotspots"
-archivesBaseName = "hotspots"
+group= "mcjty.aquamunda"
+archivesBaseName = "aquamunda"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

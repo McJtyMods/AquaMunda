@@ -1,4 +1,4 @@
-package mcjty.hotspots.network;
+package mcjty.aquamunda.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;

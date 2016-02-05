@@ -1,4 +1,4 @@
-package mcjty.hotspots.config;
+package mcjty.aquamunda.config;
 
 import net.minecraftforge.common.config.Configuration;
 

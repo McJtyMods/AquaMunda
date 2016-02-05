@@ -1,4 +1,4 @@
-package mcjty.hotspots.varia;
+package mcjty.aquamunda.varia;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
