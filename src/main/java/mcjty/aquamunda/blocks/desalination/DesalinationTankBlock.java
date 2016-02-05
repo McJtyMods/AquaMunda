@@ -13,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -25,6 +26,13 @@ public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE
         setHardness(2.0f);
         setStepSound(soundTypeMetal);
         setHarvestLevel("pickaxe", 0);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void initModel() {
+        super.initModel();
+        ClientRegistry.bindTileEntitySpecialRenderer(DesalinationTankTE.class, new DesalinationTankTESR());
     }
 
     @Override

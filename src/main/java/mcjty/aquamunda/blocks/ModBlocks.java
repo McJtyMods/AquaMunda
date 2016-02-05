@@ -46,4 +46,10 @@ public class ModBlocks {
         desalinationBoilerBlock.initModel();
         desalinationTankBlock.initModel();
     }
+
+    @SideOnly(Side.CLIENT)
+    public static void initItemModels() {
+        ModBlocks.tankBlock.initItemModel();
+        ModBlocks.bundleBlock.initItemModel();
+    }
 }

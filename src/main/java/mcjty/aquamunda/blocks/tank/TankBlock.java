@@ -31,6 +31,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -69,6 +70,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
             }
         };
         ModelLoader.setCustomStateMapper(this, ignoreState);
+        ClientRegistry.bindTileEntitySpecialRenderer(TankTE.class, new TankTESR());
     }
 
     @SideOnly(Side.CLIENT)

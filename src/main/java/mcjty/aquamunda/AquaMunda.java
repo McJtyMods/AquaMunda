@@ -102,6 +102,7 @@ public class AquaMunda {
         @Override
         public void init(FMLInitializationEvent e) {
             super.init(e);
+            ModBlocks.initItemModels();
         }
     }
 
