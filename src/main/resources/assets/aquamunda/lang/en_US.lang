@@ -1,0 +1,19 @@
+item.chisel.name=Chisel
+item.saw.name=Saw
+
+tile.furnace.name=Furnace
+tile.chest.name=Chest
+tile.cupboard.name=Cupboard
+tile.workbench.name=Workbench (WIP)
+tile.workbench_sec.name=Workbench (WIP)
+tile.rock.name=Rock
+tile.sticks.name=Sticks
+tile.in_world_placer.name=Placer
+tile.in_world_vertical_placer.name=Placer
+
+itemGroup.immcraft=ImmersiveCraft
+key.categories.immcraft=ImmersiveCraft
+key.nextitem=Next item craftable item
+key.previtem=Previous item craftable item
+key.placeitem=Place item in world
+

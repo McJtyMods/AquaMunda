@@ -1,0 +1,15 @@
+[
+{
+  "modid": "aquamunda",
+  "name": "Aqua Munda",
+  "description": "Aqua Munda",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["McJty"],
+  "credits": "McJty",
+  "logoFile": "",
+  "screenshots": []
+}
+]
