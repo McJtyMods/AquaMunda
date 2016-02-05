@@ -7,7 +7,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class EnvironmentData extends WorldSavedData {
 
-    public static final String NAME = "GaiaEnvironment";
+    public static final String NAME = "AquaMundaEnvironment";
     private static EnvironmentData instance = null;
 
     private GameData environmentData = new GameData((byte) 0);

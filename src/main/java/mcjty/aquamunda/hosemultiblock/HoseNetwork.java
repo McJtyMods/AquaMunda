@@ -8,7 +8,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class HoseNetwork extends WorldSavedData {
 
-    public static final String NAME = "GaiaHoses";
+    public static final String NAME = "AquaMundaHoses";
     private static HoseNetwork instance = null;
     private static HoseNetwork clientInstance = null;
 

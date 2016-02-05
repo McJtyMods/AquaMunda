@@ -7,7 +7,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class TankNetwork extends WorldSavedData {
 
-    public static final String NAME = "GaiaTanks";
+    public static final String NAME = "AquaMundaTanks";
     private static TankNetwork instance = null;
     private static TankNetwork clientInstance = null;
 
