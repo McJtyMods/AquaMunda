@@ -1,6 +1,7 @@
 package mcjty.aquamunda.blocks.generic;
 
 
+import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.rendering.BlockRenderHelper;
 import mcjty.aquamunda.varia.BlockTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -34,7 +35,7 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     @Override
     protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super.register(name, clazz, itemBlockClass);
-        GameRegistry.registerTileEntity(clazz, name + "TE");
+        GameRegistry.registerTileEntity(clazz, AquaMunda.MODID + "_" + name + "TE");
     }
 
     @Override
