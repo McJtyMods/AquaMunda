@@ -7,7 +7,7 @@ import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.NBTHelper;
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;

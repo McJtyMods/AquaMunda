@@ -1,6 +1,6 @@
 package mcjty.aquamunda.cables;
 
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 
 /**
  * Cable section for the renderer (BundleISBM)

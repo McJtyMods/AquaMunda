@@ -1,5 +1,6 @@
 package mcjty.aquamunda.varia;
 
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;

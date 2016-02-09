@@ -3,8 +3,8 @@ package mcjty.aquamunda.blocks.generic;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.varia.BlockTools;
-import mcjty.aquamunda.varia.Vector;
 import mcjty.aquamunda.waila.WailaProvider;
+import mcjty.immcraft.api.util.Vector;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;

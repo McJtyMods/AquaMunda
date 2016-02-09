@@ -2,7 +2,7 @@ package mcjty.aquamunda.cables;
 
 import mcjty.aquamunda.varia.BlockPosTools;
 import mcjty.aquamunda.varia.NBTHelper;
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;

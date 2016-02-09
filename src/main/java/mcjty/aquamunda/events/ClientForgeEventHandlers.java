@@ -8,7 +8,7 @@ import mcjty.aquamunda.blocks.tank.TankISBM;
 import mcjty.aquamunda.cables.CableRenderer;
 import mcjty.aquamunda.cables.CableSection;
 import mcjty.aquamunda.varia.BlockTools;
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

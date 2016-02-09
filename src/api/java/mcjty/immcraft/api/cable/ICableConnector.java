@@ -1,4 +1,4 @@
-package mcjty.aquamunda.cables;
+package mcjty.immcraft.api.cable;
 
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.util.EnumFacing;
@@ -10,7 +10,7 @@ import net.minecraft.util.EnumFacing;
  * connection attempt as a preference for selecting a connection ID.
  */
 public interface ICableConnector {
-    CableType getType();
+    ICableType getType();
 
     // Check if a connection is possible (ignoring subtype). The side is
     // given in block space.
@@ -18,7 +18,7 @@ public interface ICableConnector {
 
     // Connect to a side (given in block space) and return an id representing this connection. Returns -1 if connection not possible
     // The subtype is used for the preferred subtype. The returned id is unique for this connector (even when considering sides).
-    int connect(EnumFacing blockSide, int networkId, CableSubType subType);
+    int connect(EnumFacing blockSide, int networkId, ICableSubType subType);
 
     void disconnect(int connectorId);
 

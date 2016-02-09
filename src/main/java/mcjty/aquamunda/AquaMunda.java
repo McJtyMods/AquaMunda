@@ -12,6 +12,7 @@ import mcjty.aquamunda.hosemultiblock.HoseNetwork;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
+import mcjty.immcraft.api.IImmersiveCraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -19,19 +20,22 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true,
+import javax.annotation.Nullable;
+
+@Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME, dependencies =
+        "required-after:Forge@[11.15.0.1684" +
+                ",);required-after:immcraft@["+AquaMunda.MIN_IMMCRAFT_VER+
+                ",)", useMetadata = true,
         version = AquaMunda.VERSION)
 public class AquaMunda {
 
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
     public static final String VERSION = "1.0.0";
+    public static final String MIN_IMMCRAFT_VER = "1.0.3";
 
     @SidedProxy
     public static CommonProxy proxy;
@@ -43,6 +47,9 @@ public class AquaMunda {
 
     public static Logger logger;
 
+    public static IImmersiveCraft immersiveCraft;
+
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
@@ -53,6 +60,7 @@ public class AquaMunda {
             }
         };
         proxy.preInit(event);
+        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
         WailaCompatibility.registerWaila();
     }
 
@@ -118,5 +126,14 @@ public class AquaMunda {
 
     public static class ServerProxy extends CommonProxy {
 
+    }
+
+    public static class GetImmCraftApi implements com.google.common.base.Function<IImmersiveCraft, Void> {
+        @Nullable
+        @Override
+        public Void apply(IImmersiveCraft immcraft) {
+            immersiveCraft = immcraft;
+            return null;
+        }
     }
 }

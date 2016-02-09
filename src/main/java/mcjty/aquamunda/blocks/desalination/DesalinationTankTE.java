@@ -5,7 +5,7 @@ import mcjty.aquamunda.cables.CableSubType;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.NBTHelper;
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;

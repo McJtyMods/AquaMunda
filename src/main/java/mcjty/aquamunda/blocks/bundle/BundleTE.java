@@ -8,7 +8,7 @@ import mcjty.aquamunda.multiblock.MultiBlockNetwork;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.varia.IntersectionTools;
 import mcjty.aquamunda.varia.NBTHelper;
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

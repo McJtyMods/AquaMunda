@@ -2,8 +2,7 @@ package mcjty.aquamunda.cables;
 
 import mcjty.aquamunda.blocks.bundle.BundleTE;
 import mcjty.aquamunda.varia.IntersectionTools;
-import mcjty.aquamunda.varia.Vector;
-import net.minecraft.client.renderer.RenderHelper;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;

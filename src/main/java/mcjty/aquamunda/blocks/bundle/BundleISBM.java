@@ -3,7 +3,7 @@ package mcjty.aquamunda.blocks.bundle;
 import com.google.common.primitives.Ints;
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.cables.CableSectionRender;
-import mcjty.aquamunda.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;

@@ -3,6 +3,7 @@ package mcjty.aquamunda.varia;
 import mcjty.aquamunda.blocks.generic.GenericBlock;
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.blocks.generic.GenericTE;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
