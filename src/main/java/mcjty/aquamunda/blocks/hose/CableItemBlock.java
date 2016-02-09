@@ -18,11 +18,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CableItemBlock extends ItemBlock {
 
-    private final ICableItemBlockHelper helper;
+    private final ICableType type;
+    private final ICableSubType subType;
+    private ICableItemBlockHelper helper = null;
 
     public CableItemBlock(Block block, ICableType type, ICableSubType subType) {
         super(block);
-        helper = ImmersiveCraftHandler.immersiveCraft.createItemBlockHelper(type, subType);
+        this.type = type;
+        this.subType = subType;
+    }
+
+    private ICableItemBlockHelper getHelper() {
+        if (helper == null) {
+            helper = ImmersiveCraftHandler.immersiveCraft.createItemBlockHelper(type, subType);
+        }
+        return helper;
     }
 
     @Override
@@ -34,7 +44,7 @@ public class CableItemBlock extends ItemBlock {
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (helper.onItemUse(player, world, pos)) {
+        if (getHelper().onItemUse(player, world, pos)) {
             return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
         } else {
             return false;
@@ -43,6 +53,6 @@ public class CableItemBlock extends ItemBlock {
 
     @Override
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
-        return helper.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ);
+        return getHelper().placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ);
     }
 }
