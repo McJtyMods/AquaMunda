@@ -2,10 +2,10 @@ package mcjty.aquamunda.blocks.desalination;
 
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericTE;
-import mcjty.aquamunda.cables.CableSubType;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.varia.NBTHelper;
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -41,7 +41,7 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
     }
 
     @Override
-    public int connect(EnumFacing blockSide, int networkId, CableSubType subType) {
+    public int connect(EnumFacing blockSide, int networkId, ICableSubType subType) {
         markDirty();
         if (!connections.contains(blockSide)) {
             connections.add(blockSide);

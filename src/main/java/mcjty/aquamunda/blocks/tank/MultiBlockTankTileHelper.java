@@ -1,8 +1,8 @@
 package mcjty.aquamunda.blocks.tank;
 
-import mcjty.aquamunda.multiblock.IMultiBlock;
-import mcjty.aquamunda.multiblock.IMultiBlockTile;
-import mcjty.aquamunda.multiblock.MultiBlockNetwork;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
+import mcjty.immcraft.api.multiblock.IMultiBlockTile;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -13,7 +13,7 @@ import java.util.Collection;
 
 public class MultiBlockTankTileHelper {
 
-    private static IMultiBlockTile<Tank> getTile(World world, MultiBlockNetwork<Tank> network, BlockPos pos, EnumFacing direction) {
+    private static IMultiBlockTile<Tank> getTile(World world, IMultiBlockNetwork<Tank> network, BlockPos pos, EnumFacing direction) {
         BlockPos newpos;
         if (direction == null) {
             newpos = pos;
@@ -30,7 +30,7 @@ public class MultiBlockTankTileHelper {
         return null;
     }
 
-    public static int addBlockToNetwork(MultiBlockNetwork<Tank> network, int networkId, World world, BlockPos thisCoord, Fluid fluid) {
+    public static int addBlockToNetwork(IMultiBlockNetwork<Tank> network, int networkId, World world, BlockPos thisCoord, Fluid fluid) {
         // Find an adjacent network to connect too.
         Tank foundMb = null;
         for (EnumFacing direction : network.getDirections()) {
@@ -68,7 +68,7 @@ public class MultiBlockTankTileHelper {
         return networkId;
     }
 
-    public static void removeBlockFromNetwork(MultiBlockNetwork<Tank> network, World world, BlockPos thisCoord) {
+    public static void removeBlockFromNetwork(IMultiBlockNetwork<Tank> network, World world, BlockPos thisCoord) {
         IMultiBlockTile<Tank> thisTile = getTile(world, network, thisCoord, null);
         Tank mb = thisTile.getMultiBlock();
         Collection<? extends IMultiBlock> multiBlocks = mb.remove(world, thisCoord);

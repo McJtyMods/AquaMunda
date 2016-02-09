@@ -1,7 +1,9 @@
 package mcjty.aquamunda.hosemultiblock;
 
-import mcjty.aquamunda.cables.Cable;
-import mcjty.aquamunda.multiblock.MultiBlockNetwork;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.immcraft.api.cable.ICable;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -12,11 +14,11 @@ public class HoseNetwork extends WorldSavedData {
     private static HoseNetwork instance = null;
     private static HoseNetwork clientInstance = null;
 
-    private HoseMultiBlockNetwork network;
+    private IMultiBlockNetwork network;
 
     public HoseNetwork(String identifier) {
         super(identifier);
-        network = new HoseMultiBlockNetwork();
+        network = ImmersiveCraftHandler.immersiveCraft.createCableNetwork(ImmersiveCraftHandler.liquidType, ImmersiveCraftHandler.liquidSubtype);
     }
 
     public void save(World world) {
@@ -57,18 +59,18 @@ public class HoseNetwork extends WorldSavedData {
         return instance;
     }
 
-    public MultiBlockNetwork<Cable> getNetwork() {
+    public IMultiBlockNetwork getNetwork() {
         return network;
     }
 
-    public Cable getOrCreateHose(int id) {
-        return network.getOrCreateMultiBlock(id);
+    public ICable getOrCreateHose(int id) {
+        return (ICable) network.getOrCreateMultiBlock(id);
     }
-
-    public Cable getHose(int id) {
-        return network.getMultiblock(id);
-    }
-
+//
+//    public Cable getHose(int id) {
+//        return network.getMultiblock(id);
+//    }
+//
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         network.readFromNBT(tagCompound);

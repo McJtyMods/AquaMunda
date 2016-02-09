@@ -1,8 +1,8 @@
 package mcjty.aquamunda.blocks.tank;
 
-import mcjty.aquamunda.multiblock.IMultiBlock;
-import mcjty.aquamunda.multiblock.IMultiBlockTile;
 import mcjty.aquamunda.varia.BlockPosTools;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockTile;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -142,7 +142,7 @@ public class Tank implements IMultiBlock {
     private void extractTank(BlockPos c, Set<BlockPos> blocks, Set<BlockPos> newTank) {
         blocks.remove(c);
         newTank.add(c);
-        for (EnumFacing dir : TankMultiBlockNetwork.DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.HORIZONTALS) {
             BlockPos cAdjacent = c.offset(dir);
             if (blocks.contains(cAdjacent)) {
                 extractTank(cAdjacent, blocks, newTank);
@@ -159,7 +159,7 @@ public class Tank implements IMultiBlock {
 
         List<Tank> multiBlocks = new ArrayList<>();
         tankBlocks.remove(c);
-        for (EnumFacing dir : TankMultiBlockNetwork.DIRECTIONS) {
+        for (EnumFacing dir : EnumFacing.HORIZONTALS) {
             BlockPos cAdjacent = c.offset(dir);
             if (tankBlocks.contains(cAdjacent)) {
                 Set<BlockPos> newTank = new HashSet<>();

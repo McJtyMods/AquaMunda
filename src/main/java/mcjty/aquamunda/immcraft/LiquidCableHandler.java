@@ -1,62 +1,56 @@
-package mcjty.aquamunda.cables;
+package mcjty.aquamunda.immcraft;
 
-import mcjty.aquamunda.blocks.bundle.BundleTE;
 import mcjty.aquamunda.hosemultiblock.HoseNetwork;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
-import mcjty.aquamunda.multiblock.MultiBlockNetwork;
+import mcjty.immcraft.api.cable.*;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 public class LiquidCableHandler implements ICableHandler {
 
     @Override
-    public MultiBlockNetwork getNetwork(World world, CableSubType subType) {
-        HoseNetwork hoseNetwork = HoseNetwork.get(world);
-        return hoseNetwork.getNetwork();
-    }
-
-    @Override
-    public MultiBlockNetwork getNetworkClient(CableSubType subType) {
-        HoseNetwork hoseNetwork = HoseNetwork.getClientSide();
-        return hoseNetwork.getNetwork();
-    }
-
-    @Override
-    public void saveNetwork(World world) {
-        HoseNetwork hoseNetwork = HoseNetwork.get(world);
-        hoseNetwork.save(world);
-    }
-
-    @Override
-    public ICable getCable(World world, CableSubType subType, int id) {
+    public ICable getCable(World world, ICableSubType subType, int id) {
         HoseNetwork hoseNetwork = HoseNetwork.get(world);
         return hoseNetwork.getOrCreateHose(id);
     }
 
     @Override
-    public void tick(BundleTE bundleTE, CableSection section) {
+    public void tick(IBundle bundle, ICableSection section) {
+
         // @todo take fluid pressure into account
         // @todo fix height difference calculation to be based on height of tank/connector and not on end points of hose.
 
+        TileEntity bundleTE = bundle.getTileEntity();
+
         int id = section.getId();
 
-        Cable hose = getHose(bundleTE, id);
+        ICable hose = getHose(bundleTE, id);
         BlockPos first = hose.getPath().get(0);
         if (!first.equals(bundleTE.getPos())) {
             // We only let the first hosemultiblock TE in the path do the work.
             return;
         }
 
-        BlockPos last = hose.getPath().get(hose.getBlockCount() - 1);
+        BlockPos last = hose.getPath().get(((IMultiBlock)hose).getBlockCount() - 1);
         World worldObj = bundleTE.getWorld();
-        BundleTE otherBundleTE = (BundleTE) worldObj.getTileEntity(last);
+        Optional<IBundle> oBundle = ImmersiveCraftHandler.immersiveCraft.getBundle(worldObj, last);
+        if (!oBundle.isPresent()) {
+            return;
+        }
+        IBundle otherBundle = oBundle.get();
+        TileEntity otherBundleTE = otherBundle.getTileEntity();
 
         ICableConnector connector1 = getCableConnector(section, worldObj, null);
         if (connector1 == null) {
             return;
         }
 
-        CableSection otherSection = otherBundleTE.findSection(section.getType(), section.getSubType(), id);
+        ICableSection otherSection = otherBundle.findSection(section.getType(), section.getSubType(), id);
         if (otherSection == null) {
             return;
         }
@@ -100,7 +94,25 @@ public class LiquidCableHandler implements ICableHandler {
         }
     }
 
-    private ICableConnector getCableConnector(CableSection section, World worldObj, ICableConnector prevCable) {
+    @Override
+    public IMultiBlockNetwork getNetwork(World world, ICableSubType subType) {
+        HoseNetwork hoseNetwork = HoseNetwork.get(world);
+        return hoseNetwork.getNetwork();
+    }
+
+    @Override
+    public IMultiBlockNetwork getNetworkClient(ICableSubType subType) {
+        HoseNetwork hoseNetwork = HoseNetwork.getClientSide();
+        return hoseNetwork.getNetwork();
+    }
+
+    @Override
+    public void saveNetwork(World world) {
+        HoseNetwork hoseNetwork = HoseNetwork.get(world);
+        hoseNetwork.save(world);
+    }
+
+    private ICableConnector getCableConnector(ICableSection section, World worldObj, ICableConnector prevCable) {
         ICableConnector cable = section.getConnector(worldObj, 0);
         if (cable == null || cable == prevCable) {
             cable = section.getConnector(worldObj, 1);
@@ -108,7 +120,7 @@ public class LiquidCableHandler implements ICableHandler {
         return cable;
     }
 
-    public Cable getHose(BundleTE bundleTE, int id) {
+    public ICable getHose(TileEntity bundleTE, int id) {
         if (id == -1) {
             return null;
         }

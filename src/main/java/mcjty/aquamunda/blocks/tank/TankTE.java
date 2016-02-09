@@ -1,11 +1,11 @@
 package mcjty.aquamunda.blocks.tank;
 
 import mcjty.aquamunda.blocks.generic.GenericTE;
-import mcjty.aquamunda.cables.CableSubType;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
-import mcjty.aquamunda.multiblock.IMultiBlockTile;
 import mcjty.aquamunda.varia.NBTHelper;
+import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.multiblock.IMultiBlockTile;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -50,7 +50,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
     }
 
     @Override
-    public int connect(EnumFacing blockSide, int networkId, CableSubType subType) {
+    public int connect(EnumFacing blockSide, int networkId, ICableSubType subType) {
         markDirty();
         if (!connections.containsKey(blockSide)) {
             connections.put(blockSide, new boolean[] { false, false, false });

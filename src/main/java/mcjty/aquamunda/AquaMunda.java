@@ -9,6 +9,7 @@ import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.events.ForgeEventHandlers;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.HoseNetwork;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
@@ -46,8 +47,6 @@ public class AquaMunda {
     public static CreativeTabs creativeTab;
 
     public static Logger logger;
-
-    public static IImmersiveCraft immersiveCraft;
 
 
     @Mod.EventHandler
@@ -132,7 +131,7 @@ public class AquaMunda {
         @Nullable
         @Override
         public Void apply(IImmersiveCraft immcraft) {
-            immersiveCraft = immcraft;
+            ImmersiveCraftHandler.setImmersiveCraft(immcraft);
             return null;
         }
     }

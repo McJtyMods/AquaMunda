@@ -1,12 +1,12 @@
 package mcjty.aquamunda.blocks.sprinkler;
 
 import mcjty.aquamunda.blocks.generic.GenericTE;
-import mcjty.aquamunda.cables.CableSubType;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.NBTHelper;
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -43,7 +43,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
     }
 
     @Override
-    public int connect(EnumFacing blockSide, int networkId, CableSubType subType) {
+    public int connect(EnumFacing blockSide, int networkId, ICableSubType subType) {
         markDirty();
         if (!connections.contains(blockSide)) {
             connections.add(blockSide);

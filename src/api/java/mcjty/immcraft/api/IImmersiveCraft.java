@@ -1,6 +1,16 @@
 package mcjty.immcraft.api;
 
+import mcjty.immcraft.api.cable.IBundle;
+import mcjty.immcraft.api.cable.ICableItemBlockHelper;
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.Optional;
 
 /**
  * Global API for Immersive Craft
@@ -10,4 +20,36 @@ import mcjty.immcraft.api.cable.ICableType;
 public interface IImmersiveCraft {
 
     void registerCableType(ICableType type);
+
+    /**
+     * Create a helper to work with cable itemblocks
+     * @param type
+     * @param subType
+     * @return
+     */
+    ICableItemBlockHelper createItemBlockHelper(ICableType type, ICableSubType subType);
+
+    /**
+     * Create a multiblock network for the given factory
+     * @param factory
+     * @param <T>
+     * @return
+     */
+    <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(IMultiBlockFactory<T> factory);
+
+    /**
+     * Create a multiblock network for a cable
+     * @param type
+     * @param subType
+     * @return
+     */
+    IMultiBlockNetwork createCableNetwork(ICableType type, ICableSubType subType);
+
+    /**
+     * Get the bundle at the specific position.
+     * @param world
+     * @param pos
+     * @return
+     */
+    Optional<IBundle> getBundle(World world, BlockPos pos);
 }

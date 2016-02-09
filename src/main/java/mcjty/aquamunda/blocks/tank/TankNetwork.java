@@ -1,6 +1,9 @@
 package mcjty.aquamunda.blocks.tank;
 
-import mcjty.aquamunda.multiblock.MultiBlockNetwork;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -11,11 +14,23 @@ public class TankNetwork extends WorldSavedData {
     private static TankNetwork instance = null;
     private static TankNetwork clientInstance = null;
 
-    private TankMultiBlockNetwork network;
+    private IMultiBlockNetwork<Tank> network;
 
     public TankNetwork(String identifier) {
         super(identifier);
-        network = new TankMultiBlockNetwork();
+
+        network = ImmersiveCraftHandler.immersiveCraft.createMultiBlockNetwork(new IMultiBlockFactory<Tank>() {
+            @Override
+            public Tank create() {
+                return new Tank();
+            }
+
+            @Override
+            public boolean isSameType(IMultiBlock mb) {
+                return mb instanceof Tank;
+            }
+        });
+
     }
 
     public void save(World world) {
@@ -56,17 +71,17 @@ public class TankNetwork extends WorldSavedData {
         return instance;
     }
 
-    public MultiBlockNetwork<Tank> getNetwork() {
+    public IMultiBlockNetwork<Tank> getNetwork() {
         return network;
     }
 
     public Tank getOrCreateTank(int id) {
         return network.getOrCreateMultiBlock(id);
     }
-
-    public Tank getTank(int id) {
-        return network.getMultiblock(id);
-    }
+//
+//    public Tank getTank(int id) {
+//        return network.getMultiblock(id);
+//    }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
