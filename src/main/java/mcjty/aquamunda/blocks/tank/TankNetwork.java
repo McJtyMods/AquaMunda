@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.tank;
 
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +12,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class TankNetwork extends WorldSavedData {
 
-    public static final String NAME = "AquaMundaTanks";
+    public static final String TANK_NETWORK = "AquaMundaTanks";
     private static TankNetwork instance = null;
     private static TankNetwork clientInstance = null;
 
@@ -20,24 +21,26 @@ public class TankNetwork extends WorldSavedData {
     public TankNetwork(String identifier) {
         super(identifier);
 
-        // First test if we're on the client
-        if (ImmersiveCraftHandler.immersiveCraft != null) {
-            network = ImmersiveCraftHandler.immersiveCraft.createMultiBlockNetwork(new IMultiBlockFactory<Tank>() {
-                @Override
-                public Tank create() {
-                    return new Tank();
-                }
+        network = ImmersiveCraftHandler.immersiveCraft.createMultiBlockNetwork(TANK_NETWORK, new IMultiBlockFactory<Tank>() {
+            @Override
+            public Tank create() {
+                return new Tank();
+            }
 
-                @Override
-                public boolean isSameType(IMultiBlock mb) {
-                    return mb instanceof Tank;
-                }
-            }, EnumFacing.HORIZONTALS);
-        }
+            @Override
+            public boolean isSameType(IMultiBlock mb) {
+                return mb instanceof Tank;
+            }
+
+            @Override
+            public IMultiBlockClientInfo createClientInfo() {
+                return new TankClientInfo(0, 0, null);
+            }
+        }, EnumFacing.HORIZONTALS);
     }
 
     public void save(World world) {
-        world.getMapStorage().setData(NAME, this);
+        world.getMapStorage().setData(TANK_NETWORK, this);
         markDirty();
     }
 
@@ -51,7 +54,7 @@ public class TankNetwork extends WorldSavedData {
     // This should only be used client-side!
     public static TankNetwork getClientSide() {
         if (clientInstance == null) {
-            clientInstance = new TankNetwork(NAME);
+            clientInstance = new TankNetwork(TANK_NETWORK);
         }
         return clientInstance;
     }
@@ -67,9 +70,9 @@ public class TankNetwork extends WorldSavedData {
         if (instance != null) {
             return instance;
         }
-        instance = (TankNetwork) world.getMapStorage().loadData(TankNetwork.class, NAME);
+        instance = (TankNetwork) world.getMapStorage().loadData(TankNetwork.class, TANK_NETWORK);
         if (instance == null) {
-            instance = new TankNetwork(NAME);
+            instance = new TankNetwork(TANK_NETWORK);
         }
         return instance;
     }

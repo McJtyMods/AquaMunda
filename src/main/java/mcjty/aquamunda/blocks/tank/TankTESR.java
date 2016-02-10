@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.tank;
 
 
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -42,23 +43,26 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
         TankNetwork tankNetwork = TankNetwork.getClientSide();
         int id = tileEntity.getID();
         tankNetwork.getNetwork().refreshInfo(id);
-        Tank tank = tankNetwork.getOrCreateTank(id);
+        IMultiBlockClientInfo clientInfo = tankNetwork.getNetwork().getClientInfo(id);
 
         bindTexture(TextureMap.locationBlocksTexture);
-        renderFluid(tessellator, tank, pos);
+        renderFluid(tessellator, (TankClientInfo) clientInfo, pos);
 
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
     }
 
-    private void renderFluid(Tessellator tessellator, Tank tank, BlockPos pos) {
+    private void renderFluid(Tessellator tessellator, TankClientInfo tankInfo, BlockPos pos) {
+        if (tankInfo == null) {
+            return;
+        }
 
-        Fluid renderFluid = tank.getFluid();
+        Fluid renderFluid = tankInfo.getFluid();
         if (renderFluid == null) {
             return;
         }
 
-        float scale = (1.0f - TANK_THICKNESS/2 - TANK_THICKNESS) * tank.getContents() / tank.getMaxContents();
+        float scale = (1.0f - TANK_THICKNESS/2 - TANK_THICKNESS) * tankInfo.getContents() / (tankInfo.getBlockCount() * TankTE.MAX_CONTENTS);
 
         if (scale > 0.0f) {
             WorldRenderer renderer = tessellator.getWorldRenderer();

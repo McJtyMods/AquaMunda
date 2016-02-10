@@ -2,7 +2,6 @@ package mcjty.aquamunda.hosemultiblock;
 
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICable;
-import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -10,7 +9,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class HoseNetwork extends WorldSavedData {
 
-    public static final String NAME = "AquaMundaHoses";
+    public static final String HOSE_NETWORK = "AquaMundaHoses";
     private static HoseNetwork instance = null;
     private static HoseNetwork clientInstance = null;
 
@@ -18,11 +17,11 @@ public class HoseNetwork extends WorldSavedData {
 
     public HoseNetwork(String identifier) {
         super(identifier);
-        network = ImmersiveCraftHandler.immersiveCraft.createCableNetwork(ImmersiveCraftHandler.liquidType, ImmersiveCraftHandler.liquidSubtype);
+        network = ImmersiveCraftHandler.immersiveCraft.createCableNetwork(HOSE_NETWORK, ImmersiveCraftHandler.liquidType, ImmersiveCraftHandler.liquidSubtype);
     }
 
     public void save(World world) {
-        world.getMapStorage().setData(NAME, this);
+        world.getMapStorage().setData(HOSE_NETWORK, this);
         markDirty();
     }
 
@@ -36,7 +35,7 @@ public class HoseNetwork extends WorldSavedData {
     // This should only be used client-side!
     public static HoseNetwork getClientSide() {
         if (clientInstance == null) {
-            clientInstance = new HoseNetwork(NAME);
+            clientInstance = new HoseNetwork(HOSE_NETWORK);
         }
         return clientInstance;
     }
@@ -52,9 +51,9 @@ public class HoseNetwork extends WorldSavedData {
         if (instance != null) {
             return instance;
         }
-        instance = (HoseNetwork) world.getMapStorage().loadData(HoseNetwork.class, NAME);
+        instance = (HoseNetwork) world.getMapStorage().loadData(HoseNetwork.class, HOSE_NETWORK);
         if (instance == null) {
-            instance = new HoseNetwork(NAME);
+            instance = new HoseNetwork(HOSE_NETWORK);
         }
         return instance;
     }

@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.tank;
 
 import mcjty.aquamunda.varia.BlockPosTools;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockTile;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -16,25 +17,22 @@ import java.util.*;
 public class Tank implements IMultiBlock {
     private Set<BlockPos> tankBlocks = new HashSet<>();
 
-    // Use this on client instead because client doesn't know the blocks
-    private int clientBlockCount = -1;
-
     private int contents = 0;
     private Fluid fluid = null;
 
     @Override
     public int getBlockCount() {
-        return clientBlockCount == -1 ? tankBlocks.size() : clientBlockCount;
+        return tankBlocks.size();
+    }
+
+    @Override
+    public IMultiBlockClientInfo getClientInfo() {
+        return new TankClientInfo(tankBlocks.size(), contents, fluid);
     }
 
     @Override
     public Collection<BlockPos> getBlocks() {
         return tankBlocks;
-    }
-
-    // This should only be used client side!
-    public void setClientBlockCount(int cnt) {
-        clientBlockCount = cnt;
     }
 
     public int getMaxContents() {
@@ -58,6 +56,10 @@ public class Tank implements IMultiBlock {
     }
 
     public String getFluidName() {
+        return getFluidName(fluid);
+    }
+
+    public static String getFluidName(Fluid fluid) {
         if (fluid == null) {
             return null;
         } else {

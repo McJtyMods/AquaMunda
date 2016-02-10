@@ -3,6 +3,7 @@ package mcjty.aquamunda.blocks.tank;
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.material.Material;
@@ -91,13 +92,19 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         super.getWailaBody(itemStack, currenttip, accessor, config);
         TankTE tankTE = (TankTE) accessor.getTileEntity();
-        int networkId = tankTE.getID();
-        if (networkId != -1) {
+        int blockID = tankTE.getID();
+        if (blockID != -1) {
             TankNetwork tankNetwork = TankNetwork.getClientSide();
-            Tank tank = tankNetwork.getOrCreateTank(networkId);
-            currenttip.add(EnumChatFormatting.GREEN + "Id: " + networkId);
-            currenttip.add(EnumChatFormatting.GREEN + "Liquid: " + tank.getFluidName());
-            currenttip.add(EnumChatFormatting.GREEN + "Contents: " + tank.getContents() + " (" + tank.getMaxContents() + ")");
+            IMultiBlockClientInfo clientInfo = tankNetwork.getNetwork().getClientInfo(blockID);
+            if (clientInfo != null) {
+                TankClientInfo tankClientInfo = (TankClientInfo) clientInfo;
+                currenttip.add(EnumChatFormatting.GREEN + "Id: " + blockID);
+                Fluid fluid = tankClientInfo.getFluid();
+                if (fluid != null) {
+                    currenttip.add(EnumChatFormatting.GREEN + "Liquid: " + Tank.getFluidName(fluid));
+                }
+                currenttip.add(EnumChatFormatting.GREEN + "Contents: " + tankClientInfo.getContents() + " (" + tankClientInfo.getBlockCount() * TankTE.MAX_CONTENTS + ")");
+            }
         }
 
         return currenttip;

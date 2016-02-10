@@ -5,8 +5,6 @@ import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketClient;
 import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketServer;
 import mcjty.aquamunda.blocks.desalination.TankContentsInfoPacketClient;
 import mcjty.aquamunda.blocks.desalination.TankContentsInfoPacketServer;
-import mcjty.aquamunda.blocks.tank.TankInfoPacketClient;
-import mcjty.aquamunda.blocks.tank.TankInfoPacketServer;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -71,7 +69,6 @@ public class PacketHandler {
         // Client side
         INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, nextID(), Side.CLIENT);
 
-        register(nextPacketID(), TankInfoPacketServer.class, TankInfoPacketClient.class);
         register(nextPacketID(), BoilerContentsInfoPacketServer.class, BoilerContentsInfoPacketClient.class);
         register(nextPacketID(), TankContentsInfoPacketServer.class, TankContentsInfoPacketClient.class);
     }
