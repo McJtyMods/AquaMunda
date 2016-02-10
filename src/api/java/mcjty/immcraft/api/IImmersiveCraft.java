@@ -8,6 +8,7 @@ import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.Optional;
@@ -35,7 +36,7 @@ public interface IImmersiveCraft {
      * @param <T>
      * @return
      */
-    <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(IMultiBlockFactory<T> factory);
+    <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(IMultiBlockFactory<T> factory, EnumFacing[] directions);
 
     /**
      * Create a multiblock network for a cable

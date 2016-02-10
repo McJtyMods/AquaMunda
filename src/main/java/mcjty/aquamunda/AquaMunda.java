@@ -51,15 +51,16 @@ public class AquaMunda {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
+        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
+
         logger = event.getModLog();
-        creativeTab = new CreativeTabs("immcraft") {
+        creativeTab = new CreativeTabs("Aqua Munda") {
             @Override
             public Item getTabIconItem() {
                 return Items.water_bucket;
             }
         };
         proxy.preInit(event);
-        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
         WailaCompatibility.registerWaila();
     }
 
@@ -131,6 +132,8 @@ public class AquaMunda {
         @Nullable
         @Override
         public Void apply(IImmersiveCraft immcraft) {
+            System.out.println("##############################################");
+            System.out.println("immcraft = " + immcraft);
             ImmersiveCraftHandler.setImmersiveCraft(immcraft);
             return null;
         }

@@ -5,6 +5,7 @@ import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
@@ -19,18 +20,20 @@ public class TankNetwork extends WorldSavedData {
     public TankNetwork(String identifier) {
         super(identifier);
 
-        network = ImmersiveCraftHandler.immersiveCraft.createMultiBlockNetwork(new IMultiBlockFactory<Tank>() {
-            @Override
-            public Tank create() {
-                return new Tank();
-            }
+        // First test if we're on the client
+        if (ImmersiveCraftHandler.immersiveCraft != null) {
+            network = ImmersiveCraftHandler.immersiveCraft.createMultiBlockNetwork(new IMultiBlockFactory<Tank>() {
+                @Override
+                public Tank create() {
+                    return new Tank();
+                }
 
-            @Override
-            public boolean isSameType(IMultiBlock mb) {
-                return mb instanceof Tank;
-            }
-        });
-
+                @Override
+                public boolean isSameType(IMultiBlock mb) {
+                    return mb instanceof Tank;
+                }
+            }, EnumFacing.HORIZONTALS);
+        }
     }
 
     public void save(World world) {

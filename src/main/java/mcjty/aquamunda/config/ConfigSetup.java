@@ -14,7 +14,7 @@ public class ConfigSetup {
 
     public static void preInit(FMLPreInitializationEvent e) {
         modConfigDir = e.getModConfigurationDirectory();
-        mainConfig = new Configuration(new File(modConfigDir.getPath(), "immcraft.cfg"));
+        mainConfig = new Configuration(new File(modConfigDir.getPath(), "aquamunda.cfg"));
 
         readMainConfig();
     }
