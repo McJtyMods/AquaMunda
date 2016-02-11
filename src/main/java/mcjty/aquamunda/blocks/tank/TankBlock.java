@@ -118,7 +118,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                 if (newAmount <= tank.getMaxContents()) {
                     tank.setContents(newAmount);
                     tank.setFluid(fluidStack.getFluid());
-                    ImmersiveCraftHandler.immersiveCraft.save(world);
+                    ImmersiveCraftHandler.tankNetwork.save(world);
                     if (!player.capabilities.isCreativeMode) {
                         ItemStack emptyContainer = FluidContainerRegistry.drainFluidContainer(player.getHeldItem());
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, emptyContainer);
@@ -149,7 +149,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, filledContainer);
                         tank.setContents(tank.getContents() + capacity);
                     }
-                    ImmersiveCraftHandler.immersiveCraft.save(player.worldObj);
+                    ImmersiveCraftHandler.tankNetwork.save(player.worldObj);
                 }
             }
         }
@@ -192,7 +192,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                 if (tagCompound != null) {
                     tank.setContents(tank.getContents() + tagCompound.getInteger("contents"));
                     tank.setFluidByName(tagCompound.getString("fluid"));
-                    ImmersiveCraftHandler.immersiveCraft.save(world);
+                    ImmersiveCraftHandler.tankNetwork.save(world);
                 }
             }
         }

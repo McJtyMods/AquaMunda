@@ -208,7 +208,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
                         newContents = 0;
                     }
                     tank.setContents(newContents);
-                    ImmersiveCraftHandler.immersiveCraft.save(worldObj);
+                    ImmersiveCraftHandler.tankNetwork.save(worldObj);
                 }
             }
         }
@@ -226,20 +226,20 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
                     newContents = tank.getMaxContents();
                 }
                 tank.setContents(newContents);
-                ImmersiveCraftHandler.immersiveCraft.save(worldObj);
+                ImmersiveCraftHandler.tankNetwork.save(worldObj);
             }
         }
     }
 
     public void addBlockToNetwork(Fluid fluid) {
         networkId = MultiBlockTankTileHelper.addBlockToNetwork(ImmersiveCraftHandler.tankNetwork, getID(), worldObj, getPos(), fluid);
-        ImmersiveCraftHandler.immersiveCraft.save(worldObj);
+        ImmersiveCraftHandler.tankNetwork.save(worldObj);
         markDirty();
     }
 
     public void removeBlockFromNetwork() {
         MultiBlockTankTileHelper.removeBlockFromNetwork(ImmersiveCraftHandler.tankNetwork, worldObj, getPos());
-        ImmersiveCraftHandler.immersiveCraft.save(worldObj);
+        ImmersiveCraftHandler.tankNetwork.save(worldObj);
         markDirty();
     }
 

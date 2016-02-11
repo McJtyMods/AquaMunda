@@ -40,7 +40,6 @@ public class LiquidCableHandler implements ICableHandler {
             return;
         }
         IBundle otherBundle = oBundle.get();
-        TileEntity otherBundleTE = otherBundle.getTileEntity();
 
         ICableConnector connector1 = getCableConnector(section, worldObj, null);
         if (connector1 == null) {
