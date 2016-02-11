@@ -3,6 +3,7 @@ package mcjty.aquamunda.blocks.tank;
 import mcjty.aquamunda.blocks.generic.GenericTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.multiblock.IMultiBlockTile;
@@ -180,8 +181,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
 
     @Override
     public Tank getMultiBlock() {
-        TankNetwork tankNetwork = TankNetwork.get(worldObj);
-        return tankNetwork.getOrCreateTank(networkId);
+        return ImmersiveCraftHandler.tankNetwork.getOrCreateMultiBlock(networkId);
     }
 
     @Override
@@ -201,15 +201,14 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
         int hours = minutes / 60;
         if (hours >= 21 || hours <= 3) {
             if (worldObj.canBlockSeeSky(getPos())) {
-                TankNetwork tankNetwork = TankNetwork.get(worldObj);
-                Tank tank = tankNetwork.getOrCreateTank(networkId);
+                Tank tank = getMultiBlock();
                 if (tank.getFluid() == FluidSetup.freshWater || tank.getFluid() == FluidRegistry.WATER) {
                     int newContents = tank.getContents() - EVAPORATE_AMOUNT;
                     if (newContents < 0) {
                         newContents = 0;
                     }
                     tank.setContents(newContents);
-                    tankNetwork.save(worldObj);
+                    ImmersiveCraftHandler.immersiveCraft.save(worldObj);
                 }
             }
         }
@@ -217,8 +216,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
 
     private void checkRain() {
         if (worldObj.canBlockSeeSky(getPos())) {
-            TankNetwork tankNetwork = TankNetwork.get(worldObj);
-            Tank tank = tankNetwork.getOrCreateTank(networkId);
+            Tank tank = getMultiBlock();
             if (tank.getFluid() == null) {
                 tank.setFluid(FluidSetup.freshWater);
             }
@@ -228,22 +226,20 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
                     newContents = tank.getMaxContents();
                 }
                 tank.setContents(newContents);
-                tankNetwork.save(worldObj);
+                ImmersiveCraftHandler.immersiveCraft.save(worldObj);
             }
         }
     }
 
     public void addBlockToNetwork(Fluid fluid) {
-        TankNetwork tankNetwork = TankNetwork.get(worldObj);
-        networkId = MultiBlockTankTileHelper.addBlockToNetwork(tankNetwork.getNetwork(), getID(), worldObj, getPos(), fluid);
-        tankNetwork.save(worldObj);
+        networkId = MultiBlockTankTileHelper.addBlockToNetwork(ImmersiveCraftHandler.tankNetwork, getID(), worldObj, getPos(), fluid);
+        ImmersiveCraftHandler.immersiveCraft.save(worldObj);
         markDirty();
     }
 
     public void removeBlockFromNetwork() {
-        TankNetwork tankNetwork = TankNetwork.get(worldObj);
-        MultiBlockTankTileHelper.removeBlockFromNetwork(tankNetwork.getNetwork(), worldObj, getPos());
-        tankNetwork.save(worldObj);
+        MultiBlockTankTileHelper.removeBlockFromNetwork(ImmersiveCraftHandler.tankNetwork, worldObj, getPos());
+        ImmersiveCraftHandler.immersiveCraft.save(worldObj);
         markDirty();
     }
 
@@ -251,8 +247,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
         if (networkId == -1) {
             return null;
         }
-        TankNetwork tankNetwork = TankNetwork.get(worldObj);
-        return tankNetwork.getOrCreateTank(networkId);
+        return getMultiBlock();
     }
 
     @Override

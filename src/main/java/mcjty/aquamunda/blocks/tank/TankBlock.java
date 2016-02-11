@@ -3,6 +3,7 @@ package mcjty.aquamunda.blocks.tank;
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -94,8 +95,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         TankTE tankTE = (TankTE) accessor.getTileEntity();
         int blockID = tankTE.getID();
         if (blockID != -1) {
-            TankNetwork tankNetwork = TankNetwork.getClientSide();
-            IMultiBlockClientInfo clientInfo = tankNetwork.getNetwork().getClientInfo(blockID);
+            IMultiBlockClientInfo clientInfo = ImmersiveCraftHandler.tankNetwork.getClientInfo(blockID);
             if (clientInfo != null) {
                 TankClientInfo tankClientInfo = (TankClientInfo) clientInfo;
                 currenttip.add(EnumChatFormatting.GREEN + "Id: " + blockID);
@@ -118,7 +118,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                 if (newAmount <= tank.getMaxContents()) {
                     tank.setContents(newAmount);
                     tank.setFluid(fluidStack.getFluid());
-                    TankNetwork.get(world).save(world);
+                    ImmersiveCraftHandler.immersiveCraft.save(world);
                     if (!player.capabilities.isCreativeMode) {
                         ItemStack emptyContainer = FluidContainerRegistry.drainFluidContainer(player.getHeldItem());
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, emptyContainer);
@@ -149,7 +149,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, filledContainer);
                         tank.setContents(tank.getContents() + capacity);
                     }
-                    TankNetwork.get(player.worldObj).save(player.worldObj);
+                    ImmersiveCraftHandler.immersiveCraft.save(player.worldObj);
                 }
             }
         }
@@ -161,18 +161,14 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
             if (player.getHeldItem() != null) {
                 TankTE tankTE = getTE(world, pos);
                 int id = tankTE.getID();
-                TankNetwork tankNetwork = TankNetwork.get(world);
-                Tank tank = tankNetwork.getOrCreateTank(id);
+
+                Tank tank = ImmersiveCraftHandler.tankNetwork.getOrCreateMultiBlock(id);
 
                 if (FluidContainerRegistry.isEmptyContainer(player.getHeldItem())) {
-                    if (!world.isRemote) {
-                        extractIntoContainer(player, tank);
-                    }
+                    extractIntoContainer(player, tank);
                     return true;
                 } else if (FluidContainerRegistry.isFilledContainer(player.getHeldItem())) {
-                    if (!world.isRemote) {
-                        fillFromContainer(player, world, tank);
-                    }
+                    fillFromContainer(player, world, tank);
                     return true;
                 }
             }
@@ -196,7 +192,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                 if (tagCompound != null) {
                     tank.setContents(tank.getContents() + tagCompound.getInteger("contents"));
                     tank.setFluidByName(tagCompound.getString("fluid"));
-                    TankNetwork.get(world).save(world);
+                    ImmersiveCraftHandler.immersiveCraft.save(world);
                 }
             }
         }

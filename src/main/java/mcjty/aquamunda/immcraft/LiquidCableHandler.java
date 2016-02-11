@@ -1,10 +1,8 @@
 package mcjty.aquamunda.immcraft;
 
-import mcjty.aquamunda.hosemultiblock.HoseNetwork;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.immcraft.api.cable.*;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
-import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -15,8 +13,7 @@ public class LiquidCableHandler implements ICableHandler {
 
     @Override
     public ICable getCable(World world, ICableSubType subType, int id) {
-        HoseNetwork hoseNetwork = HoseNetwork.get(world);
-        return hoseNetwork.getOrCreateHose(id);
+        return (ICable) ImmersiveCraftHandler.hoseNetwork.getOrCreateMultiBlock(id);
     }
 
     @Override
@@ -95,21 +92,8 @@ public class LiquidCableHandler implements ICableHandler {
     }
 
     @Override
-    public IMultiBlockNetwork getNetwork(World world, ICableSubType subType) {
-        HoseNetwork hoseNetwork = HoseNetwork.get(world);
-        return hoseNetwork.getNetwork();
-    }
-
-    @Override
-    public IMultiBlockNetwork getNetworkClient(ICableSubType subType) {
-        HoseNetwork hoseNetwork = HoseNetwork.getClientSide();
-        return hoseNetwork.getNetwork();
-    }
-
-    @Override
-    public void saveNetwork(World world) {
-        HoseNetwork hoseNetwork = HoseNetwork.get(world);
-        hoseNetwork.save(world);
+    public String getNetworkName(ICableSubType subType) {
+        return ImmersiveCraftHandler.AQUA_MUNDA_HOSES;
     }
 
     private ICableConnector getCableConnector(ICableSection section, World worldObj, ICableConnector prevCable) {
@@ -124,8 +108,7 @@ public class LiquidCableHandler implements ICableHandler {
         if (id == -1) {
             return null;
         }
-        HoseNetwork hoseNetwork = HoseNetwork.get(bundleTE.getWorld());
-        return hoseNetwork.getOrCreateHose(id);
+        return (ICable) ImmersiveCraftHandler.hoseNetwork.getOrCreateMultiBlock(id);
     }
 
     private static int min3(int a, int b, int c) {

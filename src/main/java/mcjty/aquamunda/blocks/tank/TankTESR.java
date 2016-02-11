@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.tank;
 
 
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -40,10 +41,9 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
 
         BlockPos pos = tileEntity.getPos();
 
-        TankNetwork tankNetwork = TankNetwork.getClientSide();
         int id = tileEntity.getID();
-        tankNetwork.getNetwork().refreshInfo(id);
-        IMultiBlockClientInfo clientInfo = tankNetwork.getNetwork().getClientInfo(id);
+        ImmersiveCraftHandler.tankNetwork.refreshInfo(id);
+        IMultiBlockClientInfo clientInfo = ImmersiveCraftHandler.tankNetwork.getClientInfo(id);
 
         bindTexture(TextureMap.locationBlocksTexture);
         renderFluid(tessellator, (TankClientInfo) clientInfo, pos);

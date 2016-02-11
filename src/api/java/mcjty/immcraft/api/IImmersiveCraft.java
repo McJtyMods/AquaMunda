@@ -31,13 +31,18 @@ public interface IImmersiveCraft {
     ICableItemBlockHelper createItemBlockHelper(ICableType type, ICableSubType subType);
 
     /**
-     * Create a multiblock network for the given factory
+     * Create a multiblock network for the given factory. If the network already exists nothing happens
      * @param networkName
      * @param factory
      * @param <T>
      * @return
      */
     <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions);
+
+    /**
+     * After making changes to a multiblock call this method to make sure the multiblock data gets persisted.
+     */
+    void save(World world);
 
     /**
      * Create a multiblock network for a cable

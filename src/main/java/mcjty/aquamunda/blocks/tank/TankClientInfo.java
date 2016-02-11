@@ -52,4 +52,13 @@ public class TankClientInfo implements IMultiBlockClientInfo {
         buf.writeInt(contents);
         buf.writeInt(blockCount);
     }
+
+    @Override
+    public String toString() {
+        return "TankClientInfo{" +
+                "blockCount=" + blockCount +
+                ", contents=" + contents +
+                ", fluid=" + fluid +
+                '}';
+    }
 }
