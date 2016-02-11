@@ -4,6 +4,7 @@ package mcjty.aquamunda.blocks.generic;
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.waila.WailaProvider;
+import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.util.Vector;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -28,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class GenericBlock extends Block implements WailaProvider {
+public class GenericBlock extends Block implements WailaProvider, IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -109,6 +110,7 @@ public class GenericBlock extends Block implements WailaProvider {
     }
 
 
+    @Override
     public EnumFacing getFrontDirection(IBlockState state) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
@@ -156,6 +158,7 @@ public class GenericBlock extends Block implements WailaProvider {
         return null;
     }
 
+    @Override
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
         switch (getMetaUsage()) {
             case HORIZROTATION:

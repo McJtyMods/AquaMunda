@@ -45,6 +45,6 @@ public class ImmersiveCraftHandler {
             }
         }, EnumFacing.HORIZONTALS);
 
-        IMultiBlockNetwork hoseNetwork = ImmersiveCraftHandler.immersiveCraft.createCableNetwork(AQUA_MUNDA_HOSES, ImmersiveCraftHandler.liquidType, ImmersiveCraftHandler.liquidSubtype);
+        hoseNetwork = ImmersiveCraftHandler.immersiveCraft.createCableNetwork(AQUA_MUNDA_HOSES, ImmersiveCraftHandler.liquidType, ImmersiveCraftHandler.liquidSubtype);
     }
 }
