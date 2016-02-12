@@ -2,16 +2,12 @@ package mcjty.aquamunda.fluid;
 
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.blocks.tank.TankISBM;
-import mcjty.aquamunda.blocks.tank.TankTE;
-import mcjty.aquamunda.blocks.tank.TankTESR;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
@@ -20,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -92,7 +87,7 @@ public class BlockFreshWater extends BlockFluidClassic {
             if (!BlockFalling.fallInstantly && world.isAreaLoaded(pos, b0)) {
                 if (!world.isRemote) {
                     IBlockState state = world.getBlockState(pos);
-                    EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) (pos.getX() + 0.5F), (double) (pos.getY() + 0.5F), (double) (pos.getZ() + 0.5F), state);
+                    EntityFallingFreshWaterBlock entityfallingblock = new EntityFallingFreshWaterBlock(world, (pos.getX() + 0.5F), (pos.getY() + 0.5F), (pos.getZ() + 0.5F), state);
                     world.spawnEntityInWorld(entityfallingblock);
                 }
             } else {
