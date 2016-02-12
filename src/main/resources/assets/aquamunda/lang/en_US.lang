@@ -1,6 +1,6 @@
-item.freshWaterBucket.name=Fresh Water Bucket
+item.fresh_water_bucket.name=Fresh Water Bucket
 
-tile.fresh_water_bucket.name=Fresh Water Fluid
+tile.fresh_water.name=Fresh Water Fluid
 tile.freshWater.name=Fresh Water
 tile.dead_carrot.name=Dead Carrot
 tile.dead_wheat.name=Dead Wheat

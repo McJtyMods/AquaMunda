@@ -6,7 +6,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidSetup {
-    public static final Fluid freshWater = new Fluid("freshWater", new ResourceLocation("minecraft:water_still"), new ResourceLocation("minecraft:water_flow"));
+    public static final Fluid freshWater = new Fluid("fresh_water", new ResourceLocation("blocks/water_still"), new ResourceLocation("blocks/water_flow"));
 
     public static void preInitFluids() {
         FluidRegistry.registerFluid(freshWater);
