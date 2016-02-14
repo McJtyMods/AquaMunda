@@ -1,50 +1,36 @@
 package mcjty.aquamunda.fluid;
 
-import com.google.common.collect.Lists;
+import io.netty.buffer.ByteBuf;
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.aquamunda.network.NetworkTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-public class EntityFallingFreshWaterBlock extends Entity {
+public class EntityFallingFreshWaterBlock extends Entity implements IEntityAdditionalSpawnData {
     private IBlockState fallTile;
     public int fallTime;
-    public boolean shouldDropItem = true;
     private boolean canSetAsBlock;
-    private boolean hurtEntities;
-    private int fallHurtMax = 40;
-    private float fallHurtAmount = 2.0F;
-    public NBTTagCompound tileEntityData;
 
     public EntityFallingFreshWaterBlock(World worldIn) {
         super(worldIn);
-        System.out.println("EntityFallingFreshWaterBlock.EntityFallingFreshWaterBlock BAD BAD BAD");
-        try {
-            throw new RuntimeException();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public EntityFallingFreshWaterBlock(World worldIn, double x, double y, double z, IBlockState fallingBlockState) {
         super(worldIn);
         this.fallTile = fallingBlockState;
-        System.out.println("############## fallTile = " + fallTile);
 
         this.preventEntitySpawning = true;
         this.setSize(0.98F, 0.98F);
@@ -126,41 +112,11 @@ public class EntityFallingFreshWaterBlock extends Entity {
                                     if (block instanceof BlockFalling) {
                                         ((BlockFalling) block).onEndFalling(this.worldObj, blockpos1);
                                     }
-
-                                    if (this.tileEntityData != null && block instanceof ITileEntityProvider) {
-                                        TileEntity tileentity = this.worldObj.getTileEntity(blockpos1);
-
-                                        if (tileentity != null) {
-                                            NBTTagCompound nbttagcompound = new NBTTagCompound();
-                                            tileentity.writeToNBT(nbttagcompound);
-
-                                            for (String s : this.tileEntityData.getKeySet()) {
-                                                NBTBase nbtbase = this.tileEntityData.getTag(s);
-
-                                                if (!s.equals("x") && !s.equals("y") && !s.equals("z")) {
-                                                    nbttagcompound.setTag(s, nbtbase.copy());
-                                                }
-                                            }
-
-                                            tileentity.readFromNBT(nbttagcompound);
-                                            tileentity.markDirty();
-                                        }
-                                    }
-                                } else {
-                                    if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
-                                        this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
-                                    }
                                 }
-                            } else if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
-                                this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
                             }
                         }
                     }
                 } else if (this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600) {
-                    if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
-                        this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
-                    }
-
                     this.setDead();
                 }
             }
@@ -169,18 +125,6 @@ public class EntityFallingFreshWaterBlock extends Entity {
 
     @Override
     public void fall(float distance, float damageMultiplier) {
-        if (this.hurtEntities) {
-            int i = MathHelper.ceiling_float_int(distance - 1.0F);
-
-            if (i > 0) {
-                List<Entity> list = Lists.newArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()));
-                DamageSource damagesource = DamageSource.fallingBlock;
-
-                for (Entity entity : list) {
-                    entity.attackEntityFrom(damagesource, Math.min(MathHelper.floor_float(i * this.fallHurtAmount), this.fallHurtMax));
-                }
-            }
-        }
     }
 
     /**
@@ -191,17 +135,8 @@ public class EntityFallingFreshWaterBlock extends Entity {
         Block block = this.fallTile != null ? this.fallTile.getBlock() : Blocks.air;
         ResourceLocation resourcelocation = Block.blockRegistry.getNameForObject(block);
         tagCompound.setString("Block", resourcelocation == null ? "" : resourcelocation.toString());
-        System.out.println("resourcelocation = " + resourcelocation);
         tagCompound.setByte("Data", (byte) block.getMetaFromState(this.fallTile));
         tagCompound.setByte("Time", (byte) this.fallTime);
-        tagCompound.setBoolean("DropItem", this.shouldDropItem);
-        tagCompound.setBoolean("HurtEntities", this.hurtEntities);
-        tagCompound.setFloat("FallHurtAmount", this.fallHurtAmount);
-        tagCompound.setInteger("FallHurtMax", this.fallHurtMax);
-
-        if (this.tileEntityData != null) {
-            tagCompound.setTag("TileEntityData", this.tileEntityData);
-        }
     }
 
     /**
@@ -212,31 +147,32 @@ public class EntityFallingFreshWaterBlock extends Entity {
         int i = tagCompund.getByte("Data") & 255;
 
         this.fallTile = ModBlocks.blockFreshWater.getStateFromMeta(i);
-        System.out.println("!@!@!@!@!@!@ fallTile = " + fallTile);
         this.fallTime = tagCompund.getByte("Time") & 255;
         Block block = this.fallTile.getBlock();
-
-        if (tagCompund.hasKey("HurtEntities", 99)) {
-            this.hurtEntities = tagCompund.getBoolean("HurtEntities");
-            this.fallHurtAmount = tagCompund.getFloat("FallHurtAmount");
-            this.fallHurtMax = tagCompund.getInteger("FallHurtMax");
-        }
-
-        if (tagCompund.hasKey("DropItem", 99)) {
-            this.shouldDropItem = tagCompund.getBoolean("DropItem");
-        }
-
-        if (tagCompund.hasKey("TileEntityData", 10)) {
-            this.tileEntityData = tagCompund.getCompoundTag("TileEntityData");
-        }
 
         if (block == null || block.getMaterial() == Material.air) {
             this.fallTile = ModBlocks.blockFreshWater.getDefaultState();
         }
     }
 
-    public void setHurtEntities(boolean p_145806_1_) {
-        this.hurtEntities = p_145806_1_;
+    @Override
+    public void writeSpawnData(ByteBuf buffer) {
+        Block block = this.fallTile != null ? this.fallTile.getBlock() : Blocks.air;
+        buffer.writeByte((byte) block.getMetaFromState(this.fallTile));
+        buffer.writeByte((byte) this.fallTime);
+    }
+
+    @Override
+    public void readSpawnData(ByteBuf additionalData) {
+        int i = additionalData.readByte() & 255;
+        this.fallTile = ModBlocks.blockFreshWater.getStateFromMeta(i);
+        this.fallTime = additionalData.readByte() & 255;
+        Block block = this.fallTile.getBlock();
+
+        if (block == null || block.getMaterial() == Material.air) {
+            this.fallTile = ModBlocks.blockFreshWater.getDefaultState();
+        }
+
     }
 
     @Override
