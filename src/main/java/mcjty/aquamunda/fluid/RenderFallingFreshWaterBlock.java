@@ -15,6 +15,10 @@ import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ISmartBlockModel;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.PropertyFloat;
+import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,7 +31,6 @@ public class RenderFallingFreshWaterBlock extends Render<EntityFallingFreshWater
 
     @Override
     public void doRender(EntityFallingFreshWaterBlock entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        System.out.println("RenderFallingFreshWaterBlock.doRender");
         if (entity.getBlock() != null) {
             this.bindTexture(TextureMap.locationBlocksTexture);
             IBlockState iblockstate = entity.getBlock();
@@ -49,6 +52,13 @@ public class RenderFallingFreshWaterBlock extends Render<EntityFallingFreshWater
                     worldrenderer.setTranslation(((-i) - 0.5F), (-j), ((-k) - 0.5F));
                     BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
                     IBakedModel ibakedmodel = blockrendererdispatcher.getBlockModelShapes().getModelForState(iblockstate);
+                    ibakedmodel = ((ISmartBlockModel)ibakedmodel).handleBlockState(((IExtendedBlockState) iblockstate.getBlock().getDefaultState())
+                                                                             .withProperty(BlockFluidClassic.FLOW_DIRECTION, 0.0f)
+                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[0], 0.875f)
+                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[1], 0.875f)
+                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[2], 0.875f)
+                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[3], 0.875f));
+//                    ((ISmartBlockModel)ibakedmodel).handleBlockState(iblockstate);
 //                    IBakedModel ibakedmodel = blockrendererdispatcher.getModelFromBlockState(iblockstate, world, null);
                     blockrendererdispatcher.getBlockModelRenderer().renderModel(world, ibakedmodel, iblockstate, blockpos, worldrenderer, false);
                     worldrenderer.setTranslation(0.0D, 0.0D, 0.0D);
