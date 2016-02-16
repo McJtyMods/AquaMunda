@@ -7,12 +7,17 @@ import mcjty.aquamunda.environment.EnvironmentData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
@@ -22,6 +27,11 @@ public class CustomFarmLand extends BlockFarmland {
         super();
         this.setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
         setRegistryName("farmland");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void initModel() {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
     @Override
