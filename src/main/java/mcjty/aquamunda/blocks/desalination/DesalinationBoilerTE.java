@@ -145,7 +145,7 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
     }
 
     private boolean isHot() {
-        IBlockState state = worldObj.getBlockState(getPos());
+        IBlockState state = worldObj.getBlockState(getPos().down());
         Block block = state.getBlock();
         if (block == Blocks.fire) {
             return true;
