@@ -1,6 +1,8 @@
 package mcjty.aquamunda.network;
 
 
+import mcjty.aquamunda.blocks.customblocks.FarmLandMoistnessPacketClient;
+import mcjty.aquamunda.blocks.customblocks.FarmLandMoistnessPacketServer;
 import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketClient;
 import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketServer;
 import mcjty.aquamunda.blocks.desalination.TankContentsInfoPacketClient;
@@ -71,5 +73,6 @@ public class PacketHandler {
 
         register(nextPacketID(), BoilerContentsInfoPacketServer.class, BoilerContentsInfoPacketClient.class);
         register(nextPacketID(), TankContentsInfoPacketServer.class, TankContentsInfoPacketClient.class);
+        register(nextPacketID(), FarmLandMoistnessPacketServer.class, FarmLandMoistnessPacketClient.class);
     }
 }

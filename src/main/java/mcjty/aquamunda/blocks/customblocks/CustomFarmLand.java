@@ -1,9 +1,15 @@
 package mcjty.aquamunda.blocks.customblocks;
 
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketServer;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
+import mcjty.aquamunda.network.PacketGetInfoFromServer;
+import mcjty.aquamunda.network.PacketHandler;
+import mcjty.aquamunda.waila.WailaProvider;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.state.IBlockState;
@@ -11,7 +17,9 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -19,9 +27,10 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
 import java.util.Random;
 
-public class CustomFarmLand extends BlockFarmland {
+public class CustomFarmLand extends BlockFarmland implements WailaProvider {
 
     public CustomFarmLand() {
         super();
@@ -34,15 +43,28 @@ public class CustomFarmLand extends BlockFarmland {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
+    private static long lastUpdateTime = 0;
+    public static int clientLevel = 0;
+
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        long time = System.currentTimeMillis();
+        if ((time - lastUpdateTime) > 200) {
+            lastUpdateTime = time;
+            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new FarmLandMoistnessPacketServer(accessor.getPosition())));
+        }
+
+        currenttip.add(EnumChatFormatting.GREEN + "Moistness: " + clientLevel);
+        return currenttip;
+    }
+
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        System.out.println("CustomFarmLand.onBlockPlaced");
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
     }
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-        System.out.println("CustomFarmLand.onBlockAdded");
         if (!world.isRemote) {
             EnvironmentData environment = EnvironmentData.getEnvironmentData(world);
             if (environment.getData().set(world.provider.getDimensionId(), pos, (byte) 0)) {
@@ -53,7 +75,6 @@ public class CustomFarmLand extends BlockFarmland {
 
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
-        System.out.println("CustomFarmLand.updateTick");
         handleRain(world, pos, random);
         handleSprinkler(world, pos, random);
 
