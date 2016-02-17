@@ -27,7 +27,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
 
     public static final int MAX_MOISTNESS = 5;
     public static final int SPRINKLER_COUNTER = 10;
-    public static final int INPUT_PER_TICK = 5;
+    public static final int INPUT_PER_TICK = 3;
     public static final int MAX_AMOUNT = SPRINKLER_COUNTER * INPUT_PER_TICK;
 
     public int counter = SPRINKLER_COUNTER;
