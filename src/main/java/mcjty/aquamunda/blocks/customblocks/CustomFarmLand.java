@@ -54,7 +54,11 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
             PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new FarmLandMoistnessPacketServer(accessor.getPosition())));
         }
 
-        currenttip.add(EnumChatFormatting.GREEN + "Moistness: " + clientLevel);
+        if (clientLevel == -1) {
+            currenttip.add(EnumChatFormatting.YELLOW + "No fresh water nearby!");
+        } else {
+            currenttip.add(EnumChatFormatting.GREEN + "Moistness: " + (clientLevel * 100 / SprinklerTE.MAX_MOISTNESS) + "%");
+        }
         return currenttip;
     }
 
@@ -137,7 +141,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
         return block instanceof IPlantable && canSustainPlant(world, pos, EnumFacing.UP, (IPlantable) block);
     }
 
-    private boolean freshWaterNearby(World world, BlockPos pos) {
+    public static boolean freshWaterNearby(World world, BlockPos pos) {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();

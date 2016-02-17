@@ -33,9 +33,12 @@ public class FarmLandMoistnessPacketServer implements InfoPacketServer {
 
     @Override
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
+        boolean freshwater = CustomFarmLand.freshWaterNearby(player.worldObj, pos);
+        if (!freshwater) {
+            return Optional.of(new FarmLandMoistnessPacketClient(-1));
+        }
         EnvironmentData environment = EnvironmentData.getEnvironmentData(player.worldObj);
         byte level = environment.getData().get(player.worldObj.provider.getDimensionId(), pos);
-        System.out.println("level = " + level);
         return Optional.of(new FarmLandMoistnessPacketClient(level));
     }
 }
