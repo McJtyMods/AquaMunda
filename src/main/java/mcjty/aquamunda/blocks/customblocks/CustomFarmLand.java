@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
@@ -132,6 +133,8 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
         if (block == Blocks.carrots) {
             world.setBlockState(pos.up(), ModBlocks.deadCarrot.getDefaultState(), 3);
         } else if (block == Blocks.wheat) {
+            world.setBlockState(pos.up(), ModBlocks.deadWheat.getDefaultState(), 3);
+        } else if (block instanceof IGrowable) {
             world.setBlockState(pos.up(), ModBlocks.deadWheat.getDefaultState(), 3);
         }
     }

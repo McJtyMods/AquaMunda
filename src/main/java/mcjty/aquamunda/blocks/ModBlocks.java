@@ -52,8 +52,8 @@ public class ModBlocks {
         System.out.println("Blocks.farmland = " + Blocks.farmland);
         System.out.println("Blocks.farmland.getClass() = " + Blocks.farmland.getClass());
 
-//        deadCarrot = new BlockDeadCrop("dead_carrot");
-//        deadWheat = new BlockDeadCrop("dead_wheat");
+        deadCarrot = new BlockDeadCrop("dead_carrot");
+        deadWheat = new BlockDeadCrop("dead_wheat");
     }
 
     public static void postInit() {
@@ -74,8 +74,8 @@ public class ModBlocks {
         desalinationTankBlock.initModel();
         customFarmLand.initModel();
 
-//        deadCarrot.initModel();
-//        deadWheat.initModel();
+        deadCarrot.initModel();
+        deadWheat.initModel();
     }
 
     @SideOnly(Side.CLIENT)
