@@ -40,20 +40,20 @@ public class ModBlocks {
         desalinationTankBlock = new DesalinationTankBlock();
 
         customFarmLand = new CustomFarmLand();
-//        GameRegistry.registerBlock(customFarmLand);
-        try {
-            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
-            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));
-        } catch (ExistingSubstitutionException e) {
-            throw new RuntimeException(e);
-        }
-        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
+        GameRegistry.registerBlock(customFarmLand);
+//        try {
+//            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
+//            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));
+//        } catch (ExistingSubstitutionException e) {
+//            throw new RuntimeException(e);
+//        }
+//        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
 
         System.out.println("Blocks.farmland = " + Blocks.farmland);
         System.out.println("Blocks.farmland.getClass() = " + Blocks.farmland.getClass());
 
-//        deadCarrot = new BlockDeadCrop("dead_carrot");
-//        deadWheat = new BlockDeadCrop("dead_wheat");
+        deadCarrot = new BlockDeadCrop("dead_carrot");
+        deadWheat = new BlockDeadCrop("dead_wheat");
     }
 
     public static void postInit() {
@@ -72,9 +72,10 @@ public class ModBlocks {
         sprinklerBlock.initModel();
         desalinationBoilerBlock.initModel();
         desalinationTankBlock.initModel();
+        customFarmLand.initModel();
 
-//        deadCarrot.initModel();
-//        deadWheat.initModel();
+        deadCarrot.initModel();
+        deadWheat.initModel();
     }
 
     @SideOnly(Side.CLIENT)

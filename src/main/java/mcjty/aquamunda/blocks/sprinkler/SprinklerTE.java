@@ -1,5 +1,6 @@
 package mcjty.aquamunda.blocks.sprinkler;
 
+import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
@@ -26,7 +27,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
 
     public static final int MAX_MOISTNESS = 5;
     public static final int SPRINKLER_COUNTER = 10;
-    public static final int INPUT_PER_TICK = 25;
+    public static final int INPUT_PER_TICK = 3;
     public static final int MAX_AMOUNT = SPRINKLER_COUNTER * INPUT_PER_TICK;
 
     public int counter = SPRINKLER_COUNTER;
@@ -153,7 +154,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
                         // splash, dripWater
                     }
 
-                    if (block == Blocks.farmland) {
+                    if (block == ModBlocks.customFarmLand) {
                         byte moistness = data.get(worldObj.provider.getDimensionId(), pos);
                         if (moistness < MAX_MOISTNESS) {
                             moistness++;
