@@ -10,7 +10,7 @@ import mcjty.immcraft.api.multiblock.IMultiBlockTile;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -32,12 +32,12 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
     private Map<EnumFacing,boolean[]> connections = new HashMap<>();
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         int oldId = networkId;
         super.onDataPacket(net, packet);
         if (oldId != networkId) {
             // Make sure the tank is re-rendered when the ID changes
-            worldObj.markBlockRangeForRenderUpdate(getPos(), getPos());
+            getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
         }
     }
 
@@ -172,7 +172,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
         if (networkId == -1) {
             return;
         }
-        if (worldObj.isRaining()) {
+        if (getWorld().isRaining()) {
             checkRain();
         } else {
             checkEvaporation();
@@ -196,11 +196,11 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
     }
 
     private void checkEvaporation() {
-        float angle = worldObj.getCelestialAngle(1.0f);
+        float angle = getWorld().getCelestialAngle(1.0f);
         int minutes = (int) (angle * ((24 * 60) - 0.1f));
         int hours = minutes / 60;
         if (hours >= 21 || hours <= 3) {
-            if (worldObj.canBlockSeeSky(getPos())) {
+            if (getWorld().canBlockSeeSky(getPos())) {
                 Tank tank = getMultiBlock();
                 if (tank.getFluid() == FluidSetup.freshWater || tank.getFluid() == FluidRegistry.WATER) {
                     int newContents = tank.getContents() - EVAPORATE_AMOUNT;
@@ -208,7 +208,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
                         newContents = 0;
                     }
                     tank.setContents(newContents);
-                    ImmersiveCraftHandler.tankNetwork.save(worldObj);
+                    ImmersiveCraftHandler.tankNetwork.save(getWorld());
                 }
             }
         }

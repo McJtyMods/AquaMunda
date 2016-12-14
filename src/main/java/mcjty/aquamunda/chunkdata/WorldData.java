@@ -1,7 +1,7 @@
 package mcjty.aquamunda.chunkdata;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 import java.util.Map;

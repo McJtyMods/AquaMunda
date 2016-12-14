@@ -1,7 +1,7 @@
 package mcjty.aquamunda.varia;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 

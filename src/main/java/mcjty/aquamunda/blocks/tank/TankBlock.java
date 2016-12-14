@@ -5,24 +5,30 @@ import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
+import mcjty.lib.tools.FluidTools;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.WorldTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -30,11 +36,10 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,9 +55,9 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     public static final UnlistedPropertyTankAvailable EAST = new UnlistedPropertyTankAvailable("east");
 
     public TankBlock() {
-        super(Material.iron, "tank", TankTE.class);
+        super(Material.IRON, "tank", TankTE.class);
         setHardness(2.0f);
-        setStepSound(soundTypeMetal);
+        setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", 0);
         setTickRandomly(true);
     }
@@ -77,7 +82,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
 
     @SideOnly(Side.CLIENT)
     public void initItemModel() {
-        Item itemBlock = GameRegistry.findItem(AquaMunda.MODID, "tank");
+        Item itemBlock = ForgeRegistries.ITEMS.getValue(new ResourceLocation(AquaMunda.MODID, "tank"));
         ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(AquaMunda.MODID + ":tank", "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
@@ -98,12 +103,12 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
             IMultiBlockClientInfo clientInfo = ImmersiveCraftHandler.tankNetwork.getClientInfo(blockID);
             if (clientInfo != null) {
                 TankClientInfo tankClientInfo = (TankClientInfo) clientInfo;
-                currenttip.add(EnumChatFormatting.GREEN + "Id: " + blockID);
+                currenttip.add(TextFormatting.GREEN + "Id: " + blockID);
                 Fluid fluid = tankClientInfo.getFluid();
                 if (fluid != null) {
-                    currenttip.add(EnumChatFormatting.GREEN + "Liquid: " + Tank.getFluidName(fluid));
+                    currenttip.add(TextFormatting.GREEN + "Liquid: " + Tank.getFluidName(fluid));
                 }
-                currenttip.add(EnumChatFormatting.GREEN + "Contents: " + tankClientInfo.getContents() + " (" + tankClientInfo.getBlockCount() * TankTE.MAX_CONTENTS + ")");
+                currenttip.add(TextFormatting.GREEN + "Contents: " + tankClientInfo.getContents() + " (" + tankClientInfo.getBlockCount() * TankTE.MAX_CONTENTS + ")");
             }
         }
 
@@ -111,7 +116,11 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     }
 
     private void fillFromContainer(EntityPlayer player, World world, Tank tank) {
-        FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(player.getHeldItem());
+        ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+        if (ItemStackTools.isEmpty(heldItem)) {
+            return;
+        }
+        FluidStack fluidStack = FluidTools.convertBucketToFluid(heldItem);
         if (fluidStack != null) {
             if (tank.getFluid() == fluidStack.getFluid() || tank.getFluid() == null) {
                 int newAmount = tank.getContents() + fluidStack.amount;
@@ -120,7 +129,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                     tank.setFluid(fluidStack.getFluid());
                     ImmersiveCraftHandler.tankNetwork.save(world);
                     if (!player.capabilities.isCreativeMode) {
-                        ItemStack emptyContainer = FluidContainerRegistry.drainFluidContainer(player.getHeldItem());
+                        ItemStack emptyContainer = FluidTools.drainContainer(heldItem);
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, emptyContainer);
                     }
                 }
@@ -131,17 +140,21 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     private void extractIntoContainer(EntityPlayer player, Tank tank) {
         if (tank.getContents() > 0) {
             FluidStack fluidStack = new FluidStack(tank.getFluid(), 1);
-            int capacity = FluidContainerRegistry.getContainerCapacity(fluidStack, player.getHeldItem());
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+            if (ItemStackTools.isEmpty(heldItem)) {
+                return;
+            }
+            int capacity = FluidTools.getCapacity(fluidStack, heldItem);
             if (capacity != 0) {
                 if (tank.getContents() >= capacity) {
                     fluidStack.amount = capacity;
-                    ItemStack filledContainer = FluidContainerRegistry.fillFluidContainer(fluidStack, player.getHeldItem());
-                    if (filledContainer != null) {
+                    ItemStack filledContainer = FluidTools.fillContainer(fluidStack, heldItem);
+                    if (ItemStackTools.isValid(filledContainer)) {
                         tank.setContents(tank.getContents() - capacity);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
                         if (!player.inventory.addItemStackToInventory(filledContainer)) {
-                            EntityItem entityItem = new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, filledContainer);
-                            player.worldObj.spawnEntityInWorld(entityItem);
+                            EntityItem entityItem = new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, filledContainer);
+                            WorldTools.spawnEntity(player.getEntityWorld(), entityItem);
                         }
                         player.openContainer.detectAndSendChanges();
                     } else {
@@ -149,7 +162,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, filledContainer);
                         tank.setContents(tank.getContents() + capacity);
                     }
-                    ImmersiveCraftHandler.tankNetwork.save(player.worldObj);
+                    ImmersiveCraftHandler.tankNetwork.save(player.getEntityWorld());
                 }
             }
         }
@@ -158,16 +171,17 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            if (player.getHeldItem() != null) {
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+            if (ItemStackTools.isValid(heldItem)) {
                 TankTE tankTE = getTE(world, pos);
                 int id = tankTE.getID();
 
                 Tank tank = ImmersiveCraftHandler.tankNetwork.getOrCreateMultiBlock(id);
 
-                if (FluidContainerRegistry.isEmptyContainer(player.getHeldItem())) {
+                if (FluidTools.isEmptyContainer(heldItem)) {
                     extractIntoContainer(player, tank);
                     return true;
-                } else if (FluidContainerRegistry.isFilledContainer(player.getHeldItem())) {
+                } else if (FluidTools.isFilledContainer(heldItem)) {
                     fillFromContainer(player, world, tank);
                     return true;
                 }
@@ -226,29 +240,29 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
 
             }
             EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-            world.spawnEntityInWorld(entityItem);
+            WorldTools.spawnEntity(world, entityItem);
         }
         super.breakBlock(world, pos, state);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
         IProperty[] listedProperties = new IProperty[0]; // no listed properties
         IUnlistedProperty[] unlistedProperties = new IUnlistedProperty[] { NORTH, SOUTH, WEST, EAST };
         return new ExtendedBlockState(this, listedProperties, unlistedProperties);

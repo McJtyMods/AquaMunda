@@ -6,30 +6,32 @@ import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.waila.WailaProvider;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.util.Vector;
+import mcjty.lib.compat.CompatBlock;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class GenericBlock extends Block implements WailaProvider, IOrientedBlock {
+public class GenericBlock extends CompatBlock implements WailaProvider, IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -62,10 +64,22 @@ public class GenericBlock extends Block implements WailaProvider, IOrientedBlock
     protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         setRegistryName(name);
         setUnlocalizedName(name);
-        if (itemBlockClass == null) {
-            GameRegistry.registerBlock(this);
+        GameRegistry.register(this);
+        if (itemBlockClass != null) {
+            GameRegistry.register(createItemBlock(itemBlockClass), getRegistryName());
         } else {
-            GameRegistry.registerBlock(this, itemBlockClass);
+            GameRegistry.register(new ItemBlock(this), getRegistryName());
+        }
+    }
+
+    private ItemBlock createItemBlock(Class<? extends ItemBlock> itemBlockClass) {
+        try {
+            Class<?>[] ctorArgClasses = new Class<?>[1];
+            ctorArgClasses[0] = Block.class;
+            Constructor<? extends ItemBlock> itemCtor = itemBlockClass.getConstructor(ctorArgClasses);
+            return itemCtor.newInstance(this);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -94,7 +108,7 @@ public class GenericBlock extends Block implements WailaProvider, IOrientedBlock
     }
 
     public static EnumFacing getFacingFromEntity(BlockPos clickedBlock, EntityLivingBase entityIn) {
-        if (MathHelper.abs((float) entityIn.posX - clickedBlock.getX()) < 2.0F && MathHelper.abs((float) entityIn.posZ - clickedBlock.getZ()) < 2.0F) {
+        if (Math.abs((float) entityIn.posX - clickedBlock.getX()) < 2.0F && Math.abs((float) entityIn.posZ - clickedBlock.getZ()) < 2.0F) {
             double d0 = entityIn.posY + entityIn.getEyeHeight();
 
             if (d0 - clickedBlock.getY() > 2.0D) {
@@ -218,12 +232,12 @@ public class GenericBlock extends Block implements WailaProvider, IOrientedBlock
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return new BlockState(this, FACING_HORIZ);
+                return new BlockStateContainer(this, FACING_HORIZ);
             case ROTATION:
-                return new BlockState(this, FACING);
+                return new BlockStateContainer(this, FACING);
             case NONE:
                 return super.createBlockState();
         }

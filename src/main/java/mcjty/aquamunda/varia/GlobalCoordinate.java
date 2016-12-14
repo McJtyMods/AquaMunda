@@ -1,6 +1,6 @@
 package mcjty.aquamunda.varia;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class GlobalCoordinate {
     private final BlockPos coordinate;

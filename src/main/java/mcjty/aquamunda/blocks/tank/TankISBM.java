@@ -5,13 +5,11 @@ import mcjty.aquamunda.AquaMunda;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.model.ISmartBlockModel;
 import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TankISBM implements ISmartBlockModel {
+public class TankISBM implements IBakedModel {
 
     public static final float THICK = 1/16.0f;
 

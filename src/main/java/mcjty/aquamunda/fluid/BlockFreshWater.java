@@ -2,15 +2,16 @@ package mcjty.aquamunda.fluid;
 
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockFreshWater extends BlockFluidClassic {
@@ -28,7 +30,8 @@ public class BlockFreshWater extends BlockFluidClassic {
         super(fluid, material);
         setCreativeTab(AquaMunda.creativeTab);
         setUnlocalizedName("fresh_water");
-        GameRegistry.registerBlock(this, "fresh_water");
+        setRegistryName("fresh_water");
+        GameRegistry.register(this);
     }
 
     @SideOnly(Side.CLIENT)
@@ -61,10 +64,15 @@ public class BlockFreshWater extends BlockFluidClassic {
         world.scheduleUpdate(pos, this, tickRate);
     }
 
+    // @@@ @todo correct? (does this exist on 1.10? Compat version)
     @Override
-    public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
+    public void neighborChanged(@Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighbourPos) {
         world.scheduleUpdate(pos, this, tickRate);
     }
+//    @Override
+//    public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
+//        world.scheduleUpdate(pos, this, tickRate);
+//    }
 
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
@@ -88,7 +96,7 @@ public class BlockFreshWater extends BlockFluidClassic {
                 if (!world.isRemote) {
                     IBlockState state = world.getBlockState(pos);
                     EntityFallingFreshWaterBlock entityfallingblock = new EntityFallingFreshWaterBlock(world, (pos.getX() + 0.5F), (pos.getY() + 0.5F), (pos.getZ() + 0.5F), state);
-                    world.spawnEntityInWorld(entityfallingblock);
+                    WorldTools.spawnEntity(world, entityfallingblock);
                 }
             } else {
                 world.setBlockToAir(pos);
@@ -117,16 +125,17 @@ public class BlockFreshWater extends BlockFluidClassic {
     }
 
     public static boolean canFallInto(World world, BlockPos pos) {
-        Block block = world.getBlockState(pos).getBlock();
+        IBlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
 
-        if (block.isAir(world, pos)) {
+        if (world.isAirBlock(pos)) {
             return true;
-        } else if (block == Blocks.fire) {
+        } else if (block == Blocks.FIRE) {
             return true;
         } else {
             //TODO: King, take a look here when doing liquids!
-            Material material = block.getMaterial();
-            return material == Material.water ? true : material == Material.lava;
+            Material material = block.getMaterial(state);
+            return material == Material.WATER ? true : material == Material.LAVA;
         }
     }
 }

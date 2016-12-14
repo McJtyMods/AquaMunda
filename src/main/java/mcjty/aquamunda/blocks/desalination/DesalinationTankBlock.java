@@ -5,12 +5,15 @@ import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -22,9 +25,9 @@ import java.util.List;
 public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE> {
 
     public DesalinationTankBlock() {
-        super(Material.iron, "evaporator", DesalinationTankTE.class);
+        super(Material.IRON, "evaporator", DesalinationTankTE.class);
         setHardness(2.0f);
-        setStepSound(soundTypeMetal);
+        setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", 0);
     }
 
@@ -37,24 +40,24 @@ public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.TRANSLUCENT;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.TRANSLUCENT;
     }
 
     private static long lastUpdateTime = 0;
@@ -70,8 +73,8 @@ public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE
             PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new TankContentsInfoPacketServer(te.getPos())));
         }
 
-        currenttip.add(EnumChatFormatting.GREEN + "Liquid: " + FluidRegistry.getFluidName(te.getSupportedFluid()));
-        currenttip.add(EnumChatFormatting.GREEN + "Contents: " + te.getContents() + " (" + DesalinationTankTE.MAX_CONTENTS + ")");
+        currenttip.add(TextFormatting.GREEN + "Liquid: " + FluidRegistry.getFluidName(te.getSupportedFluid()));
+        currenttip.add(TextFormatting.GREEN + "Contents: " + te.getContents() + " (" + DesalinationTankTE.MAX_CONTENTS + ")");
         return currenttip;
     }
 }

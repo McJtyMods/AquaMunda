@@ -5,7 +5,7 @@ import mcjty.aquamunda.network.InfoPacketClient;
 import mcjty.aquamunda.varia.BlockTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class TankContentsInfoPacketClient implements InfoPacketClient {
 

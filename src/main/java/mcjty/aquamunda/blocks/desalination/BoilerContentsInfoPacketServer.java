@@ -6,7 +6,7 @@ import mcjty.aquamunda.network.InfoPacketServer;
 import mcjty.aquamunda.varia.BlockPosTools;
 import mcjty.aquamunda.varia.BlockTools;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.Optional;
 

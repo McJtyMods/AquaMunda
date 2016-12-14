@@ -4,7 +4,7 @@ import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.immcraft.api.cable.*;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;
