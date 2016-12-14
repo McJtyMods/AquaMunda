@@ -4,6 +4,9 @@ import mcjty.aquamunda.blocks.generic.GenericBlock;
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.blocks.generic.GenericTE;
 import mcjty.immcraft.api.util.Vector;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.MathTools;
+import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -276,7 +278,7 @@ public class BlockTools {
     }
 
     public static EnumFacing determineOrientation(int x, int y, int z, EntityLivingBase entityLivingBase) {
-        if (MathHelper.abs((float) entityLivingBase.posX - x) < 2.0F && MathHelper.abs((float) entityLivingBase.posZ - z) < 2.0F) {
+        if (Math.abs((float) entityLivingBase.posX - x) < 2.0F && Math.abs((float) entityLivingBase.posZ - z) < 2.0F) {
             double d0 = entityLivingBase.posY + 1.82D - entityLivingBase.getYOffset();
 
             if (d0 - y > 2.0D) {
@@ -287,12 +289,12 @@ public class BlockTools {
                 return DOWN;
             }
         }
-        int l = MathHelper.floor_double((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int l = MathTools.floor((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         return l == 0 ? EnumFacing.NORTH : (l == 1 ? EnumFacing.EAST : (l == 2 ? SOUTH : (l == 3 ? EnumFacing.WEST : DOWN)));
     }
 
     public static EnumFacing determineOrientationHoriz(EntityLivingBase entityLivingBase) {
-        int l = MathHelper.floor_double((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int l = MathTools.floor((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         return l == 0 ? EnumFacing.NORTH : (l == 1 ? EnumFacing.EAST : (l == 2 ? SOUTH : (l == 3 ? EnumFacing.WEST : DOWN)));
     }
 
@@ -313,20 +315,20 @@ public class BlockTools {
     }
 
     public static void spawnItemStack(World world, int x, int y, int z, ItemStack itemstack) {
-        if (itemstack != null) {
+        if (ItemStackTools.isValid(itemstack)) {
             float f = random.nextFloat() * 0.8F + 0.1F;
             float f1 = random.nextFloat() * 0.8F + 0.1F;
             EntityItem entityitem;
 
             float f2 = random.nextFloat() * 0.8F + 0.1F;
-            while (itemstack.stackSize > 0) {
+            while (ItemStackTools.isValid(itemstack)) {
                 int j = random.nextInt(21) + 10;
 
-                if (j > itemstack.stackSize) {
-                    j = itemstack.stackSize;
+                if (j > ItemStackTools.getStackSize(itemstack)) {
+                    j = ItemStackTools.getStackSize(itemstack);
                 }
 
-                itemstack.stackSize -= j;
+                ItemStackTools.incStackSize(itemstack, -j);
                 entityitem = new EntityItem(world, (x + f), (y + f1), (z + f2), new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
                 float f3 = 0.05F;
                 entityitem.motionX = ((float)random.nextGaussian() * f3);
@@ -334,9 +336,9 @@ public class BlockTools {
                 entityitem.motionZ = ((float)random.nextGaussian() * f3);
 
                 if (itemstack.hasTagCompound()) {
-                    entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                    entityitem.getEntityItem().setTagCompound(itemstack.getTagCompound().copy());
                 }
-                world.spawnEntityInWorld(entityitem);
+                WorldTools.spawnEntity(world, entityitem);
             }
         }
     }

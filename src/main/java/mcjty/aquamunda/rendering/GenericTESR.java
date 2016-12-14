@@ -7,21 +7,19 @@ import mcjty.aquamunda.blocks.generic.GenericTE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.TRSRTransformation;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GenericTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T> {
@@ -31,14 +29,14 @@ public class GenericTESR<T extends GenericTE> extends TileEntitySpecialRenderer<
     protected ResourceLocation blockTexture;
     protected GenericBlock block;
 
-    protected Vec3 textOffset = new Vec3(0, 0, 0);
+    protected Vec3d textOffset = new Vec3d(0, 0, 0);
 
     public GenericTESR(String modelName, String texture, GenericBlock block) {
         if (modelName != null) {
             try {
                 model = ModelLoaderRegistry.getModel(new ResourceLocation(AquaMunda.MODID, modelName));
                 bakedModel = model.bake(TRSRTransformation.identity(), DefaultVertexFormats.POSITION_TEX, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             blockTexture = new ResourceLocation(AquaMunda.MODID, texture);

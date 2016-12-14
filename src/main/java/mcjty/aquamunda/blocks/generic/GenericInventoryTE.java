@@ -2,19 +2,21 @@ package mcjty.aquamunda.blocks.generic;
 
 import mcjty.aquamunda.varia.InventoryHelper;
 import mcjty.aquamunda.varia.NBTHelper;
+import mcjty.lib.compat.CompatSidedInventory;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class GenericInventoryTE extends GenericTE implements ISidedInventory {
+public class GenericInventoryTE extends GenericTE implements CompatSidedInventory {
 
     protected InventoryHelper inventoryHelper;
     private int[] accessible;
@@ -75,7 +77,7 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUsable(EntityPlayer player) {
         return !this.isInvalid() && (player.getDistanceSq(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, (double) this.getPos().getZ() + 0.5D) <= 64.0D);
     }
 
@@ -126,8 +128,9 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
         return false;
     }
 
+    @Nullable
     @Override
-    public IChatComponent getDisplayName() {
+    public ITextComponent getDisplayName() {
         return null;
     }
 
@@ -146,7 +149,7 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
         NBTTagList bufferTagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for (int i = 0 ; i < bufferTagList.tagCount() ; i++) {
             NBTTagCompound nbtTagCompound = bufferTagList.getCompoundTagAt(i);
-            inventoryHelper.setStackInSlot(i, ItemStack.loadItemStackFromNBT(nbtTagCompound));
+            inventoryHelper.setStackInSlot(i, ItemStackTools.loadFromNBT(nbtTagCompound));
         }
     }
 

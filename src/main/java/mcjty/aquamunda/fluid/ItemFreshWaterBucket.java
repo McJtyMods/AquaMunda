@@ -1,7 +1,7 @@
 package mcjty.aquamunda.fluid;
 
 import mcjty.aquamunda.blocks.ModBlocks;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraftforge.client.model.ModelLoader;
@@ -14,7 +14,7 @@ public class ItemFreshWaterBucket extends ItemBucket {
         super(ModBlocks.blockFreshWater);
         setUnlocalizedName("fresh_water_bucket");
         setRegistryName("fresh_water_bucket");
-        setContainerItem(Items.bucket);
+        setContainerItem(Items.BUCKET);
     }
 
     @SideOnly(Side.CLIENT)

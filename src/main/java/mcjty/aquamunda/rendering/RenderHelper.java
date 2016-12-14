@@ -1,13 +1,14 @@
 package mcjty.aquamunda.rendering;
 
 import mcjty.immcraft.api.util.Vector;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -93,10 +94,10 @@ public class RenderHelper {
 //    }
 
     public static boolean renderItemStackWithCount(Minecraft mc, RenderItem itemRender, ItemStack itm, int xo, int yo, boolean highlight) {
-        if (itm.stackSize==1 || itm.stackSize==0) {
+        if (ItemStackTools.getStackSize(itm) == 1 || ItemStackTools.isEmpty(itm)) {
             return renderItemStack(mc, itemRender, itm, xo, yo, "", highlight);
         } else {
-            return renderItemStack(mc, itemRender, itm, xo, yo, "" + itm.stackSize, highlight);
+            return renderItemStack(mc, itemRender, itm, xo, yo, "" + ItemStackTools.getStackSize(itm), highlight);
         }
     }
 
@@ -365,7 +366,7 @@ public class RenderHelper {
 
     public static void drawQuad(Vector p1, Vector p2, Vector p3, Vector p4) {
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer renderer = tessellator.getWorldRenderer();
+        VertexBuffer renderer = tessellator.getBuffer();
         renderer.pos(p1.getX(), p1.getY(), p1.getZ()).tex(0, 0).endVertex();
         renderer.pos(p2.getX(), p2.getY(), p2.getZ()).tex(1, 0).endVertex();
         renderer.pos(p3.getX(), p3.getY(), p3.getZ()).tex(1, 1).endVertex();
