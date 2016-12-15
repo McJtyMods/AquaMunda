@@ -21,8 +21,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -139,6 +141,13 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
         IBlockState state = world.getBlockState(pos.up());
         Block block = state.getBlock();
         return block instanceof IPlantable && canSustainPlant(state, world, pos, EnumFacing.UP, (IPlantable) block);
+    }
+
+    @Override
+    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
+        IBlockState plant = plantable.getPlant(world, pos.offset(direction));
+        net.minecraftforge.common.EnumPlantType plantType = plantable.getPlantType(world, pos.offset(direction));
+        return plantType == EnumPlantType.Crop;
     }
 
     public static boolean freshWaterNearby(World world, BlockPos pos) {

@@ -70,25 +70,4 @@ public class ForgeEventHandlers {
     }
 
 
-    // @todo check 1.10
-//    @SubscribeEvent
-//    public void onBucketFill(FillBucketEvent event) {
-//        IBlockState state = event.getWorld().getBlockState(event.getTarget().getBlockPos());
-//        if (state.getBlock() instanceof IFluidBlock) {
-//            Fluid fluid = ((IFluidBlock) state.getBlock()).getFluid();
-//            FluidStack fs = new FluidStack(fluid, Fluid.BUCKET_VOLUME);
-//
-//            ItemStack bucket = event.getEmptyBucket();
-//            IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(bucket);
-//            if (fluidHandler != null) {
-//                int fillAmount = fluidHandler.fill(fs, true);
-//                if (fillAmount > 0) {
-//                    ItemStack filledBucket = fluidHandler.getContainer();
-//                    event.setFilledBucket(filledBucket);
-//                    event.setResult(Event.Result.ALLOW);
-//                }
-//            }
-//        }
-//    }
-
 }
