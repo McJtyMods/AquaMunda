@@ -34,7 +34,7 @@ public class TankBakedModel implements IBakedModel {
 
     @Override
     public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
-        if (state == null) {
+        if (state == null || side != null) {
             return Collections.emptyList();
         }
         IExtendedBlockState extendedBlockState = (IExtendedBlockState) state;
