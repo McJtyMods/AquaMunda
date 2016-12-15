@@ -13,6 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -44,6 +47,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
+        this.setOrigin(new BlockPos(this));
     }
 
     /**
@@ -57,6 +61,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
 
     @Override
     protected void entityInit() {
+        super.entityInit();
     }
 
     /**

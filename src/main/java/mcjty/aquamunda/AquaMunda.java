@@ -23,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -56,6 +57,11 @@ public class AquaMunda {
     public static CreativeTabs creativeTab;
 
     public static Logger logger;
+
+    public AquaMunda() {
+        // This has to be done VERY early
+        FluidRegistry.enableUniversalBucket();
+    }
 
 
     @Mod.EventHandler

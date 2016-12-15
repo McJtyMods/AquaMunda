@@ -17,6 +17,7 @@ public class FluidSetup {
 
     public static void preInitFluids() {
         FluidRegistry.registerFluid(freshWater);
+        FluidRegistry.addBucketForFluid(freshWater);
     }
 
     public static boolean isValidFreshWaterStack(FluidStack stack){
