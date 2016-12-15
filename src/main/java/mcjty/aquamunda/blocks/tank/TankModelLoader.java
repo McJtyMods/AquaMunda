@@ -13,7 +13,7 @@ public class TankModelLoader implements ICustomModelLoader {
 
     @Override
     public boolean accepts(ResourceLocation modelLocation) {
-        return modelLocation.getResourceDomain().equals(AquaMunda.MODID) && "tankmodelblock".equals(modelLocation.getResourcePath());
+        return modelLocation.getResourceDomain().equals(AquaMunda.MODID) && "bakedtank".equals(modelLocation.getResourcePath());
     }
 
     @Override

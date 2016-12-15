@@ -21,7 +21,7 @@ public class TankBakedModel implements IBakedModel {
 
     public static final float THICK = 1/16.0f;
 
-    public static final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("aquamunda:tank");
+    public static final ModelResourceLocation BAKED_TANK = new ModelResourceLocation("aquamunda:bakedtank");
 
     private TextureAtlasSprite sprite;
     private VertexFormat format;

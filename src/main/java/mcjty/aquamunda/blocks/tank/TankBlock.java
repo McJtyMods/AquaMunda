@@ -73,7 +73,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         StateMapperBase ignoreState = new StateMapperBase() {
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-                return TankBakedModel.modelResourceLocation;
+                return TankBakedModel.BAKED_TANK;
             }
         };
         ModelLoader.setCustomStateMapper(this, ignoreState);
