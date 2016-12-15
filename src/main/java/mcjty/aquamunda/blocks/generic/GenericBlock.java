@@ -21,6 +21,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -185,7 +186,7 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
         }
     }
 
-    public Vector blockToWorldSpace(World world, BlockPos pos, Vector v) {
+    public Vec3d blockToWorldSpace(World world, BlockPos pos, Vec3d v) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
                 return BlockTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));

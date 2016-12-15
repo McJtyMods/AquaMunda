@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.Fluid;
 
@@ -54,26 +55,26 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
     }
 
     @Override
-    public Vector getConnectorLocation(int connectorId, EnumFacing rotation) {
+    public Vec3d getConnectorLocation(int connectorId, EnumFacing rotation) {
         EnumFacing side = EnumFacing.values()[connectorId >> 2];
         int xCoord = getPos().getX();
         int yCoord = getPos().getY();
         int zCoord = getPos().getZ();
         switch (side) {
             case DOWN:
-                return new Vector(xCoord+.5f, yCoord, zCoord+.5f);
+                return new Vec3d(xCoord+.5f, yCoord, zCoord+.5f);
             case UP:
-                return new Vector(xCoord+.5f, yCoord+1, zCoord+.5f);
+                return new Vec3d(xCoord+.5f, yCoord+1, zCoord+.5f);
             case NORTH:
-                return new Vector(xCoord+.5f, yCoord+.1f, zCoord);
+                return new Vec3d(xCoord+.5f, yCoord+.1f, zCoord);
             case SOUTH:
-                return new Vector(xCoord+.5f, yCoord+.1f, zCoord+1);
+                return new Vec3d(xCoord+.5f, yCoord+.1f, zCoord+1);
             case WEST:
-                return new Vector(xCoord, yCoord+.1f, zCoord+.5f);
+                return new Vec3d(xCoord, yCoord+.1f, zCoord+.5f);
             case EAST:
-                return new Vector(xCoord+1, yCoord+.1f, zCoord+.5f);
+                return new Vec3d(xCoord+1, yCoord+.1f, zCoord+.5f);
             default:
-                return new Vector(xCoord, yCoord, zCoord);
+                return new Vec3d(xCoord, yCoord, zCoord);
         }
     }
 

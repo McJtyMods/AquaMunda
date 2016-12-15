@@ -8,6 +8,7 @@ import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.Fluid;
 
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class DesalinationTankTE extends GenericTE implements IHoseConnector {
     }
 
     @Override
-    public Vector getConnectorLocation(int connectorId, EnumFacing rotation) {
+    public Vec3d getConnectorLocation(int connectorId, EnumFacing rotation) {
         float dx = 0;
         switch (connectorId & 3) {
             case 0: dx = .5f; break;
@@ -73,19 +74,19 @@ public class DesalinationTankTE extends GenericTE implements IHoseConnector {
         EnumFacing side = EnumFacing.values()[connectorId >> 2];
         switch (side) {
             case DOWN:
-                return new Vector(xCoord+dx, yCoord, zCoord+.5f);
+                return new Vec3d(xCoord+dx, yCoord, zCoord+.5f);
             case UP:
-                return new Vector(xCoord+dx, yCoord+1, zCoord+.5f);
+                return new Vec3d(xCoord+dx, yCoord+1, zCoord+.5f);
             case NORTH:
-                return new Vector(xCoord+dx, yCoord+.5f, zCoord+.1f);
+                return new Vec3d(xCoord+dx, yCoord+.5f, zCoord+.1f);
             case SOUTH:
-                return new Vector(xCoord+dx, yCoord+.5f, zCoord+0.9f);
+                return new Vec3d(xCoord+dx, yCoord+.5f, zCoord+0.9f);
             case WEST:
-                return new Vector(xCoord+.1f, yCoord+.5f, zCoord+dx);
+                return new Vec3d(xCoord+.1f, yCoord+.5f, zCoord+dx);
             case EAST:
-                return new Vector(xCoord+0.9f, yCoord+.5f, zCoord+dx);
+                return new Vec3d(xCoord+0.9f, yCoord+.5f, zCoord+dx);
             default:
-                return new Vector(xCoord, yCoord, zCoord);
+                return new Vec3d(xCoord, yCoord, zCoord);
         }
     }
 

@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -318,23 +319,23 @@ public class RenderHelper {
      * @param P
      * @param width
      */
-    public static void drawBeamLines(Vector S, Vector E, Vector P, float width) {
-        Vector PS = Vector.subtract(S, P);
-        Vector SE = Vector.subtract(E, S);
+    public static void drawBeamLines(Vec3d S, Vec3d E, Vec3d P, float width) {
+        Vec3d PS = S.subtract(P);
+        Vec3d SE = E.subtract(S);
 
-        Vector normal = Vector.cross(PS, SE);
+        Vec3d normal = PS.crossProduct(SE);
         normal = normal.normalize();
 
-        Vector half = Vector.mul(normal, width);
-        Vector p1 = Vector.add(S, half);
-        Vector p2 = Vector.subtract(S, half);
-        Vector p3 = Vector.add(E, half);
-        Vector p4 = Vector.subtract(E, half);
+        Vec3d half = normal.scale(width);
+        Vec3d p1 = S.add(half);
+        Vec3d p2 = S.subtract(half);
+        Vec3d p3 = E.add(half);
+        Vec3d p4 = E.subtract(half);
 
         drawQuadLines(Tessellator.getInstance(), p1, p3, p4, p2);
     }
 
-    public static void drawQuadLines(Tessellator tessellator, Vector p1, Vector p2, Vector p3, Vector p4) {
+    public static void drawQuadLines(Tessellator tessellator, Vec3d p1, Vec3d p2, Vec3d p3, Vec3d p4) {
 //        tessellator.addVertex(p1.getX(), p1.getY(), p1.getZ());
 //        tessellator.addVertex(p2.getX(), p2.getY(), p2.getZ());
 //        tessellator.addVertex(p3.getX(), p3.getY(), p3.getZ());
@@ -348,29 +349,29 @@ public class RenderHelper {
      * @param P
      * @param width
      */
-    public static void drawBeam(Vector S, Vector E, Vector P, float width) {
-        Vector PS = Vector.subtract(S, P);
-        Vector SE = Vector.subtract(E, S);
+    public static void drawBeam(Vec3d S, Vec3d E, Vec3d P, float width) {
+        Vec3d PS = S.subtract(P);
+        Vec3d SE = E.subtract(S);
 
-        Vector normal = Vector.cross(PS, SE);
+        Vec3d normal = PS.crossProduct(SE);
         normal = normal.normalize();
 
-        Vector half = Vector.mul(normal, width);
-        Vector p1 = Vector.add(S, half);
-        Vector p2 = Vector.subtract(S, half);
-        Vector p3 = Vector.add(E, half);
-        Vector p4 = Vector.subtract(E, half);
+        Vec3d half = normal.scale(width);
+        Vec3d p1 = S.add(half);
+        Vec3d p2 = S.subtract(half);
+        Vec3d p3 = E.add(half);
+        Vec3d p4 = E.subtract(half);
 
         drawQuad(p1, p3, p4, p2);
     }
 
-    public static void drawQuad(Vector p1, Vector p2, Vector p3, Vector p4) {
+    public static void drawQuad(Vec3d p1, Vec3d p2, Vec3d p3, Vec3d p4) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer renderer = tessellator.getBuffer();
-        renderer.pos(p1.getX(), p1.getY(), p1.getZ()).tex(0, 0).endVertex();
-        renderer.pos(p2.getX(), p2.getY(), p2.getZ()).tex(1, 0).endVertex();
-        renderer.pos(p3.getX(), p3.getY(), p3.getZ()).tex(1, 1).endVertex();
-        renderer.pos(p4.getX(), p4.getY(), p4.getZ()).tex(0, 1).endVertex();
+        renderer.pos(p1.xCoord, p1.yCoord, p1.zCoord).tex(0, 0).endVertex();
+        renderer.pos(p2.xCoord, p2.yCoord, p2.zCoord).tex(1, 0).endVertex();
+        renderer.pos(p3.xCoord, p3.yCoord, p3.zCoord).tex(1, 1).endVertex();
+        renderer.pos(p4.xCoord, p4.yCoord, p4.zCoord).tex(0, 1).endVertex();
     }
 
 //    public static IIcon checkIcon(IIcon icon) {

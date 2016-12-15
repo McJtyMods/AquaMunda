@@ -1,7 +1,7 @@
 package mcjty.immcraft.api.cable;
 
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Implement this in your GenericTE so that you can support connections
@@ -23,5 +23,5 @@ public interface ICableConnector {
     void disconnect(int connectorId);
 
     // The given rotation is the orientation of the block itself.
-    Vector getConnectorLocation(int connectorId, EnumFacing rotation);
+    Vec3d getConnectorLocation(int connectorId, EnumFacing rotation);
 }

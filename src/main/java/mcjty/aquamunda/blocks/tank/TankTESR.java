@@ -72,24 +72,18 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
             net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
             GlStateManager.color(1, 1, 1, .5f);
-            renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
+            renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
             float u1 = sprite.getMinU();
             float v1 = sprite.getMinV();
             float u2 = sprite.getMaxU();
             float v2 = sprite.getMaxV();
 
-            // @todo 1.10
-//            int brightness = ModBlocks.tankBlock.getMixedBrightnessForBlock(Minecraft.getMinecraft().theWorld, pos);
-            int brightness = 240;
-            int b1 = brightness >> 16 & 65535;
-            int b2 = brightness & 65535;
-
             // Top
-            renderer.pos(0, scale + TANK_THICKNESS, 0).tex(u1, v1).lightmap(b1, b2).color(255, 255, 255, 128).endVertex();
-            renderer.pos(0, scale + TANK_THICKNESS, 1).tex(u1, v2).lightmap(b1, b2).color(255, 255, 255, 128).endVertex();;
-            renderer.pos(1, scale + TANK_THICKNESS, 1).tex(u2, v2).lightmap(b1, b2).color(255, 255, 255, 128).endVertex();;
-            renderer.pos(1, scale + TANK_THICKNESS, 0).tex(u2, v1).lightmap(b1, b2).color(255, 255, 255, 128).endVertex();;
+            renderer.pos(0, scale + TANK_THICKNESS, 0).tex(u1, v1).color(255, 255, 255, 128).endVertex();
+            renderer.pos(0, scale + TANK_THICKNESS, 1).tex(u1, v2).color(255, 255, 255, 128).endVertex();;
+            renderer.pos(1, scale + TANK_THICKNESS, 1).tex(u2, v2).color(255, 255, 255, 128).endVertex();;
+            renderer.pos(1, scale + TANK_THICKNESS, 0).tex(u2, v1).color(255, 255, 255, 128).endVertex();;
 
             tessellator.draw();
 

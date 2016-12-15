@@ -13,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -51,7 +52,7 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
     }
 
     @Override
-    public Vector getConnectorLocation(int connectorId, EnumFacing rotation) {
+    public Vec3d getConnectorLocation(int connectorId, EnumFacing rotation) {
         EnumFacing side = EnumFacing.values()[connectorId >> 2];
         side = BlockTools.blockToWorldSpace(side, rotation);
         int xCoord = getPos().getX();
@@ -59,19 +60,19 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
         int zCoord = getPos().getZ();
         switch (side) {
             case DOWN:
-                return new Vector(xCoord+.5f, yCoord, zCoord+.5f);
+                return new Vec3d(xCoord+.5f, yCoord, zCoord+.5f);
             case UP:
-                return new Vector(xCoord+.5f, yCoord+1, zCoord+.5f);
+                return new Vec3d(xCoord+.5f, yCoord+1, zCoord+.5f);
             case NORTH:
-                return new Vector(xCoord+.5f, yCoord+.5f, zCoord);
+                return new Vec3d(xCoord+.5f, yCoord+.5f, zCoord);
             case SOUTH:
-                return new Vector(xCoord+.5f, yCoord+.5f, zCoord+1);
+                return new Vec3d(xCoord+.5f, yCoord+.5f, zCoord+1);
             case WEST:
-                return new Vector(xCoord, yCoord+.5f, zCoord+.5f);
+                return new Vec3d(xCoord, yCoord+.5f, zCoord+.5f);
             case EAST:
-                return new Vector(xCoord+1, yCoord+.5f, zCoord+.5f);
+                return new Vec3d(xCoord+1, yCoord+.5f, zCoord+.5f);
             default:
-                return new Vector(xCoord, yCoord, zCoord);
+                return new Vec3d(xCoord, yCoord, zCoord);
         }
     }
 

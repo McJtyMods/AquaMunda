@@ -15,6 +15,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TankBakedModel implements IBakedModel {
@@ -33,6 +34,9 @@ public class TankBakedModel implements IBakedModel {
 
     @Override
     public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
+        if (state == null) {
+            return Collections.emptyList();
+        }
         IExtendedBlockState extendedBlockState = (IExtendedBlockState) state;
         Boolean north = extendedBlockState.getValue(TankBlock.NORTH);
         Boolean south = extendedBlockState.getValue(TankBlock.SOUTH);
@@ -144,7 +148,7 @@ public class TankBakedModel implements IBakedModel {
     }
 
     private BakedQuad createQuad(Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4) {
-        Vec3d normal = v1.subtract(v2).crossProduct(v3.subtract(v2));
+        Vec3d normal = v2.subtract(v1).crossProduct(v3.subtract(v1)).normalize();
 
         UnpackedBakedQuad.Builder builder = new UnpackedBakedQuad.Builder(format);
         builder.setTexture(sprite);
@@ -157,7 +161,7 @@ public class TankBakedModel implements IBakedModel {
 
     @Override
     public ItemOverrideList getOverrides() {
-        return null;
+        return ItemOverrideList.NONE;
     }
 
     @Override
