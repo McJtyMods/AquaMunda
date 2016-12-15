@@ -1,6 +1,7 @@
 package mcjty.aquamunda.environment;
 
 import mcjty.aquamunda.chunkdata.GameData;
+import mcjty.lib.tools.WorldTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -23,7 +24,7 @@ public class EnvironmentData extends WorldSavedData {
         if (instance != null) {
             return instance;
         }
-        instance = (EnvironmentData) world.getMapStorage().loadData(EnvironmentData.class, NAME);
+        instance = WorldTools.loadData(world, EnvironmentData.class, NAME);
         if (instance == null) {
             instance = new EnvironmentData(NAME);
         }
@@ -51,7 +52,8 @@ public class EnvironmentData extends WorldSavedData {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         environmentData.writeToNBT(tagCompound);
+        return tagCompound;
     }
 }

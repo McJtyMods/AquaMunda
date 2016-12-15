@@ -33,7 +33,7 @@ public class BoilerContentsInfoPacketServer implements InfoPacketServer {
 
     @Override
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
-        return BlockTools.getTE(DesalinationBoilerTE.class, player.worldObj, pos)
+        return BlockTools.getTE(DesalinationBoilerTE.class, player.getEntityWorld(), pos)
                 .map(p -> new BoilerContentsInfoPacketClient(pos, p.getContents(), p.getTemperature()));
     }
 }

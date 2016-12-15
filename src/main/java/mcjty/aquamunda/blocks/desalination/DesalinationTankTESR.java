@@ -9,7 +9,7 @@ import mcjty.aquamunda.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -55,7 +55,7 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
         float percentage = tileEntity.getFilledPercentage();
 
         if (percentage > .01f) {
-            bindTexture(TextureMap.locationBlocksTexture);
+            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             ResourceLocation still = FluidSetup.freshWater.getStill();
             TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(still.toString());
 
@@ -65,7 +65,7 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
             float scaley = percentage / 240.0f;
             float offsety = percentage / 480.0f + .24f;
             Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer renderer = tessellator.getWorldRenderer();
+            VertexBuffer renderer = tessellator.getBuffer();
             renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
             renderer.pos(-scalex, offsety - scaley, -scalex).tex(sprite.getMinU(), sprite.getMinV()).endVertex();

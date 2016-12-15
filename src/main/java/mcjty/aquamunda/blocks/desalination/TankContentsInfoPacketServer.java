@@ -33,7 +33,7 @@ public class TankContentsInfoPacketServer implements InfoPacketServer {
 
     @Override
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
-        return BlockTools.getTE(DesalinationTankTE.class, player.worldObj, pos)
+        return BlockTools.getTE(DesalinationTankTE.class, player.getEntityWorld(), pos)
                 .map(p -> new TankContentsInfoPacketClient(pos, p.getContents()));
     }
 }

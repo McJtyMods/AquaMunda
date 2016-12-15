@@ -108,8 +108,8 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
             return;
         }
 
-        if (!worldObj.isRemote) {
-            BlockTools.getTE(DesalinationTankTE.class, worldObj, getPos().offset(ModBlocks.desalinationBoilerBlock.getRightDirection(worldObj.getBlockState(getPos())))).ifPresent(this::process);
+        if (!getWorld().isRemote) {
+            BlockTools.getTE(DesalinationTankTE.class, getWorld(), getPos().offset(ModBlocks.desalinationBoilerBlock.getRightDirection(getWorld().getBlockState(getPos())))).ifPresent(this::process);
         }
     }
 
@@ -145,13 +145,13 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
     }
 
     private boolean isHot() {
-        IBlockState state = worldObj.getBlockState(getPos().down());
+        IBlockState state = getWorld().getBlockState(getPos().down());
         Block block = state.getBlock();
-        if (block == Blocks.fire) {
+        if (block == Blocks.FIRE) {
             return true;
             // @todo: support burning sticks from ImmCraft
 //        } else if (block == ModBlocks.sticksBlock) {
-//            return BlockTools.getTE(SticksTE.class, worldObj, getPos().down())
+//            return BlockTools.getTE(SticksTE.class, getWorld(), getPos().down())
 //                    .map(p -> p.getBurnTime() > 0)
 //                    .orElse(false);
         }

@@ -6,7 +6,7 @@ import mcjty.aquamunda.network.InfoPacketClient;
 import mcjty.aquamunda.network.InfoPacketServer;
 import mcjty.aquamunda.varia.BlockPosTools;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class FarmLandMoistnessPacketServer implements InfoPacketServer {
 
     @Override
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
-        boolean freshwater = CustomFarmLand.freshWaterNearby(player.worldObj, pos);
+        boolean freshwater = CustomFarmLand.freshWaterNearby(player.getEntityWorld(), pos);
         if (!freshwater) {
             return Optional.of(new FarmLandMoistnessPacketClient(-1));
         }
-        EnvironmentData environment = EnvironmentData.getEnvironmentData(player.worldObj);
-        byte level = environment.getData().get(player.worldObj.provider.getDimensionId(), pos);
+        EnvironmentData environment = EnvironmentData.getEnvironmentData(player.getEntityWorld());
+        byte level = environment.getData().get(player.getEntityWorld().provider.getDimension(), pos);
         return Optional.of(new FarmLandMoistnessPacketClient(level));
     }
 }

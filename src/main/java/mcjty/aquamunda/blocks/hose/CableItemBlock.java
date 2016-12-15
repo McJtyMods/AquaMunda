@@ -5,18 +5,21 @@ import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
+import mcjty.lib.compat.CompatItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CableItemBlock extends ItemBlock {
+public class CableItemBlock extends CompatItemBlock {
 
     private final ICableType type;
     private final ICableSubType subType;
@@ -43,11 +46,11 @@ public class CableItemBlock extends ItemBlock {
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (getHelper().onItemUse(player, world, pos)) {
-            return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
+            return super.clOnItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
         } else {
-            return false;
+            return EnumActionResult.FAIL;
         }
     }
 

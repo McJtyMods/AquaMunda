@@ -32,7 +32,7 @@ public class ModBlocks {
     public static BlockDeadCrop deadWheat;
 
     public static void init() {
-        blockFreshWater = new BlockFreshWater(FluidSetup.freshWater, Material.water);
+        blockFreshWater = new BlockFreshWater(FluidSetup.freshWater, Material.WATER);
         tankBlock = new TankBlock();
         hoseBlock = new HoseBlock();
         sprinklerBlock = new SprinklerBlock();
@@ -40,7 +40,7 @@ public class ModBlocks {
         desalinationTankBlock = new DesalinationTankBlock();
 
         customFarmLand = new CustomFarmLand();
-        GameRegistry.registerBlock(customFarmLand);
+        GameRegistry.register(customFarmLand);
 //        try {
 //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
 //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));
@@ -49,15 +49,15 @@ public class ModBlocks {
 //        }
 //        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
 
-        System.out.println("Blocks.farmland = " + Blocks.farmland);
-        System.out.println("Blocks.farmland.getClass() = " + Blocks.farmland.getClass());
+        System.out.println("Blocks.farmland = " + Blocks.FARMLAND);
+        System.out.println("Blocks.farmland.getClass() = " + Blocks.FARMLAND.getClass());
 
         deadCarrot = new BlockDeadCrop("dead_carrot");
         deadWheat = new BlockDeadCrop("dead_wheat");
     }
 
     public static void postInit() {
-        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
+        BlockReplacerHelper.replaceBlock(Blocks.FARMLAND, customFarmLand);
     }
 
     public static void initCrafting() {

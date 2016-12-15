@@ -5,13 +5,14 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemFreshWaterBucket extends ItemBucket {
+public class ItemFreshWaterBucket extends ItemFluidContainer {
 
     public ItemFreshWaterBucket() {
-        super(ModBlocks.blockFreshWater);
+        super(1000);
         setUnlocalizedName("fresh_water_bucket");
         setRegistryName("fresh_water_bucket");
         setContainerItem(Items.BUCKET);

@@ -6,6 +6,7 @@ import mezz.jei.plugins.vanilla.ingredients.FluidStackHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,8 +20,7 @@ public class ModItems {
         freshWaterBucket.setRegistryName("fresh_water_bucket");
         ForgeRegistries.ITEMS.register(freshWaterBucket);
         // @todo CHECK COMPAT 1.10
-
-        FluidContainerRegistry.registerFluidContainer(FluidSetup.freshWater, new ItemStack(freshWaterBucket), new ItemStack(Items.bucket));
+//        FluidContainerRegistry.registerFluidContainer(FluidSetup.freshWater, new ItemStack(freshWaterBucket), new ItemStack(Items.bucket));
     }
 
     @SideOnly(Side.CLIENT)

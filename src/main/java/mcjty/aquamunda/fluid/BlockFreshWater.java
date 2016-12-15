@@ -50,12 +50,14 @@ public class BlockFreshWater extends BlockFluidClassic {
 
     @Override
     public boolean canDisplace(IBlockAccess world, BlockPos pos) {
-        return !world.getBlockState(pos).getBlock().getMaterial().isLiquid() && super.canDisplace(world, pos);
+        IBlockState state = world.getBlockState(pos);
+        return !state.getBlock().getMaterial(state).isLiquid() && super.canDisplace(world, pos);
     }
 
     @Override
     public boolean displaceIfPossible(World world, BlockPos pos) {
-        return !world.getBlockState(pos).getBlock().getMaterial().isLiquid() && super.displaceIfPossible(world, pos);
+        IBlockState state = world.getBlockState(pos);
+        return !state.getBlock().getMaterial(state).isLiquid() && super.displaceIfPossible(world, pos);
     }
 
 

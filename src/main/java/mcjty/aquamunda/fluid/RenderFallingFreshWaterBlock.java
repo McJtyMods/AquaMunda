@@ -6,19 +6,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ISmartBlockModel;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.PropertyFloat;
-import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -32,41 +29,40 @@ public class RenderFallingFreshWaterBlock extends Render<EntityFallingFreshWater
     @Override
     public void doRender(EntityFallingFreshWaterBlock entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (entity.getBlock() != null) {
-            this.bindTexture(TextureMap.locationBlocksTexture);
+            this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             IBlockState iblockstate = entity.getBlock();
             Block block = iblockstate.getBlock();
             BlockPos blockpos = new BlockPos(entity);
             World world = entity.getWorldObj();
 
-            if (iblockstate != world.getBlockState(blockpos) && block.getRenderType() != -1) {
-                if (block.getRenderType() == 3) {
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate((float) x, (float) y, (float) z);
-                    GlStateManager.disableLighting();
-                    Tessellator tessellator = Tessellator.getInstance();
-                    WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                    worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
-                    int i = blockpos.getX();
-                    int j = blockpos.getY();
-                    int k = blockpos.getZ();
-                    worldrenderer.setTranslation(((-i) - 0.5F), (-j), ((-k) - 0.5F));
-                    BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-                    IBakedModel ibakedmodel = blockrendererdispatcher.getBlockModelShapes().getModelForState(iblockstate);
-                    ibakedmodel = ((ISmartBlockModel)ibakedmodel).handleBlockState(((IExtendedBlockState) iblockstate.getBlock().getDefaultState())
-                                                                             .withProperty(BlockFluidClassic.FLOW_DIRECTION, 0.0f)
-                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[0], 0.875f)
-                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[1], 0.875f)
-                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[2], 0.875f)
-                                                                             .withProperty(BlockFluidClassic.LEVEL_CORNERS[3], 0.875f));
-//                    ((ISmartBlockModel)ibakedmodel).handleBlockState(iblockstate);
-//                    IBakedModel ibakedmodel = blockrendererdispatcher.getModelFromBlockState(iblockstate, world, null);
-                    blockrendererdispatcher.getBlockModelRenderer().renderModel(world, ibakedmodel, iblockstate, blockpos, worldrenderer, false);
-                    worldrenderer.setTranslation(0.0D, 0.0D, 0.0D);
-                    tessellator.draw();
-                    GlStateManager.enableLighting();
-                    GlStateManager.popMatrix();
-                    super.doRender(entity, x, y, z, entityYaw, partialTicks);
+            IBlockState state = world.getBlockState(blockpos);
+            if (iblockstate != state && block.getRenderType(state) != EnumBlockRenderType.INVISIBLE) {
+                this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                GlStateManager.pushMatrix();
+                GlStateManager.disableLighting();
+                Tessellator tessellator = Tessellator.getInstance();
+                VertexBuffer vertexbuffer = tessellator.getBuffer();
+
+                if (this.renderOutlines) {
+                    GlStateManager.enableColorMaterial();
+                    GlStateManager.enableOutlineMode(this.getTeamColor(entity));
                 }
+
+                vertexbuffer.begin(7, DefaultVertexFormats.BLOCK);
+                blockpos = new BlockPos(entity.posX, entity.getEntityBoundingBox().maxY, entity.posZ);
+                GlStateManager.translate((float)(x - (double)blockpos.getX() - 0.5D), (float)(y - (double)blockpos.getY()), (float)(z - (double)blockpos.getZ() - 0.5D));
+                BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+                blockrendererdispatcher.getBlockModelRenderer().renderModel(world, blockrendererdispatcher.getModelForState(iblockstate), iblockstate, blockpos, vertexbuffer, false, MathHelper.getPositionRandom(entity.getOrigin()));
+                tessellator.draw();
+
+                if (this.renderOutlines) {
+                    GlStateManager.disableOutlineMode();
+                    GlStateManager.disableColorMaterial();
+                }
+
+                GlStateManager.enableLighting();
+                GlStateManager.popMatrix();
+                super.doRender(entity, x, y, z, entityYaw, partialTicks);
             }
         }
     }
@@ -76,6 +72,6 @@ public class RenderFallingFreshWaterBlock extends Render<EntityFallingFreshWater
      */
     @Override
     protected ResourceLocation getEntityTexture(EntityFallingFreshWaterBlock entity) {
-        return TextureMap.locationBlocksTexture;
+        return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }

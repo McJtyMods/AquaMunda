@@ -4,11 +4,11 @@ package mcjty.aquamunda.rendering;
 import mcjty.aquamunda.blocks.generic.GenericBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -42,23 +42,23 @@ public final class BlockRenderHelper{
 
         IBakedModel ibakedmodel = renderItem.getItemModelMesher().getItemModel(is);
 
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
-        textureManager.getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
+        textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
         preTransform(renderItem, is);
         GlStateManager.enableRescaleNormal();
         GlStateManager.alphaFunc(516, 0.1F);
 //        GlStateManager.enableBlend();
 //        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.pushMatrix();
-        ibakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.NONE);
+        ibakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.NONE, false);
 
         renderItem.renderItem(is, ibakedmodel);
-        GlStateManager.cullFace(1029);
+        GlStateManager.cullFace(GlStateManager.CullFace.BACK);
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
 //        GlStateManager.disableBlend();
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
-        textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
+        textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
     }
 
     private static void preTransform(RenderItem renderItem, ItemStack stack) {

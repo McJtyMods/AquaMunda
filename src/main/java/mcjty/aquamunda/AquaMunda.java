@@ -2,6 +2,7 @@ package mcjty.aquamunda;
 
 
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.aquamunda.blocks.tank.TankModelLoader;
 import mcjty.aquamunda.config.ConfigSetup;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
@@ -13,15 +14,18 @@ import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaCompatibility;
 import mcjty.immcraft.api.IImmersiveCraft;
+import mcjty.lib.compat.CompatCreativeTabs;
+import mcjty.lib.tools.EntityTools;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
@@ -59,10 +63,11 @@ public class AquaMunda {
         FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
 
         logger = event.getModLog();
-        creativeTab = new CreativeTabs("Aqua Munda") {
+        creativeTab = new CompatCreativeTabs("Aqua Munda") {
+
             @Override
-            public Item getTabIconItem() {
-                return Items.water_bucket;
+            protected Item getItem() {
+                return Items.WATER_BUCKET;
             }
         };
         proxy.preInit(event);
@@ -99,7 +104,7 @@ public class AquaMunda {
             MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
             ModBlocks.initCrafting();
 //            ModItems.initCrafting();
-            EntityRegistry.registerModEntity(EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
+            EntityTools.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
         }
 
         public void postInit(FMLPostInitializationEvent e) {
@@ -115,7 +120,9 @@ public class AquaMunda {
             super.preInit(e);
 
             MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
-            OBJLoader.instance.addDomain(MODID);
+            OBJLoader.INSTANCE.addDomain(MODID);
+            ModelLoaderRegistry.registerLoader(new TankModelLoader());
+
 
             ModBlocks.initModels();
             ModItems.initModels();

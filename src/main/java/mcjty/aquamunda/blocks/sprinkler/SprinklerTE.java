@@ -123,7 +123,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
 
     @Override
     public void update() {
-        if (!worldObj.isRemote) {
+        if (!getWorld().isRemote) {
             counter--;
             if (counter > 0) {
                 return;
@@ -138,7 +138,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
     }
 
     private void sprinkle() {
-        EnvironmentData environment = EnvironmentData.getEnvironmentData(worldObj);
+        EnvironmentData environment = EnvironmentData.getEnvironmentData(getWorld());
         GameData data = environment.getData();
         boolean dirty = false;
         int xCoord = getPos().getX();
@@ -148,17 +148,17 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
             for (int y = yCoord-1 ; y <= yCoord+2; y++) {
                 for (int z = zCoord-4 ; z <= zCoord+4; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
-                    Block block = worldObj.getBlockState(pos).getBlock();
-                    if (!worldObj.isAirBlock(pos)) {
+                    Block block = getWorld().getBlockState(pos).getBlock();
+                    if (!getWorld().isAirBlock(pos)) {
                         spawnParticles(EnumParticleTypes.WATER_SPLASH, 10, x, y+1, z);
                         // splash, dripWater
                     }
 
                     if (block == ModBlocks.customFarmLand) {
-                        byte moistness = data.get(worldObj.provider.getDimensionId(), pos);
+                        byte moistness = data.get(getWorld().provider.getDimension(), pos);
                         if (moistness < MAX_MOISTNESS) {
                             moistness++;
-                            data.set(worldObj.provider.getDimensionId(), pos, moistness);
+                            data.set(getWorld().provider.getDimension(), pos, moistness);
                             dirty = true;
                         }
                     }
@@ -166,7 +166,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
             }
         }
         if (dirty) {
-            environment.save(worldObj);
+            environment.save(getWorld());
         }
     }
 
@@ -179,7 +179,7 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
         float vecX = (random.nextFloat() - 0.5F) * 1.0F;
         float vecY = (random.nextFloat()) * 1.0F;
         float vecZ = (random.nextFloat() - 0.5F) * 1.0F;
-        ((WorldServer) worldObj).spawnParticle(type, x + 0.5f, y + 0.5f, z + 0.5f, amount, vecX, vecY, vecZ, 0.3f);
+        ((WorldServer) getWorld()).spawnParticle(type, x + 0.5f, y + 0.5f, z + 0.5f, amount, vecX, vecY, vecZ, 0.3f);
     }
 
 

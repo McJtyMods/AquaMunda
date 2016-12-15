@@ -7,7 +7,7 @@ import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -45,7 +45,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
         ImmersiveCraftHandler.tankNetwork.refreshInfo(id);
         IMultiBlockClientInfo clientInfo = ImmersiveCraftHandler.tankNetwork.getClientInfo(id);
 
-        bindTexture(TextureMap.locationBlocksTexture);
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         renderFluid(tessellator, (TankClientInfo) clientInfo, pos);
 
         GlStateManager.popMatrix();
@@ -65,7 +65,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
         float scale = (1.0f - TANK_THICKNESS/2 - TANK_THICKNESS) * tankInfo.getContents() / (tankInfo.getBlockCount() * TankTE.MAX_CONTENTS);
 
         if (scale > 0.0f) {
-            WorldRenderer renderer = tessellator.getWorldRenderer();
+            VertexBuffer renderer = tessellator.getBuffer();
             ResourceLocation still = renderFluid.getStill();
             TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(still.toString());
 
@@ -79,7 +79,9 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
             float u2 = sprite.getMaxU();
             float v2 = sprite.getMaxV();
 
-            int brightness = ModBlocks.tankBlock.getMixedBrightnessForBlock(Minecraft.getMinecraft().theWorld, pos);
+            // @todo 1.10
+//            int brightness = ModBlocks.tankBlock.getMixedBrightnessForBlock(Minecraft.getMinecraft().theWorld, pos);
+            int brightness = 240;
             int b1 = brightness >> 16 & 65535;
             int b2 = brightness & 65535;
 

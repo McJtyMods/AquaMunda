@@ -215,7 +215,7 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
     }
 
     private void checkRain() {
-        if (worldObj.canBlockSeeSky(getPos())) {
+        if (getWorld().canBlockSeeSky(getPos())) {
             Tank tank = getMultiBlock();
             if (tank.getFluid() == null) {
                 tank.setFluid(FluidSetup.freshWater);
@@ -226,20 +226,20 @@ public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile
                     newContents = tank.getMaxContents();
                 }
                 tank.setContents(newContents);
-                ImmersiveCraftHandler.tankNetwork.save(worldObj);
+                ImmersiveCraftHandler.tankNetwork.save(getWorld());
             }
         }
     }
 
     public void addBlockToNetwork(Fluid fluid) {
-        networkId = MultiBlockTankTileHelper.addBlockToNetwork(ImmersiveCraftHandler.tankNetwork, getID(), worldObj, getPos(), fluid);
-        ImmersiveCraftHandler.tankNetwork.save(worldObj);
+        networkId = MultiBlockTankTileHelper.addBlockToNetwork(ImmersiveCraftHandler.tankNetwork, getID(), getWorld(), getPos(), fluid);
+        ImmersiveCraftHandler.tankNetwork.save(getWorld());
         markDirty();
     }
 
     public void removeBlockFromNetwork() {
-        MultiBlockTankTileHelper.removeBlockFromNetwork(ImmersiveCraftHandler.tankNetwork, worldObj, getPos());
-        ImmersiveCraftHandler.tankNetwork.save(worldObj);
+        MultiBlockTankTileHelper.removeBlockFromNetwork(ImmersiveCraftHandler.tankNetwork, getWorld(), getPos());
+        ImmersiveCraftHandler.tankNetwork.save(getWorld());
         markDirty();
     }
 

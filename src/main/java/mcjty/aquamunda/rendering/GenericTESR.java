@@ -77,7 +77,7 @@ public class GenericTESR<T extends GenericTE> extends TileEntitySpecialRenderer<
 <fry> either manually or doint IVertexConsumer cons = new WorldRendererConsumer(worldRenderer); quad.pipe(cons);
              */
             World world = tileEntity.getWorld();
-            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, m, world.getBlockState(tileEntity.getPos()), tileEntity.getPos(), Tessellator.getInstance().getWorldRenderer());
+            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, m, world.getBlockState(tileEntity.getPos()), tileEntity.getPos(), Tessellator.getInstance().getBuffer(), false);
         }
 
         renderExtra(tileEntity);

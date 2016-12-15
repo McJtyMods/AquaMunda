@@ -73,7 +73,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         StateMapperBase ignoreState = new StateMapperBase() {
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-                return TankISBM.modelResourceLocation;
+                return TankBakedModel.modelResourceLocation;
             }
         };
         ModelLoader.setCustomStateMapper(this, ignoreState);
@@ -169,7 +169,8 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (ItemStackTools.isValid(heldItem)) {

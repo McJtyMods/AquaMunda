@@ -1,7 +1,6 @@
 package mcjty.aquamunda.blocks.customblocks;
 
 import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketServer;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
@@ -13,15 +12,15 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.IPlantable;
@@ -35,7 +34,9 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
 
     public CustomFarmLand() {
         super();
-        this.setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
+        this.setHardness(0.6F);
+        this.setSoundType(SoundType.GROUND);
+        this.setUnlocalizedName("farmland");
         setRegistryName("farmland");
     }
 
@@ -56,23 +57,18 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
         }
 
         if (clientLevel == -1) {
-            currenttip.add(EnumChatFormatting.YELLOW + "No fresh water nearby!");
+            currenttip.add(TextFormatting.YELLOW + "No fresh water nearby!");
         } else {
-            currenttip.add(EnumChatFormatting.GREEN + "Moistness: " + (clientLevel * 100 / SprinklerTE.MAX_MOISTNESS) + "%");
+            currenttip.add(TextFormatting.GREEN + "Moistness: " + (clientLevel * 100 / SprinklerTE.MAX_MOISTNESS) + "%");
         }
         return currenttip;
-    }
-
-    @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
     }
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
         if (!world.isRemote) {
             EnvironmentData environment = EnvironmentData.getEnvironmentData(world);
-            if (environment.getData().set(world.provider.getDimensionId(), pos, (byte) 0)) {
+            if (environment.getData().set(world.provider.getDimension(), pos, (byte) 0)) {
                 environment.save(world);
             }
         }
@@ -88,7 +84,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
             if (l > 0) {
                 world.setBlockState(pos, state.getBlock().getStateFromMeta(l-1), 2);
             } else if (!isASuitablePlant(world, pos)) {
-                world.setBlockState(pos, Blocks.dirt.getDefaultState());
+                world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             }
         } else {
             world.setBlockState(pos, state.getBlock().getStateFromMeta(7), 2);
@@ -100,13 +96,13 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
             if (world.canBlockSeeSky(pos.up())) {
                 EnvironmentData environmentData = EnvironmentData.getEnvironmentData(world);
                 GameData data = environmentData.getData();
-                byte moistness = data.get(world.provider.getDimensionId(), pos);
+                byte moistness = data.get(world.provider.getDimension(), pos);
                 if (moistness < SprinklerTE.MAX_MOISTNESS) {
                     moistness += 2;
                     if (moistness > SprinklerTE.MAX_MOISTNESS) {
                         moistness = SprinklerTE.MAX_MOISTNESS;
                     }
-                    data.set(world.provider.getDimensionId(), pos, moistness);
+                    data.set(world.provider.getDimension(), pos, moistness);
                     environmentData.save(world);
                 }
             }
@@ -116,23 +112,23 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
     private void handleSprinkler(World world, BlockPos pos, Random random) {
         EnvironmentData environmentData = EnvironmentData.getEnvironmentData(world);
         GameData data = environmentData.getData();
-        byte moistness = data.get(world.provider.getDimensionId(), pos);
+        byte moistness = data.get(world.provider.getDimension(), pos);
         if (moistness == 0) {
             if (random.nextInt(4) == 2) {
                 killPlant(world, pos);
             }
         } else {
             moistness--;
-            data.set(world.provider.getDimensionId(), pos, moistness);
+            data.set(world.provider.getDimension(), pos, moistness);
             environmentData.save(world);
         }
     }
 
     private void killPlant(World world, BlockPos pos) {
         Block block = world.getBlockState(pos.up()).getBlock();
-        if (block == Blocks.carrots) {
+        if (block == Blocks.CARROTS) {
             world.setBlockState(pos.up(), ModBlocks.deadCarrot.getDefaultState(), 3);
-        } else if (block == Blocks.wheat) {
+        } else if (block == Blocks.WHEAT) {
             world.setBlockState(pos.up(), ModBlocks.deadWheat.getDefaultState(), 3);
         } else if (block instanceof IGrowable) {
             world.setBlockState(pos.up(), ModBlocks.deadWheat.getDefaultState(), 3);
@@ -140,8 +136,9 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
     }
 
     private boolean isASuitablePlant(World world, BlockPos pos) {
-        Block block = world.getBlockState(pos.up()).getBlock();
-        return block instanceof IPlantable && canSustainPlant(world, pos, EnumFacing.UP, (IPlantable) block);
+        IBlockState state = world.getBlockState(pos.up());
+        Block block = state.getBlock();
+        return block instanceof IPlantable && canSustainPlant(state, world, pos, EnumFacing.UP, (IPlantable) block);
     }
 
     public static boolean freshWaterNearby(World world, BlockPos pos) {
