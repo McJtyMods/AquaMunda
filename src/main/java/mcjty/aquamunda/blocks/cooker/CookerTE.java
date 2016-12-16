@@ -19,7 +19,8 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
 
     public static final int INPUT_PER_TICK = 3;
     public static final int MAX_AMOUNT = 1000;
-    public int amount = 0;
+
+    private int amount = 0;
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
 

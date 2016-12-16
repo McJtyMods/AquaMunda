@@ -32,7 +32,8 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
     public static final int MAX_AMOUNT = SPRINKLER_COUNTER * INPUT_PER_TICK;
 
     public int counter = SPRINKLER_COUNTER;
-    public int amount = 0;
+
+    private int amount = 0;
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
 
