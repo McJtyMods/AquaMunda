@@ -1,28 +1,15 @@
 package mcjty.aquamunda;
 
 
-import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.blocks.tank.TankModelLoader;
-import mcjty.aquamunda.config.ConfigSetup;
+import mcjty.aquamunda.compat.MainCompatHandler;
 import mcjty.aquamunda.environment.EnvironmentData;
-import mcjty.aquamunda.events.ClientForgeEventHandlers;
-import mcjty.aquamunda.events.ForgeEventHandlers;
-import mcjty.aquamunda.fluid.EntityFallingFreshWaterBlock;
-import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
-import mcjty.aquamunda.items.ModItems;
-import mcjty.aquamunda.network.PacketHandler;
-import mcjty.aquamunda.waila.WailaCompatibility;
+import mcjty.aquamunda.proxy.CommonProxy;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.lib.compat.CompatCreativeTabs;
-import mcjty.lib.tools.EntityTools;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -48,7 +35,7 @@ public class AquaMunda {
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
     public static final String COMPATLAYER_VER = "0.1.4";
 
-    @SidedProxy
+    @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
     public static CommonProxy proxy;
 
     @Mod.Instance
@@ -77,7 +64,8 @@ public class AquaMunda {
             }
         };
         proxy.preInit(event);
-        WailaCompatibility.registerWaila();
+        MainCompatHandler.registerWaila();
+        MainCompatHandler.registerTOP();
     }
 
     @Mod.EventHandler
@@ -95,57 +83,6 @@ public class AquaMunda {
         proxy.postInit(e);
     }
 
-    public static class CommonProxy {
-        public void preInit(FMLPreInitializationEvent e) {
-            PacketHandler.registerMessages("aquamunda");
-
-            ConfigSetup.preInit(e);
-            FluidSetup.preInitFluids();
-            ModBlocks.init();
-            ModItems.init();
-//            WorldGen.init();
-        }
-
-        public void init(FMLInitializationEvent e) {
-            MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-            ModBlocks.initCrafting();
-//            ModItems.initCrafting();
-            EntityTools.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
-        }
-
-        public void postInit(FMLPostInitializationEvent e) {
-            ConfigSetup.postInit();
-            ModBlocks.postInit();
-        }
-    }
-
-
-    public static class ClientProxy extends CommonProxy {
-        @Override
-        public void preInit(FMLPreInitializationEvent e) {
-            super.preInit(e);
-
-            MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
-            OBJLoader.INSTANCE.addDomain(MODID);
-            ModelLoaderRegistry.registerLoader(new TankModelLoader());
-
-
-            ModBlocks.initModels();
-            ModItems.initModels();
-
-            FluidSetup.initRenderer();
-        }
-
-        @Override
-        public void init(FMLInitializationEvent e) {
-            super.init(e);
-            ModBlocks.initItemModels();
-        }
-    }
-
-    public static class ServerProxy extends CommonProxy {
-
-    }
 
     public static class GetImmCraftApi implements com.google.common.base.Function<IImmersiveCraft, Void> {
         @Nullable

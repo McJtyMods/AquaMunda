@@ -1,0 +1,43 @@
+package mcjty.aquamunda.proxy;
+
+import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.aquamunda.config.ConfigSetup;
+import mcjty.aquamunda.events.ForgeEventHandlers;
+import mcjty.aquamunda.fluid.EntityFallingFreshWaterBlock;
+import mcjty.aquamunda.fluid.FluidSetup;
+import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.network.PacketHandler;
+import mcjty.lib.tools.EntityTools;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+/**
+ * Created by jorrit on 16.12.16.
+ */
+public class CommonProxy {
+    public void preInit(FMLPreInitializationEvent e) {
+        PacketHandler.registerMessages("aquamunda");
+
+        ConfigSetup.preInit(e);
+        FluidSetup.preInitFluids();
+        ModBlocks.init();
+        ModItems.init();
+//            WorldGen.init();
+    }
+
+    public void init(FMLInitializationEvent e) {
+        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+        ModBlocks.initCrafting();
+//            ModItems.initCrafting();
+        EntityTools.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
+    }
+
+    public void postInit(FMLPostInitializationEvent e) {
+        ConfigSetup.postInit();
+        ModBlocks.postInit();
+    }
+}
