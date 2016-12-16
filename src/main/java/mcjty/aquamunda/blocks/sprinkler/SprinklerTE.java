@@ -8,14 +8,14 @@ import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.IGrowable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.Fluid;
@@ -149,7 +149,8 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
             for (int y = yCoord-1 ; y <= yCoord+2; y++) {
                 for (int z = zCoord-4 ; z <= zCoord+4; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
-                    Block block = getWorld().getBlockState(pos).getBlock();
+                    IBlockState blockState = getWorld().getBlockState(pos);
+                    Block block = blockState.getBlock();
                     if (!getWorld().isAirBlock(pos)) {
                         spawnParticles(EnumParticleTypes.WATER_SPLASH, 10, x, y+1, z);
                         // splash, dripWater
@@ -162,6 +163,8 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
                             data.set(getWorld().provider.getDimension(), pos, moistness);
                             dirty = true;
                         }
+                    } else if (block instanceof IGrowable) {
+                        ((IGrowable) block).grow(getWorld(), random, pos, blockState);
                     }
                 }
             }
