@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -400,5 +401,16 @@ public class BlockTools {
         } else {
             return Optional.empty();
         }
+    }
+
+    public static boolean isHot(World w, BlockPos p) {
+        IBlockState state = w.getBlockState(p);
+        Block block = state.getBlock();
+        if (block == Blocks.FIRE) {
+            return true;
+        } else if (block.isBurning(w, p)) {
+            return true;
+        }
+        return false;
     }
 }

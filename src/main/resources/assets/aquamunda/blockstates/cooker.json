@@ -8,14 +8,17 @@
   },
   "variants": {
     "normal": [{}],
-    "inventory": [{
-      "transform": { }
-    }],
-    "facing": {
-      "south": {},
-      "north": {"y": 180},
-      "east": {"y": 270},
-      "west": {"y": 90}
+    "inventory": [{}],
+    "boiling": {
+      "cold":    { "textures": { "water": "aquamunda:blocks/water_nonboiling"}} ,
+      "hot":     { "textures": { "water": "aquamunda:blocks/water_hot"} },
+      "boiling": { "textures": { "water": "aquamunda:blocks/water_boiling"} }
+    },
+    "contents": {
+      "empty":  {},
+      "low":    { "submodel": { "f1": { "model": "aquamunda:water_low" } } },
+      "medium": { "submodel": { "f1": { "model": "aquamunda:water_medium" } } },
+      "full":   { "submodel": { "f1": { "model": "aquamunda:water_full" } } }
     }
   }
 }

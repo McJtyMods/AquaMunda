@@ -3,6 +3,7 @@ package mcjty.aquamunda.blocks.cooker;
 import mcjty.aquamunda.blocks.generic.GenericTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,8 +20,11 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
 
     public static final int INPUT_PER_TICK = 3;
     public static final int MAX_AMOUNT = 1000;
+    public static final int TICKS_PER_OPERATION = 20;
 
     private int amount = 0;
+    private float temperature = 20;
+    private int counter = 0;
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
 
@@ -66,11 +70,15 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
         }
     }
 
+    public float getTemperature() {
+        return temperature;
+    }
+
     @Override
     public void disconnect(int connectorId) {
         EnumFacing side = EnumFacing.values()[connectorId];
         connections.remove(side);
-        markDirty();;
+        markDirty();
     }
 
     @Override
@@ -107,14 +115,42 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
 
     @Override
     public float getFilledPercentage() {
-        return 0;
+        return 100.0f * amount / MAX_AMOUNT;
     }
 
     @Override
     public void update() {
         if (!getWorld().isRemote) {
+            if (amount <= 0) {
+                // We have no liquid so we cool
+                if (temperature > 20) {
+                    temperature--;
+                    markDirty();
+                }
+                return;
+            }
+            counter--;
+            if (counter <= 0) {
+                counter = TICKS_PER_OPERATION;
+
+                if (isHot()) {
+                    if (temperature < 100) {
+                        temperature += (125.0f - getFilledPercentage()) / 50.0f;
+                    }
+                } else {
+                    if (temperature > 20) {
+                        temperature -= (125.0f - getFilledPercentage()) / 50.0f;
+                    }
+                }
+            }
+            markDirty();
         }
     }
+
+    private boolean isHot() {
+        return BlockTools.isHot(getWorld(), getPos().down());
+    }
+
 
     private static Random random = new Random();
 
@@ -122,6 +158,8 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
         amount = tagCompound.getInteger("amount");
+        temperature = tagCompound.getFloat("temperature");
+        counter = tagCompound.getInteger("counter");
         connections.clear();
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (tagCompound.hasKey("c" + direction.ordinal())) {
@@ -133,7 +171,10 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
     @Override
     public void writeToNBT(NBTHelper helper) {
         super.writeToNBT(helper);
-        helper.set("amount", amount);
+        helper
+                .set("amount", amount)
+                .set("temperature", temperature)
+                .set("counter", counter);
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (connections.contains(direction)) {
                 helper.set("c" + direction.ordinal(), true);

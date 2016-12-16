@@ -6,10 +6,6 @@ import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.util.Vector;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -146,17 +142,7 @@ public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, I
     }
 
     private boolean isHot() {
-        IBlockState state = getWorld().getBlockState(getPos().down());
-        Block block = state.getBlock();
-        if (block == Blocks.FIRE) {
-            return true;
-            // @todo: support burning sticks from ImmCraft
-//        } else if (block == ModBlocks.sticksBlock) {
-//            return BlockTools.getTE(SticksTE.class, getWorld(), getPos().down())
-//                    .map(p -> p.getBurnTime() > 0)
-//                    .orElse(false);
-        }
-        return false;
+        return BlockTools.isHot(getWorld(), getPos().down());
     }
 
     @Override
