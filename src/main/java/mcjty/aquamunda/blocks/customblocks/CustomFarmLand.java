@@ -3,10 +3,14 @@ package mcjty.aquamunda.blocks.customblocks;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerTE;
 import mcjty.aquamunda.chunkdata.GameData;
+import mcjty.aquamunda.compat.top.TOPInfoProvider;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaProvider;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
@@ -15,6 +19,7 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,7 +37,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
 
-public class CustomFarmLand extends BlockFarmland implements WailaProvider {
+public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPInfoProvider {
 
     public CustomFarmLand() {
         super();
@@ -64,6 +69,17 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider {
             currenttip.add(TextFormatting.GREEN + "Moistness: " + (clientLevel * 100 / SprinklerTE.MAX_MOISTNESS) + "%");
         }
         return currenttip;
+    }
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        if (!freshWaterNearby(world, data.getPos())) {
+            probeInfo.text(TextFormatting.YELLOW + "No fresh water nearby!");
+        } else {
+            EnvironmentData environment = EnvironmentData.getEnvironmentData(player.getEntityWorld());
+            byte level = environment.getData().get(player.getEntityWorld().provider.getDimension(), data.getPos());
+            probeInfo.text(TextFormatting.GREEN + "Moistness: " + (level * 100 / SprinklerTE.MAX_MOISTNESS) + "%");
+        }
     }
 
     @Override

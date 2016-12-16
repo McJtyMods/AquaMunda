@@ -8,6 +8,9 @@ import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.lib.tools.FluidTools;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.WorldTools;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.SoundType;
@@ -24,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -113,6 +117,28 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         }
 
         return currenttip;
+    }
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
+        TileEntity te = world.getTileEntity(data.getPos());
+        if (te instanceof TankTE) {
+            TankTE tankTE = (TankTE) te;
+            int blockID = tankTE.getID();
+            if (blockID != -1) {
+                IMultiBlockClientInfo clientInfo = ImmersiveCraftHandler.tankNetwork.getClientInfo(blockID);
+                if (clientInfo != null) {
+                    TankClientInfo tankClientInfo = (TankClientInfo) clientInfo;
+                    probeInfo.text(TextFormatting.GREEN + "Id: " + blockID);
+                    Fluid fluid = tankClientInfo.getFluid();
+                    if (fluid != null) {
+                        probeInfo.text(TextFormatting.GREEN + "Liquid: " + Tank.getFluidName(fluid));
+                    }
+                    probeInfo.text(TextFormatting.GREEN + "Contents: " + tankClientInfo.getContents() + " (" + tankClientInfo.getBlockCount() * TankTE.MAX_CONTENTS + ")");
+                }
+            }
+        }
     }
 
     private void fillFromContainer(EntityPlayer player, World world, Tank tank) {

@@ -2,11 +2,15 @@ package mcjty.aquamunda.blocks.generic;
 
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.compat.top.TOPInfoProvider;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.waila.WailaProvider;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.util.Vector;
 import mcjty.lib.compat.CompatBlock;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
@@ -16,6 +20,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -32,7 +37,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class GenericBlock extends CompatBlock implements WailaProvider, IOrientedBlock {
+public class GenericBlock extends CompatBlock implements WailaProvider, IOrientedBlock, TOPInfoProvider {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -92,6 +97,11 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
+    }
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+
     }
 
     @Override

@@ -3,23 +3,29 @@ package mcjty.aquamunda.blocks.desalination;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE> {
@@ -76,5 +82,19 @@ public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE
         currenttip.add(TextFormatting.GREEN + "Liquid: " + FluidRegistry.getFluidName(te.getSupportedFluid()));
         currenttip.add(TextFormatting.GREEN + "Contents: " + te.getContents() + " (" + DesalinationTankTE.MAX_CONTENTS + ")");
         return currenttip;
+    }
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
+
+        TileEntity tileEntity = world.getTileEntity(data.getPos());
+        if (tileEntity instanceof DesalinationTankTE) {
+            DesalinationTankTE te = (DesalinationTankTE) tileEntity;
+            DecimalFormat decimalFormat = new DecimalFormat("#.#");
+
+            probeInfo.text(TextFormatting.GREEN + "Liquid: " + FluidRegistry.getFluidName(te.getSupportedFluid()));
+            probeInfo.text(TextFormatting.GREEN + "Contents: " + te.getContents() + " (" + DesalinationTankTE.MAX_CONTENTS + ")");
+        }
     }
 }
