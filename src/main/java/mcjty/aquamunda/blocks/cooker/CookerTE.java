@@ -19,7 +19,7 @@ import java.util.Set;
 public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
 
     public static final int INPUT_PER_TICK = 3;
-    public static final int MAX_AMOUNT = 1000;
+    public static final int MAX_AMOUNT = 2000;
     public static final int TICKS_PER_OPERATION = 20;
 
     private int amount = 0;
@@ -68,6 +68,15 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
             default:
                 return new Vec3d(xCoord, yCoord, zCoord);
         }
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+        markDirtyClient();
     }
 
     public float getTemperature() {
