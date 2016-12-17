@@ -165,7 +165,9 @@ public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable 
                             dirty = true;
                         }
                     } else if (block instanceof IGrowable) {
-                        ((IGrowable) block).grow(getWorld(), random, pos, blockState);
+                        if (random.nextInt(10) == 5) {
+                            ((IGrowable) block).grow(getWorld(), random, pos, blockState);
+                        }
                     }
                 }
             }
