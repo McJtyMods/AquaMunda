@@ -35,7 +35,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
     public static final PropertyEnum<EnumBoiling> BOILING = PropertyEnum.create("boiling", EnumBoiling.class, EnumBoiling.values());
     public static final PropertyEnum<EnumContents> CONTENTS = PropertyEnum.create("contents", EnumContents.class, EnumContents.values());
 
-    public static final AxisAlignedBB COOKER_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.1D, 0.9D, 0.7D, 0.9D);
+    public static final AxisAlignedBB COOKER_AABB = new AxisAlignedBB(0.05D, 0.0D, 0.05D, 0.95D, 0.62D, 0.95D);
 
     public CookerBlock() {
         super(Material.IRON, "cooker", CookerTE.class);
