@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
@@ -34,6 +35,8 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
     public static final PropertyEnum<EnumBoiling> BOILING = PropertyEnum.create("boiling", EnumBoiling.class, EnumBoiling.values());
     public static final PropertyEnum<EnumContents> CONTENTS = PropertyEnum.create("contents", EnumContents.class, EnumContents.values());
 
+    public static final AxisAlignedBB COOKER_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.1D, 0.9D, 0.7D, 0.9D);
+
     public CookerBlock() {
         super(Material.IRON, "cooker", CookerTE.class);
         setHardness(2.0f);
@@ -44,6 +47,11 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
     @Override
     public MetaUsage getMetaUsage() {
         return MetaUsage.NONE;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return COOKER_AABB;
     }
 
     @Override
@@ -153,25 +161,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         TileEntity te = worldIn.getTileEntity(pos);
         if (te instanceof CookerTE) {
             CookerTE cookerTE = (CookerTE) te;
-            float temperature = cookerTE.getTemperature();
-            if (temperature < 70) {
-                state = state.withProperty(BOILING, EnumBoiling.COLD);
-            } else if (temperature < 97) {
-                state = state.withProperty(BOILING, EnumBoiling.HOT);
-            } else {
-                state = state.withProperty(BOILING, EnumBoiling.BOILING);
-            }
-
-            float filled = cookerTE.getFilledPercentage();
-            if (filled < 1) {
-                state = state.withProperty(CONTENTS, EnumContents.EMPTY);
-            } else if (filled < 40) {
-                state = state.withProperty(CONTENTS, EnumContents.LOW);
-            } else if (filled < 80) {
-                state = state.withProperty(CONTENTS, EnumContents.MEDIUM);
-            } else {
-                state = state.withProperty(CONTENTS, EnumContents.FULL);
-            }
+            state = state.withProperty(BOILING, cookerTE.getBoilingState()).withProperty(CONTENTS, cookerTE.getContentsState());
         }
         return state;
     }

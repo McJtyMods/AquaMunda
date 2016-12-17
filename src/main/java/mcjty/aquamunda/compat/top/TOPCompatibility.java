@@ -34,7 +34,7 @@ public class TOPCompatibility {
             probe.registerProvider(new IProbeInfoProvider() {
                 @Override
                 public String getID() {
-                    return "immcraft:default";
+                    return "aquamunda:default";
                 }
 
                 @Override

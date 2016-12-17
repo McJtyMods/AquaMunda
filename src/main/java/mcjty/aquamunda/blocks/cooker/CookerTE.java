@@ -7,6 +7,8 @@ import mcjty.aquamunda.varia.BlockTools;
 import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.Vec3d;
@@ -126,6 +128,49 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
     public float getFilledPercentage() {
         return 100.0f * amount / MAX_AMOUNT;
     }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+        EnumBoiling oldBoiling = getBoilingState();
+        EnumContents oldContents = getContentsState();
+
+        super.onDataPacket(net, packet);
+        if (getWorld().isRemote) {
+            // If needed send a render update.
+            EnumBoiling newBoiling = getBoilingState();
+            EnumContents newContents = getContentsState();
+            if ((!newBoiling.equals(oldBoiling)) || (!newContents.equals(oldContents))) {
+                getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+            }
+        }
+    }
+
+
+
+    public EnumBoiling getBoilingState() {
+        if (temperature < 70) {
+            return EnumBoiling.COLD;
+        } else if (temperature < 97) {
+            return EnumBoiling.HOT;
+        } else {
+            return EnumBoiling.BOILING;
+        }
+    }
+
+    public EnumContents getContentsState() {
+        float filled = getFilledPercentage();
+        if (filled < 1) {
+            return EnumContents.EMPTY;
+        } else if (filled < 40) {
+            return EnumContents.LOW;
+        } else if (filled < 80) {
+            return EnumContents.MEDIUM;
+        } else {
+            return EnumContents.FULL;
+        }
+    }
+
+
 
     @Override
     public void update() {
