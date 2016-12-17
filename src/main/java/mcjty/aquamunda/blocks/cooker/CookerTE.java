@@ -1,11 +1,13 @@
 package mcjty.aquamunda.blocks.cooker;
 
-import mcjty.aquamunda.blocks.generic.GenericTE;
+import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.BlockTools;
-import mcjty.aquamunda.varia.NBTHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.helpers.NBTHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -18,15 +20,33 @@ import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
-public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
+public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITickable {
 
     public static final int INPUT_PER_TICK = 3;
     public static final int MAX_AMOUNT = 2000;
     public static final int TICKS_PER_OPERATION = 20;
 
+    public static final int SLOT_INPUT = 0;
+
     private int amount = 0;
     private float temperature = 20;
     private int counter = 0;
+
+    public CookerTE() {
+        super(1);
+        int i = SLOT_INPUT;
+
+        float boundsdx = .25f;
+        float boundsdy = .33f;
+        double renderdx = 0.19;
+        double renderdz = 0.29;
+        int y = 1;
+        int x = 1;
+        addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.UP).
+                bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
+                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.9, renderdz * (y - 1) - .02)).
+                scale(.60f));
+    }
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
 
@@ -218,6 +238,10 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
         return BlockTools.isHot(getWorld(), getPos().down());
     }
 
+    @Override
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        return false;
+    }
 
     private static Random random = new Random();
 

@@ -3,8 +3,8 @@ package mcjty.aquamunda.blocks.desalination;
 import io.netty.buffer.ByteBuf;
 import mcjty.aquamunda.network.InfoPacketClient;
 import mcjty.aquamunda.network.InfoPacketServer;
-import mcjty.aquamunda.varia.BlockPosTools;
 import mcjty.aquamunda.varia.BlockTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 

@@ -1,4 +1,4 @@
-package mcjty.aquamunda.varia;
+package mcjty.immcraft.api.helpers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

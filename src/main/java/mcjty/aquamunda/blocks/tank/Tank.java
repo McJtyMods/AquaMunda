@@ -1,6 +1,6 @@
 package mcjty.aquamunda.blocks.tank;
 
-import mcjty.aquamunda.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockTile;

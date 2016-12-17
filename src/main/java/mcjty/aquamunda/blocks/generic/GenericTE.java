@@ -1,6 +1,9 @@
 package mcjty.aquamunda.blocks.generic;
 
-import mcjty.aquamunda.varia.NBTHelper;
+import mcjty.immcraft.api.handles.HandleSupport;
+import mcjty.immcraft.api.handles.IInterfaceHandle;
+import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.immcraft.api.input.KeyType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,13 +16,15 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class GenericTE extends TileEntity {
+
+    protected HandleSupport handleSupport = new HandleSupport();
 
     public GenericBlock getBlock() {
         return (GenericBlock) getBlockType();
     }
-
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
@@ -52,13 +57,51 @@ public class GenericTE extends TileEntity {
         this.readFromNBT(packet.getNbtCompound());
     }
 
+    public void addInterfaceHandle(IInterfaceHandle handle) {
+        handleSupport.addInterfaceHandle(handle);
+    }
+
+    public List<IInterfaceHandle> getInterfaceHandles() {
+        return handleSupport.getInterfaceHandles();
+    }
+
+    public IInterfaceHandle getHandle(EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        EnumFacing front = getBlock().getFrontDirection(getWorld().getBlockState(getPos()));
+        return handleSupport.getHandleFromFace(worldSide, side, hitVec, front);
+    }
+
+    public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        if (handle != null) {
+            return handleSupport.handleClick(this, player, handle);
+        }
+
+        return false;
+    }
+
     /**
      * Should be called server side on activation.
      * @param worldSide is the side in world space where the block is activated
      * @param side is the side in block space where the block is activated
      */
     public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        if (handle != null) {
+            return handleSupport.handleActivate(this, player, handle);
+        }
+
         return false;
+    }
+
+
+    /**
+     * Called server side on keypress
+     */
+    public void onKeyPress(KeyType keyType, EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        if (handle != null) {
+            handle.onKeyPress(this, keyType, player);
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.generic;
 
-import mcjty.aquamunda.varia.InventoryHelper;
-import mcjty.aquamunda.varia.NBTHelper;
+import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.compat.CompatSidedInventory;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,4 +1,4 @@
-package mcjty.aquamunda.varia;
+package mcjty.immcraft.api.helpers;
 
 import mcjty.lib.tools.ItemStackList;
 import mcjty.lib.tools.ItemStackTools;
@@ -118,9 +118,8 @@ public class InventoryHelper {
         return itemsToPlace;
     }
 
-
     private static boolean isItemStackConsideredEqual(ItemStack result, ItemStack itemstack1) {
-        return itemstack1 != null && itemstack1.getItem() == result.getItem() && (!result.getHasSubtypes() || result.getItemDamage() == itemstack1.getItemDamage()) && ItemStack.areItemStackTagsEqual(result, itemstack1);
+        return ItemStackTools.isValid(itemstack1) && itemstack1.getItem() == result.getItem() && (!result.getHasSubtypes() || result.getItemDamage() == itemstack1.getItemDamage()) && ItemStack.areItemStackTagsEqual(result, itemstack1);
     }
 
     public int getCount() {
