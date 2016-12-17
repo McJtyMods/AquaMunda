@@ -10,9 +10,12 @@
     "normal": [{}],
     "inventory": [{}],
     "boiling": {
-      "cold":    { "textures": { "water": "aquamunda:blocks/water_nonboiling"}} ,
-      "hot":     { "textures": { "water": "aquamunda:blocks/water_hot"} },
-      "boiling": { "textures": { "water": "aquamunda:blocks/water_boiling"} }
+      "cold":    { "textures": { "water": "blocks/water_still"}} ,
+      "hot":     { "textures": { "water": "blocks/water_still"} },
+      "boiling": { "textures": { "water": "blocks/water_still"} }
+//      "cold":    { "textures": { "water": "aquamunda:blocks/water_nonboiling"}} ,
+//      "hot":     { "textures": { "water": "aquamunda:blocks/water_hot"} },
+//      "boiling": { "textures": { "water": "aquamunda:blocks/water_boiling"} }
     },
     "contents": {
       "empty":  {},
