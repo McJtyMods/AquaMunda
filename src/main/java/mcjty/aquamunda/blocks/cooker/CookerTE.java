@@ -170,6 +170,19 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
         }
     }
 
+    private void changeTemperature(float newtemp) {
+        if (temperature == newtemp) {
+            return;
+        }
+        EnumBoiling oldBoiling = getBoilingState();
+        temperature = newtemp;
+        EnumBoiling newBoiling = getBoilingState();
+        if (oldBoiling != newBoiling) {
+            markDirtyClient();
+        } else {
+            markDirty();
+        }
+    }
 
 
     @Override
@@ -178,7 +191,7 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
             if (amount <= 0) {
                 // We have no liquid so we cool
                 if (temperature > 20) {
-                    temperature--;
+                    changeTemperature(temperature-1);
                     markDirty();
                 }
                 return;
@@ -189,11 +202,11 @@ public class CookerTE extends GenericTE implements IHoseConnector, ITickable {
 
                 if (isHot()) {
                     if (temperature < 100) {
-                        temperature += (125.0f - getFilledPercentage()) / 50.0f;
+                        changeTemperature(temperature + (125.0f - getFilledPercentage()) / 50.0f);
                     }
                 } else {
                     if (temperature > 20) {
-                        temperature -= (125.0f - getFilledPercentage()) / 50.0f;
+                        changeTemperature(temperature - (125.0f - getFilledPercentage()) / 50.0f);
                     }
                 }
             }
