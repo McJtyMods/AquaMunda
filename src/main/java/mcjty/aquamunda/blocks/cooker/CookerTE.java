@@ -104,7 +104,15 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     }
 
     public void setAmount(int amount) {
+        int oldAmount = this.amount;
         this.amount = amount;
+
+        if (amount > oldAmount) {
+            // There is more water, drop temperature. New water is assumed to be at 20.
+            float newtemp = (temperature * oldAmount + 20.0f * (amount - oldAmount)) / amount;
+            changeTemperature(newtemp);
+        }
+
         markDirtyClient();
     }
 
