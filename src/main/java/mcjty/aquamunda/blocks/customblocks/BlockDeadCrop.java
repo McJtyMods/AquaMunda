@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.customblocks;
 
 
-import mcjty.aquamunda.blocks.generic.GenericBlock;
+import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -9,11 +9,10 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockDeadCrop extends GenericBlock {
+public class BlockDeadCrop extends GenericAMBlock {
 
     public BlockDeadCrop(String blockName) {
         super(Material.PLANTS, blockName, null);

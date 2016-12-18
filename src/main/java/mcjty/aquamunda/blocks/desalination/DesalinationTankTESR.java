@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.desalination;
 
 
-import mcjty.aquamunda.blocks.generic.GenericBlock;
+import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
@@ -33,7 +33,7 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
         GlStateManager.translate(x + .5, y, z + .5);
         GlStateManager.disableRescaleNormal();
 
-        BlockRenderHelper.rotateFacing(tileEntity, GenericBlock.MetaUsage.HORIZROTATION);
+        BlockRenderHelper.rotateFacing(tileEntity, GenericAMBlock.MetaUsage.HORIZROTATION);
         renderExtra(tileEntity);
 
         GlStateManager.popMatrix();

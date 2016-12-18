@@ -2,8 +2,8 @@ package mcjty.aquamunda.blocks.generic;
 
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.rendering.BlockRenderHelper;
 import mcjty.aquamunda.varia.BlockTools;
+import mcjty.immcraft.api.generic.GenericTE;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.ITileEntityProvider;
@@ -13,8 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -22,11 +22,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.List;
 
-public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implements ITileEntityProvider {
+public class GenericBlockWithTE<T extends GenericAMTE> extends GenericAMBlock implements ITileEntityProvider {
 
-    private final Class<? extends GenericTE> teClazz;
+    private final Class<? extends GenericAMTE> teClazz;
 
-    public GenericBlockWithTE(Material material, String name, Class<? extends GenericTE> clazz) {
+    public GenericBlockWithTE(Material material, String name, Class<? extends GenericAMTE> clazz) {
         super(material, name, clazz);
         teClazz = clazz;
     }

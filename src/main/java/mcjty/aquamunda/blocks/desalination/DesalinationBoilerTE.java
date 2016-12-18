@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.desalination;
 
 import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.blocks.generic.GenericTE;
+import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import java.util.EnumSet;
 import java.util.Set;
 
-public class DesalinationBoilerTE extends GenericTE implements IHoseConnector, ITickable {
+public class DesalinationBoilerTE extends GenericAMTE implements IHoseConnector, ITickable {
 
     public static final int MAX_CONTENTS = 10000;       // 10 buckets
 

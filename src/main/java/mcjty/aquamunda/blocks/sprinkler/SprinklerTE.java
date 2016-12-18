@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.sprinkler;
 
 import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.blocks.generic.GenericTE;
+import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.fluid.FluidSetup;
@@ -24,7 +24,7 @@ import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
 
-public class SprinklerTE extends GenericTE implements IHoseConnector, ITickable {
+public class SprinklerTE extends GenericAMTE implements IHoseConnector, ITickable {
 
     public static final int MAX_MOISTNESS = 5;
     public static final int SPRINKLER_COUNTER = 10;

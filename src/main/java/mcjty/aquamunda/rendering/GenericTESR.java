@@ -2,8 +2,8 @@ package mcjty.aquamunda.rendering;
 
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.blocks.generic.GenericBlock;
-import mcjty.aquamunda.blocks.generic.GenericTE;
+import mcjty.aquamunda.blocks.generic.GenericAMBlock;
+import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,16 +22,16 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
-public class GenericTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T> {
+public class GenericTESR<T extends GenericAMTE> extends TileEntitySpecialRenderer<T> {
 
     protected IModel model;
     protected IBakedModel bakedModel;
     protected ResourceLocation blockTexture;
-    protected GenericBlock block;
+    protected GenericAMBlock block;
 
     protected Vec3d textOffset = new Vec3d(0, 0, 0);
 
-    public GenericTESR(String modelName, String texture, GenericBlock block) {
+    public GenericTESR(String modelName, String texture, GenericAMBlock block) {
         if (modelName != null) {
             try {
                 model = ModelLoaderRegistry.getModel(new ResourceLocation(AquaMunda.MODID, modelName));

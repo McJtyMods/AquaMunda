@@ -1,4 +1,4 @@
-package mcjty.aquamunda.blocks.generic;
+package mcjty.immcraft.api.generic;
 
 import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
@@ -16,6 +16,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.List;
 
 public class GenericTE extends TileEntity {
@@ -25,6 +26,15 @@ public class GenericTE extends TileEntity {
     public GenericBlock getBlock() {
         return (GenericBlock) getBlockType();
     }
+
+    public List<String> getIngredients() {
+        return Collections.emptyList();
+    }
+
+    public List<String> getMissingIngredients() {
+        return Collections.emptyList();
+    }
+
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {

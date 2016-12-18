@@ -1,6 +1,6 @@
 package mcjty.aquamunda.blocks.tank;
 
-import mcjty.aquamunda.blocks.generic.GenericTE;
+import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TankTE extends GenericTE implements IHoseConnector, IMultiBlockTile<Tank> {
+public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTile<Tank> {
 
     public static final int MAX_CONTENTS = 10000;       // 10 buckets
     public static final int ADD_RAIN = 30;              // How much to add when it is raining

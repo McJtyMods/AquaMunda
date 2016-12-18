@@ -1,7 +1,7 @@
 package mcjty.aquamunda.rendering;
 
 
-import mcjty.aquamunda.blocks.generic.GenericBlock;
+import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
@@ -79,8 +79,8 @@ public final class BlockRenderHelper{
 
 
 
-    public static void rotateFacing(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {
-        EnumFacing orientation = GenericBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
+    public static void rotateFacing(TileEntity tileEntity, GenericAMBlock.MetaUsage metaUsage) {
+        EnumFacing orientation = GenericAMBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
         switch (orientation) {
             case NORTH:
                 GlStateManager.rotate(180, 0, 1, 0);

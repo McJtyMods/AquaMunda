@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.Constants;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class GenericInventoryTE extends GenericTE implements CompatSidedInventory {
+public class GenericInventoryTE extends GenericAMTE implements CompatSidedInventory {
 
     protected InventoryHelper inventoryHelper;
     private int[] accessible;

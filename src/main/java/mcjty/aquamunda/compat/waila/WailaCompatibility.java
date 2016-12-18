@@ -1,6 +1,6 @@
 package mcjty.aquamunda.compat.waila;
 
-import mcjty.aquamunda.blocks.generic.GenericBlock;
+import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -32,9 +32,9 @@ public class WailaCompatibility implements IWailaDataProvider {
             throw new RuntimeException("Please register this handler using the provided method.");
         }
         if (!loaded) {
-            registrar.registerHeadProvider(INSTANCE, GenericBlock.class);
-            registrar.registerBodyProvider(INSTANCE, GenericBlock.class);
-            registrar.registerTailProvider(INSTANCE, GenericBlock.class);
+            registrar.registerHeadProvider(INSTANCE, GenericAMBlock.class);
+            registrar.registerBodyProvider(INSTANCE, GenericAMBlock.class);
+            registrar.registerTailProvider(INSTANCE, GenericAMBlock.class);
             loaded = true;
         }
     }

@@ -1,18 +1,9 @@
-package mcjty.aquamunda.blocks.generic;
+package mcjty.immcraft.api.generic;
 
 
-import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.compat.top.TOPInfoProvider;
-import mcjty.aquamunda.varia.BlockTools;
-import mcjty.aquamunda.waila.WailaProvider;
 import mcjty.immcraft.api.block.IOrientedBlock;
-import mcjty.immcraft.api.util.Vector;
+import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.lib.compat.CompatBlock;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -20,12 +11,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -35,12 +26,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
-public class GenericBlock extends CompatBlock implements WailaProvider, IOrientedBlock, TOPInfoProvider {
+public class GenericBlock extends CompatBlock implements IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
+
+    @SideOnly(Side.CLIENT)
+    public void initModel() {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+    }
 
     public enum MetaUsage {
         HORIZROTATION,
@@ -52,7 +47,7 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
         return MetaUsage.HORIZROTATION;
     }
 
-    public GenericBlock(Material material, String name) {
+    public GenericBlock(Material material, String name, boolean inTab) {
         this(material, name, null, null);
     }
 
@@ -62,8 +57,6 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
 
     public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super(material);
-//        setDefaultState(this.blockState.getBaseState().withProperty(FACING_HORIZ, EnumFacing.NORTH));
-        this.setCreativeTab(AquaMunda.creativeTab);
         register(name, clazz, itemBlockClass);
     }
 
@@ -89,21 +82,6 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    public void initModel() {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-    }
-
-    @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
-    }
-
-    @Override
-    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-
-    }
-
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack itemStack) {
         switch (getMetaUsage()) {
@@ -119,7 +97,7 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
     }
 
     public static EnumFacing getFacingFromEntity(BlockPos clickedBlock, EntityLivingBase entityIn) {
-        if (Math.abs((float) entityIn.posX - clickedBlock.getX()) < 2.0F && Math.abs((float) entityIn.posZ - clickedBlock.getZ()) < 2.0F) {
+        if (MathHelper.abs((float) entityIn.posX - clickedBlock.getX()) < 2.0F && MathHelper.abs((float) entityIn.posZ - clickedBlock.getZ()) < 2.0F) {
             double d0 = entityIn.posY + entityIn.getEyeHeight();
 
             if (d0 - clickedBlock.getY() > 2.0D) {
@@ -160,10 +138,10 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
         EnumFacing orientation;
         switch (metaUsage) {
             case HORIZROTATION:
-                orientation = BlockTools.getOrientationHoriz(state);
+                orientation = OrientationTools.getOrientationHoriz(state);
                 break;
             case ROTATION:
-                orientation = BlockTools.getOrientation(state);
+                orientation = OrientationTools.getOrientation(state);
                 break;
             case NONE:
             default:
@@ -176,9 +154,9 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
     protected EnumFacing getOrientation(int x, int y, int z, EntityLivingBase entityLivingBase) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return BlockTools.determineOrientationHoriz(entityLivingBase);
+                return OrientationTools.determineOrientationHoriz(entityLivingBase);
             case ROTATION:
-                return BlockTools.determineOrientation(x, y, z, entityLivingBase);
+                return OrientationTools.determineOrientation(x, y, z, entityLivingBase);
         }
         return null;
     }
@@ -187,9 +165,9 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return BlockTools.worldToBlockSpaceHoriz(side, world.getBlockState(pos));
+                return OrientationTools.worldToBlockSpaceHoriz(side, world.getBlockState(pos));
             case ROTATION:
-                return BlockTools.worldToBlockSpace(side, world.getBlockState(pos));
+                return OrientationTools.worldToBlockSpace(side, world.getBlockState(pos));
             case NONE:
             default:
                 return side;
@@ -199,9 +177,9 @@ public class GenericBlock extends CompatBlock implements WailaProvider, IOriente
     public Vec3d blockToWorldSpace(World world, BlockPos pos, Vec3d v) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return BlockTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));
+                return OrientationTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));
             case ROTATION:
-                return BlockTools.blockToWorldSpace(v, world.getBlockState(pos));
+                return OrientationTools.blockToWorldSpace(v, world.getBlockState(pos));
             case NONE:
             default:
                 return v;
