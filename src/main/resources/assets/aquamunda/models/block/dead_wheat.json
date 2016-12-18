@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "aquamunda:blocks/wheat_dead"
+  }
+}
