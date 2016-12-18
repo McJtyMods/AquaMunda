@@ -1,5 +1,11 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "aquamunda:dead_carrot",
+    "transform": "forge:default-block"
+  },
   "variants": {
-    "normal": { "model": "aquamunda:dead_carrot" }
+    "normal": [{}],
+    "inventory": [{}]
   }
 }

@@ -2,9 +2,11 @@ package mcjty.aquamunda.blocks.customblocks;
 
 
 import mcjty.aquamunda.blocks.generic.GenericAMBlock;
+import mcjty.immcraft.api.generic.GenericBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +21,11 @@ public class BlockDeadCrop extends GenericAMBlock {
         setHardness(0.0F);
         setSoundType(SoundType.PLANT);
         disableStats();
+    }
+
+    @Override
+    public MetaUsage getMetaUsage() {
+        return MetaUsage.NONE;
     }
 
     // @todo CHECK?
@@ -36,6 +43,13 @@ public class BlockDeadCrop extends GenericAMBlock {
         float f = 0.5F;
         return new AxisAlignedBB(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
     }
+
+    @Override
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.CUTOUT;
+    }
+
+
 
     @Nullable
     @Override
