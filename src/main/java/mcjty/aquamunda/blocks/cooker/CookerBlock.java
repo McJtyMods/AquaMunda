@@ -25,6 +25,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -44,10 +45,13 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         setHarvestLevel("pickaxe", 0);
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.NONE;
+    public void initModel() {
+        super.initModel();
+        ClientRegistry.bindTileEntitySpecialRenderer(CookerTE.class, new CookerTESR());
     }
+
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -70,6 +74,9 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
 
     @Override
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
+            return true;
+        }
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (ItemStackTools.isValid(heldItem)) {
@@ -168,7 +175,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, BOILING, CONTENTS);
+        return new BlockStateContainer(this, FACING_HORIZ, BOILING, CONTENTS);
     }
 }
 

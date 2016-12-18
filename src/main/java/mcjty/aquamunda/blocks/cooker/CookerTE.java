@@ -6,6 +6,7 @@ import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,13 +28,14 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     public static final int TICKS_PER_OPERATION = 20;
 
     public static final int SLOT_INPUT = 0;
+    public static final int SLOT_OUTPUT = 1;
 
     private int amount = 0;
     private float temperature = 20;
     private int counter = 0;
 
     public CookerTE() {
-        super(1);
+        super(2);
         int i = SLOT_INPUT;
 
         float boundsdx = .25f;
@@ -44,7 +46,12 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         int x = 1;
         addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.UP).
                 bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
-                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.9, renderdz * (y - 1) - .02)).
+                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
+                scale(.60f));
+        x++;
+        addInterfaceHandle(new OutputInterfaceHandle().slot(i++).side(EnumFacing.UP).
+                bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
+                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
                 scale(.60f));
     }
 

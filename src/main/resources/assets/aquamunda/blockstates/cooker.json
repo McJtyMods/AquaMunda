@@ -19,6 +19,12 @@
       "low":    { "submodel": { "f1": { "model": "aquamunda:water_low" } } },
       "medium": { "submodel": { "f1": { "model": "aquamunda:water_medium" } } },
       "full":   { "submodel": { "f1": { "model": "aquamunda:water_full" } } }
+    },
+    "facing": {
+      "north": {},
+      "south": {"y": 180},
+      "west": {"y": 270},
+      "east": {"y": 90}
     }
   }
 }

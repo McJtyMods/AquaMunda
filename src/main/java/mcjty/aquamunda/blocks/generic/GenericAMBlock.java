@@ -3,7 +3,9 @@ package mcjty.aquamunda.blocks.generic;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.compat.top.TOPInfoProvider;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.waila.WailaProvider;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -32,7 +34,11 @@ public class GenericAMBlock extends GenericBlock implements WailaProvider, TOPIn
     public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super(material, name, clazz, itemBlockClass);
         this.setCreativeTab(AquaMunda.creativeTab);
-        register(name, clazz, itemBlockClass);
+    }
+
+    @Override
+    protected IImmersiveCraft getApi() {
+        return ImmersiveCraftHandler.immersiveCraft;
     }
 
     @Override
