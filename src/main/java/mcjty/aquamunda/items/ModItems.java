@@ -6,13 +6,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModItems {
 
+    public static ItemCookedCarrot cookedCarrot;
+
     public static void init() {
-        // @todo CHECK COMPAT 1.10
-//        FluidContainerRegistry.registerFluidContainer(FluidSetup.freshWater, new ItemStack(freshWaterBucket), new ItemStack(Items.bucket));
+        cookedCarrot = new ItemCookedCarrot();
     }
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
-
+        cookedCarrot.initModel();
     }
 }
