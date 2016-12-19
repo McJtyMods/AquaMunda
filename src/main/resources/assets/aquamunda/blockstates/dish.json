@@ -6,7 +6,6 @@
   "variants": {
     "food": {
       "carrots": { "textures": { "layer0": "aquamunda:items/bowl_cooked_carrots"  } }
-    },
-    "inventory": [{ }]
+    }
   }
 }

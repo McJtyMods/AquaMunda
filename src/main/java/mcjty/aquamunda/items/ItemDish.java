@@ -72,16 +72,14 @@ public class ItemDish extends CompatItemFood {
     public void initModel() {
         List<ModelResourceLocation> resources = new ArrayList<>();
         for (DishInfo info : dishInfos) {
-            resources.add(new ModelResourceLocation(getRegistryName(), "food=\"" + info.getTag() + "\""));
+            resources.add(new ModelResourceLocation(getRegistryName(), "food=" + info.getTag()));
         }
         ModelLoader.registerItemVariants(this, resources.toArray(new ModelResourceLocation[resources.size()]));
 
         ModelLoader.setCustomMeshDefinition(this, new ItemMeshDefinition() {
             @Override
             public ModelResourceLocation getModelLocation(ItemStack stack) {
-                ModelResourceLocation x = new ModelResourceLocation(getRegistryName(), "food=\"" + dishInfos[stack.getItemDamage()].getTag() + "\"");
-                System.out.println("########################## x = " + x);
-                return x;
+                return new ModelResourceLocation(getRegistryName(), "food=" + dishInfos[stack.getItemDamage()].getTag());
             }
         });
     }

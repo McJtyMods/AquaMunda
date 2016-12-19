@@ -77,8 +77,11 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
             @Override
             public void handleActivate(TileEntity te, EntityPlayer player, int amount) {
                 ItemStack stack = getCurrentStack(te);
+                ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
                 if (ItemStackTools.isEmpty(stack)) {
-
+                    if (ItemStackTools.isValid(heldItem)) {
+//                        insertInput()
+                    }
                 }
 
 
@@ -89,25 +92,6 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                 bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
                 renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
                 scale(.80f));
-        x++;
-        OutputWithItemInterfaceHandle outputHandle = new OutputWithItemInterfaceHandle() {
-
-            @Override
-            public ItemStack replaceOutput(TileEntity te, EntityPlayer player, int amount) {
-                ItemStack output = super.extractOutput(te, player, amount);
-                if (ItemStackTools.isValid(output)) {
-                    // Transform to the dish
-                    if (output.getItem() == ModItems.cookedCarrot) {
-
-                    }
-                }
-                return ItemStackTools.getEmptyStack();
-            }
-        };
-//        addInterfaceHandle(outputHandle.slot(i++).side(EnumFacing.UP).
-//                bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
-//                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
-//                scale(.80f));
     }
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
