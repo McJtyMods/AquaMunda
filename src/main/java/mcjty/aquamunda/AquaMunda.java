@@ -33,7 +33,7 @@ public class AquaMunda {
     public static final String MIN_IMMCRAFT_VER = "1.0.3";
     public static final String MIN_FORGE10_VER = "12.18.1.2082";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
-    public static final String COMPATLAYER_VER = "0.1.4";
+    public static final String COMPATLAYER_VER = "0.1.5";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
     public static CommonProxy proxy;

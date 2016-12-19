@@ -1,5 +1,6 @@
 item.fresh_water_bucket.name=Fresh Water Bucket
 item.cooked_carrot.name=Cooked Carrot
+item.dish_carrots.name=Cooked Carrot Dish
 
 tile.fresh_water.name=Fresh Water Fluid
 tile.freshWater.name=Fresh Water

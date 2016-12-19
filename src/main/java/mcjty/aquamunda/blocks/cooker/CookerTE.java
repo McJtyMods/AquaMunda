@@ -3,18 +3,28 @@ package mcjty.aquamunda.blocks.cooker;
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
-import mcjty.immcraft.api.handles.OutputInterfaceHandle;
+import mcjty.immcraft.api.handles.OutputWithItemInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.lib.tools.ChatTools;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 
 import java.util.EnumSet;
@@ -28,14 +38,13 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     public static final int TICKS_PER_OPERATION = 20;
 
     public static final int SLOT_INPUT = 0;
-    public static final int SLOT_OUTPUT = 1;
 
     private int amount = 0;
     private float temperature = 20;
     private int counter = 0;
 
     public CookerTE() {
-        super(2);
+        super(1);
         int i = SLOT_INPUT;
 
         float boundsdx = .25f;
@@ -44,15 +53,61 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         double renderdz = 0.29;
         int y = 1;
         int x = 1;
-        addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.UP).
+        DefaultInterfaceHandle handle = new DefaultInterfaceHandle<DefaultInterfaceHandle>() {
+            @Override
+            public Vec3d getRenderOffset() {
+                long t = System.currentTimeMillis();
+                return super.getRenderOffset().addVector(0, ((float)(t % 3000)) / 3000.0f / 20.0f, 0);
+            }
+
+            public boolean canExtract(TileEntity genericTE, EntityPlayer player) {
+                ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+                if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
+                    return true;
+                }
+                ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the food out"));
+                return false;
+            }
+
+            @Override
+            public boolean isSelfHandler() {
+                return true;
+            }
+
+            @Override
+            public void handleActivate(TileEntity te, EntityPlayer player, int amount) {
+                ItemStack stack = getCurrentStack(te);
+                if (ItemStackTools.isEmpty(stack)) {
+
+                }
+
+
+                super.handleActivate(te, player, amount);
+            }
+        };
+        addInterfaceHandle(handle.slot(i++).side(EnumFacing.UP).
                 bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
                 renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
-                scale(.60f));
+                scale(.80f));
         x++;
-        addInterfaceHandle(new OutputInterfaceHandle().slot(i++).side(EnumFacing.UP).
-                bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
-                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
-                scale(.60f));
+        OutputWithItemInterfaceHandle outputHandle = new OutputWithItemInterfaceHandle() {
+
+            @Override
+            public ItemStack replaceOutput(TileEntity te, EntityPlayer player, int amount) {
+                ItemStack output = super.extractOutput(te, player, amount);
+                if (ItemStackTools.isValid(output)) {
+                    // Transform to the dish
+                    if (output.getItem() == ModItems.cookedCarrot) {
+
+                    }
+                }
+                return ItemStackTools.getEmptyStack();
+            }
+        };
+//        addInterfaceHandle(outputHandle.slot(i++).side(EnumFacing.UP).
+//                bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
+//                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
+//                scale(.80f));
     }
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
