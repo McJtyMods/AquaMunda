@@ -7,29 +7,23 @@ import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
-import mcjty.immcraft.api.handles.InputInterfaceHandle;
-import mcjty.immcraft.api.handles.OutputWithItemInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
-import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITickable {
 
@@ -42,59 +36,55 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     private int amount = 0;
     private float temperature = 20;
     private int counter = 0;
+    private int cookTime = 0;
+
+    private static CookerRecipe[] recipes = new CookerRecipe[] {
+            new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, 10)
+    };
+    private static Map<ResourceLocation, List<CookerRecipe>> recipeMap = null;
 
     public CookerTE() {
         super(1);
-        int i = SLOT_INPUT;
 
-        float boundsdx = .25f;
-        float boundsdy = .33f;
-        double renderdx = 0.19;
-        double renderdz = 0.29;
-        int y = 1;
-        int x = 1;
-        DefaultInterfaceHandle handle = new DefaultInterfaceHandle<DefaultInterfaceHandle>() {
-            @Override
-            public Vec3d getRenderOffset() {
-                long t = System.currentTimeMillis();
-                return super.getRenderOffset().addVector(0, ((float)(t % 3000)) / 3000.0f / 20.0f, 0);
-            }
-
-            public boolean canExtract(TileEntity genericTE, EntityPlayer player) {
-                ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-                if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
-                    return true;
-                }
-                ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the food out"));
-                return false;
-            }
-
-            @Override
-            public boolean isSelfHandler() {
-                return true;
-            }
-
-            @Override
-            public void handleActivate(TileEntity te, EntityPlayer player, int amount) {
-                ItemStack stack = getCurrentStack(te);
-                ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-                if (ItemStackTools.isEmpty(stack)) {
-                    if (ItemStackTools.isValid(heldItem)) {
-//                        insertInput()
-                    }
-                }
-
-
-                super.handleActivate(te, player, amount);
-            }
-        };
-        addInterfaceHandle(handle.slot(i++).side(EnumFacing.UP).
-                bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
-                renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.8, renderdz * (y - 1) - .02)).
+        addInterfaceHandle(new CookerHandle(this).slot(SLOT_INPUT).side(EnumFacing.UP).
+                bounds(0.33f, 0.33f, 0.66f, 0.66f).
+                renderOffset(new Vec3d(-0.095, 0.8, -0.02)).
                 scale(.80f));
     }
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
+
+    private static void setupRecipeMap() {
+        if (recipeMap == null) {
+            recipeMap = new HashMap<>();
+            for (CookerRecipe recipe : recipes) {
+                ResourceLocation key = recipe.getInputItem().getItem().getRegistryName();
+                if (!recipeMap.containsKey(key)) {
+                    recipeMap.put(key, new ArrayList<>());
+                }
+                recipeMap.get(key).add(recipe);
+            }
+        }
+    }
+
+    @Nullable
+    public static CookerRecipe getRecipe(ItemStack stack) {
+        if (ItemStackTools.isEmpty(stack)) {
+            return null;
+        }
+        setupRecipeMap();
+        ResourceLocation key = stack.getItem().getRegistryName();
+        if (recipeMap.containsKey(key)) {
+            List<CookerRecipe> recipes = recipeMap.get(key);
+            for (CookerRecipe recipe : recipes) {
+                if (ItemStack.areItemStackTagsEqual(recipe.getInputItem(), stack)) {
+                    return recipe;
+                }
+            }
+
+        }
+        return null;
+    }
 
     @Override
     public boolean canConnect(EnumFacing blockSide) {
@@ -283,9 +273,32 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                         changeTemperature(temperature - (125.0f - getFilledPercentage()) / 50.0f);
                     }
                 }
+
+                if (temperature > 99) {
+                    cookTime--;
+                    if (cookTime <= 0) {
+                        CookerRecipe recipe = getRecipe(getStackInSlot(SLOT_INPUT));
+                        if (recipe != null) {
+                            ItemStack output = recipe.getOutputItem().copy();
+                            ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
+                            setInventorySlotContents(SLOT_INPUT, output);
+                        }
+                    }
+                }
             }
             markDirty();
         }
+    }
+
+    @Override
+    public void setInventorySlotContents(int index, ItemStack stack) {
+        CookerRecipe recipe = getRecipe(stack);
+        if (recipe != null) {
+            cookTime = recipe.getCookTime() * ItemStackTools.getStackSize(stack);
+            System.out.println("cookTime = " + cookTime);
+            markDirty();
+        }
+        super.setInventorySlotContents(index, stack);
     }
 
     private boolean isHot() {
@@ -305,6 +318,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         amount = tagCompound.getInteger("amount");
         temperature = tagCompound.getFloat("temperature");
         counter = tagCompound.getInteger("counter");
+        cookTime = tagCompound.getInteger("cookTime");
         connections.clear();
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (tagCompound.hasKey("c" + direction.ordinal())) {
@@ -319,11 +333,13 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         helper
                 .set("amount", amount)
                 .set("temperature", temperature)
-                .set("counter", counter);
+                .set("counter", counter)
+                .set("cookTime", cookTime);
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (connections.contains(direction)) {
                 helper.set("c" + direction.ordinal(), true);
             }
         }
     }
+
 }

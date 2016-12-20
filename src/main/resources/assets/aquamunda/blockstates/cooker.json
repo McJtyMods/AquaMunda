@@ -1,14 +1,21 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
     "custom": { "flip-v": true },
     "model": "aquamunda:cooker.obj"
   },
   "variants": {
     "normal": [{}],
-    "inventory": [{}],
+    "inventory": [
+      {
+        "transform": {
+          "gui": {
+            "scale": 0.65,
+            "rotation": [{"x": 15},{"y": 45}]
+          }
+        }
+      }
+    ],
     "boiling": {
       "cold":    { "textures": { "water": "blocks/water_still"}} ,
       "hot":     { "textures": { "water": "aquamunda:blocks/water_hot"} },
