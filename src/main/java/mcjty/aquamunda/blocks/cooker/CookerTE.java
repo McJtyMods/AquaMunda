@@ -324,6 +324,12 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                 }
 
                 if (temperature > 99) {
+
+                    if (amount > 0) {
+                        // Evaporation
+                        setAmount(amount-1);
+                    }
+
                     cookTime--;
                     if (cookTime <= 0) {
                         CookerRecipe recipe = getRecipe(getStackInSlot(SLOT_INPUT));
