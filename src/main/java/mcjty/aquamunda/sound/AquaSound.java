@@ -40,7 +40,6 @@ public class AquaSound extends MovingSound {
             return;
         }
         volume = GeneralConfiguration.baseCookerVolume * vol;
-        System.out.println("volume = " + volume);
     }
 
     public void setVolume(float volume) {
