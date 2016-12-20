@@ -19,6 +19,11 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
     }
 
     @Override
+    public int getInsertAmount(boolean sneak) {
+        return 1;
+    }
+
+    @Override
     public Vec3d getRenderOffset() {
         long t = System.currentTimeMillis();
         float offset = (t % 3000) / 3000.0f;
