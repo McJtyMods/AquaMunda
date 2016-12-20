@@ -12,9 +12,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CookerSound extends MovingSound {
+public class AquaSound extends MovingSound {
 
-    public CookerSound(SoundEvent event, World world, BlockPos pos){
+    public AquaSound(SoundEvent event, World world, BlockPos pos){
         super(event, SoundCategory.BLOCKS);
         this.world = world;
         this.pos = pos;
@@ -30,6 +30,7 @@ public class CookerSound extends MovingSound {
     private final World world;
     private final BlockPos pos;
     private final SoundEvent sound;
+    private float vol = 0.0f;
 
     @Override
     public void update() {
@@ -38,7 +39,12 @@ public class CookerSound extends MovingSound {
             donePlaying = true;
             return;
         }
-        volume = GeneralConfiguration.baseCookerVolume;
+        volume = GeneralConfiguration.baseCookerVolume * vol;
+        System.out.println("volume = " + volume);
+    }
+
+    public void setVolume(float volume) {
+        this.vol = volume;
     }
 
     protected boolean isSoundType(SoundEvent event){

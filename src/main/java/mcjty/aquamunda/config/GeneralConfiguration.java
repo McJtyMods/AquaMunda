@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 public class GeneralConfiguration {
     public static final String CATEGORY_GENERAL = "general";
 
-    public static float baseCookerVolume = 1.0f;     // Use 0 to turn off cooker sounds
+    public static float baseCookerVolume = 0.6f;     // Use 0 to turn off cooker sounds
 
     // @todo!!!!!
     public static void init(Configuration cfg) {

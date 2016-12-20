@@ -1,18 +1,17 @@
 package mcjty.aquamunda.blocks.cooker;
 
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
+import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.CookerSoundController;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -218,7 +217,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         } else if (temperature < 90) {
             return 2;
         } else if (temperature < 100) {
-            return (int) ((temperature-90) / 7 + 3);
+            return (int) ((temperature-90.0) * 8.0f / 10.0f + 3.0);
         }
         return 10;
     }
@@ -251,6 +250,9 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     }
 
     private void changeTemperature(float newtemp) {
+        if (newtemp > 100) {
+            newtemp = 100;
+        }
         if (temperature == newtemp) {
             return;
         }
@@ -282,11 +284,11 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
                 if (isHot()) {
                     if (temperature < 100) {
-                        changeTemperature(temperature + (125.0f - getFilledPercentage()) / 50.0f);
+                        changeTemperature(temperature + (125.0f - getFilledPercentage()) / 100.0f);
                     }
                 } else {
                     if (temperature > 20) {
-                        changeTemperature(temperature - (125.0f - getFilledPercentage()) / 50.0f);
+                        changeTemperature(temperature - (125.0f - getFilledPercentage()) / 100.0f);
                     }
                 }
 
@@ -304,11 +306,27 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
             }
             markDirty();
         } else {
-            if (getBoilingState() >= 9) {
-                CookerSoundController.playCooking(getWorld(), getPos());
-            } else {
-                CookerSoundController.stopSound(getWorld(), getPos());
+            if (GeneralConfiguration.baseCookerVolume > 0.01f) {
+                int boilingState = getBoilingState();
+                if (boilingState >= 1) {
+                    float vol = (boilingState-1.0f)/9.0f;
+                    if (!CookerSoundController.isBoilingPlaying(getWorld(), pos)) {
+                        CookerSoundController.playBoiling(getWorld(), getPos(), vol);
+                    } else {
+                        CookerSoundController.updateVolume(getWorld(), getPos(), vol);
+                    }
+                } else {
+                    CookerSoundController.stopSound(getWorld(), getPos());
+                }
             }
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        if (getWorld().isRemote) {
+            CookerSoundController.stopSound(getWorld(), getPos());
         }
     }
 

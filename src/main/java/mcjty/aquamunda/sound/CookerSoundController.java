@@ -22,7 +22,8 @@ public final class CookerSoundController {
         boilingwater = registerSound(new ResourceLocation(AquaMunda.MODID, "boilingwater"));
     }
 
-    private static final Map<Pair<Integer, BlockPos>, CookerSound> sounds = Maps.newHashMap();
+    private static final Map<Pair<Integer, BlockPos>, AquaSound> sounds = Maps.newHashMap();
+
     protected static SoundEvent boilingwater;
 
     private static SoundEvent registerSound(ResourceLocation rl){
@@ -40,8 +41,9 @@ public final class CookerSoundController {
         }
     }
 
-    private static void playSound(World worldObj, BlockPos pos, SoundEvent soundType) {
-        CookerSound sound = new CookerSound(soundType, worldObj, pos);
+    private static void playSound(World worldObj, BlockPos pos, SoundEvent soundType, float volume) {
+        AquaSound sound = new AquaSound(soundType, worldObj, pos);
+        sound.setVolume(volume);
         stopSound(worldObj, pos);
         Minecraft.getMinecraft().getSoundHandler().playSound(sound);
         Pair<Integer, BlockPos> g = Pair.of(worldObj.provider.getDimension(), pos);
@@ -49,21 +51,28 @@ public final class CookerSoundController {
     }
 
 
-    public static void playCooking(World worldObj, BlockPos pos) {
-        playSound(worldObj, pos, boilingwater);
+    public static void playBoiling(World worldObj, BlockPos pos, float volume) {
+        playSound(worldObj, pos, boilingwater, volume);
     }
 
-    public static boolean isCookingPlaying(World worldObj, BlockPos pos) {
+    public static void updateVolume(World worldObj, BlockPos pos, float volume) {
+        AquaSound sound = getSoundAt(worldObj, pos);
+        if (sound != null) {
+            sound.setVolume(volume);
+        }
+    }
+
+    public static boolean isBoilingPlaying(World worldObj, BlockPos pos) {
         return isSoundTypePlayingAt(boilingwater, worldObj, pos);
     }
 
 
     private static boolean isSoundTypePlayingAt(SoundEvent event, World world, BlockPos pos){
-        CookerSound s = getSoundAt(world, pos);
+        AquaSound s = getSoundAt(world, pos);
         return s != null && s.isSoundType(event);
     }
 
-    private static CookerSound getSoundAt(World world, BlockPos pos){
+    private static AquaSound getSoundAt(World world, BlockPos pos){
         return sounds.get(fromPosition(world, pos));
     }
 
