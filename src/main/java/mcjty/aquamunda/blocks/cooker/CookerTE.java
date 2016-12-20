@@ -4,6 +4,7 @@ import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.CookerSoundController;
 import mcjty.aquamunda.varia.BlockTools;
@@ -24,6 +25,9 @@ import net.minecraftforge.fluids.Fluid;
 
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static mcjty.aquamunda.items.ItemDish.DISH_CARROTS;
+import static mcjty.aquamunda.items.ItemDish.DISH_VEGETABLE_SOUP;
 
 public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITickable {
 

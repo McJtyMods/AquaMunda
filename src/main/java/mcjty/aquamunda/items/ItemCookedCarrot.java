@@ -24,4 +24,9 @@ public class ItemCookedCarrot extends CompatItem implements ICookerResult {
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
+
+    @Override
+    public String getDishName() {
+        return ItemDish.DISH_CARROTS;
+    }
 }

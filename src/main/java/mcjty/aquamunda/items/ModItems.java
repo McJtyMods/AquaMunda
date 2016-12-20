@@ -13,6 +13,7 @@ public class ModItems {
     public static void init() {
         cookedCarrot = new ItemCookedCarrot();
         choppedVegetables = new ItemChoppedVegetables();
+        vegetableSoup = new ItemVegetableSoup();
         dish = new ItemDish();
     }
 
@@ -20,6 +21,7 @@ public class ModItems {
     public static void initModels() {
         cookedCarrot.initModel();
         choppedVegetables.initModel();
+        vegetableSoup.initModel();
         dish.initModel();
     }
 }

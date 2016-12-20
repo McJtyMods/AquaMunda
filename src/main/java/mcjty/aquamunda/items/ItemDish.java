@@ -16,7 +16,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemDish extends CompatItemFood {
 
@@ -50,11 +52,31 @@ public class ItemDish extends CompatItemFood {
         }
     }
 
+    public static final String DISH_CARROTS = "carrots";
+    public static final String DISH_VEGETABLE_SOUP = "vegetable_soup";
+
     private static DishInfo[] dishInfos = new DishInfo[] {
-            new DishInfo("dish_carrots", 5, 0.6f, "carrots"),
-            new DishInfo("dish_vegetable_soup", 5, 0.6f, "carrots"),
+            new DishInfo("dish_carrots", 5, 0.6f, DISH_CARROTS),
+            new DishInfo("dish_vegetable_soup", 5, 0.6f, DISH_VEGETABLE_SOUP),
     };
 
+    private static Map<String, Integer> dishToMeta = null;
+
+    private static void setupDishToMeta() {
+        if (dishToMeta == null) {
+            dishToMeta = new HashMap<>();
+            int meta = 0;
+            for (DishInfo info : dishInfos) {
+                dishToMeta.put(info.getTag(), meta);
+                meta++;
+            }
+        }
+    }
+
+    public static int getDishMeta(String dishName) {
+        setupDishToMeta();
+        return dishToMeta.get(dishName);
+    }
 
     public ItemDish() {
         super(5, 0.6f, false);

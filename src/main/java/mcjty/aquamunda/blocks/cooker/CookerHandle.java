@@ -1,5 +1,6 @@
 package mcjty.aquamunda.blocks.cooker;
 
+import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import mcjty.lib.tools.ItemStackTools;
@@ -38,7 +39,8 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
     public ItemStack extractOutput(TileEntity genericTE, EntityPlayer player, int amount) {
         ItemStack stack = super.extractOutput(genericTE, player, amount);
         if (isItemThatNeedsExtractionItem(stack)) {
-            stack = new ItemStack(ModItems.dish, ItemStackTools.getStackSize(stack), 0);
+            String dishName = ((ICookerResult) stack.getItem()).getDishName();
+            stack = new ItemStack(ModItems.dish, ItemStackTools.getStackSize(stack), ItemDish.getDishMeta(dishName));
         }
         return stack;
     }
