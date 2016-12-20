@@ -4,6 +4,7 @@ import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.sound.CookerSoundController;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
@@ -302,6 +303,12 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                 }
             }
             markDirty();
+        } else {
+            if (getBoilingState() >= 9) {
+                CookerSoundController.playCooking(getWorld(), getPos());
+            } else {
+                CookerSoundController.stopSound(getWorld(), getPos());
+            }
         }
     }
 
