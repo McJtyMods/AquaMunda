@@ -2,6 +2,11 @@ package mcjty.aquamunda.blocks.cooker;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.fluid.FluidSetup;
+import mcjty.aquamunda.items.ItemDish;
+import mcjty.aquamunda.items.ModItems;
+import mcjty.immcraft.api.handles.IInterfaceHandle;
+import mcjty.immcraft.api.rendering.BlockRenderHelper;
+import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.FluidTools;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.WorldTools;
@@ -15,12 +20,14 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -34,6 +41,7 @@ import java.text.DecimalFormat;
 public class CookerBlock extends GenericBlockWithTE<CookerTE> {
 
     public static final PropertyEnum<EnumContents> CONTENTS = PropertyEnum.create("contents", EnumContents.class, EnumContents.values());
+    public static final PropertyEnum<EnumLiquid> LIQUID = PropertyEnum.create("liquid", EnumLiquid.class, EnumLiquid.values());
 
     public static final AxisAlignedBB COOKER_AABB = new AxisAlignedBB(0.05D, 0.0D, 0.05D, 0.95D, 0.62D, 0.95D);
 
@@ -63,6 +71,15 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         TileEntity te = world.getTileEntity(data.getPos());
         if (te instanceof CookerTE) {
             CookerTE cookerTE = (CookerTE) te;
+
+            // @todo make more general? Also used in immcraft
+            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(cookerTE, this);
+            if (selectedHandle != null) {
+                ItemStack currentStack = selectedHandle.getCurrentStack(te);
+                if (ItemStackTools.isValid(currentStack)) {
+                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
+                }
+            }
             DecimalFormat decimalFormat = new DecimalFormat("#.#");
 
             probeInfo.text(TextFormatting.GREEN + "Filled: " + cookerTE.getFilledPercentage() + "%");
@@ -78,10 +95,33 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
     @Override
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isValid(heldItem)) {
-                CookerTE cookerTE = getTE(world, pos);
+            CookerTE cookerTE = getTE(world, pos);
 
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+
+            if (!cookerTE.getSoup().isEmpty()) {
+                if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
+                    heldItem.splitStack(1);
+                    ItemStack dish = new ItemStack(ModItems.dish, 1, ItemDish.getDishMeta(cookerTE.getSoup()));
+                    if (ItemStackTools.isEmpty(player.getHeldItem(EnumHand.MAIN_HAND))) {
+                        player.setHeldItem(EnumHand.MAIN_HAND, dish);
+                    } else {
+                        // @todo generalize
+                        if (!player.inventory.addItemStackToInventory(dish)) {
+                            EntityItem entityItem = new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, dish);
+                            WorldTools.spawnEntity(player.getEntityWorld(), entityItem);
+                        }
+                    }
+                    cookerTE.setSoup("");
+                    cookerTE.setAmount(0);
+                    player.openContainer.detectAndSendChanges();
+                } else {
+                    ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the soup out"));
+                }
+                return true;
+            }
+
+            if (ItemStackTools.isValid(heldItem)) {
                 if (FluidTools.isEmptyContainer(heldItem)) {
                     ItemStack container = heldItem.splitStack(1);
                     extractIntoContainer(player, container, cookerTE);
@@ -134,6 +174,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
                     if (ItemStackTools.isValid(filledContainer)) {
                         cooker.setAmount(cooker.getAmount() - capacity);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                        // @todo generalize
                         if (!player.inventory.addItemStackToInventory(filledContainer)) {
                             EntityItem entityItem = new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, filledContainer);
                             WorldTools.spawnEntity(player.getEntityWorld(), entityItem);
@@ -143,6 +184,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
                         // Try to insert the fluid back into the tank
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, filledContainer);
                         cooker.setAmount(cooker.getAmount() + capacity);
+                        player.openContainer.detectAndSendChanges();
                     }
                 }
             }
@@ -171,14 +213,14 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         TileEntity te = worldIn.getTileEntity(pos);
         if (te instanceof CookerTE) {
             CookerTE cookerTE = (CookerTE) te;
-            state = state.withProperty(CONTENTS, cookerTE.getContentsState());
+            state = state.withProperty(CONTENTS, cookerTE.getContentsState()).withProperty(LIQUID, cookerTE.getLiquidState());
         }
         return state;
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING_HORIZ, CONTENTS);
+        return new BlockStateContainer(this, FACING_HORIZ, CONTENTS, LIQUID);
     }
 }
 

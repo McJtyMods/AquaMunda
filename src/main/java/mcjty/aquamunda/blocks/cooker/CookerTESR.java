@@ -39,7 +39,6 @@ public class CookerTESR extends HandleTESR<CookerTE> {
     @Override
     public void renderTileEntityAt(CookerTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         super.renderTileEntityAt(tileEntity, x, y, z, partialTicks, destroyStage);
-
         renderBoilingState(tileEntity, x, y, z);
     }
 

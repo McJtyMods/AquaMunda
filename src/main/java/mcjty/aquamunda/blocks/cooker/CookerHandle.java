@@ -47,6 +47,9 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
 
     @Override
     public boolean acceptAsInput(ItemStack stack) {
+        if (!cookerTE.getSoup().isEmpty()) {
+            return false;
+        }
         return CookerTE.getRecipe(stack) != null;
     }
 

@@ -17,6 +17,10 @@
         }
       }
     ],
+    "liquid": {
+      "water": { "textures": { "water": "blocks/water_still" } },
+      "soup": { "textures": { "water": "aquamunda:items/vegetable_soup" } }
+    },
     "contents": {
       "empty":  {},
       "low":    { "submodel": { "f1": { "model": "aquamunda:water_low" } } },

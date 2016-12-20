@@ -26,9 +26,6 @@ import net.minecraftforge.fluids.Fluid;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static mcjty.aquamunda.items.ItemDish.DISH_CARROTS;
-import static mcjty.aquamunda.items.ItemDish.DISH_VEGETABLE_SOUP;
-
 public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITickable {
 
     public static final int INPUT_PER_TICK = 3;
@@ -43,9 +40,12 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     private int maxCookTime = 0;
     private int cookTime = 0;
 
+    // If the cooker contains soup this will be the tag name of that dish
+    private String soup = "";
+
     private static CookerRecipe[] recipes = new CookerRecipe[] {
-            new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, 10),
-            new CookerRecipe(ModItems.choppedVegetables, ModItems.vegetableSoup, 10),
+            new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, "", 10),
+            new CookerRecipe(ModItems.choppedVegetables, null, ItemDish.DISH_VEGETABLE_SOUP, 10),
     };
     private static Map<ResourceLocation, List<CookerRecipe>> recipeMap = null;
 
@@ -202,12 +202,14 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         EnumContents oldContents = getContentsState();
+        EnumLiquid oldLiquid = getLiquidState();
 
         super.onDataPacket(net, packet);
         if (getWorld().isRemote) {
             // If needed send a render update.
             EnumContents newContents = getContentsState();
-            if (!newContents.equals(oldContents)) {
+            EnumLiquid newLiquid = getLiquidState();
+            if ((!newLiquid.equals(oldLiquid)) || !newContents.equals(oldContents)) {
                 getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
             }
         }
@@ -246,6 +248,23 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                 return 1.0f * 0.6f;
         }
         return 0.0f;
+    }
+
+    public String getSoup() {
+        return soup;
+    }
+
+    public void setSoup(String soup) {
+        this.soup = soup;
+        markDirtyClient();
+    }
+
+    public EnumLiquid getLiquidState() {
+        if (soup.isEmpty()) {
+            return EnumLiquid.WATER;
+        } else {
+            return EnumLiquid.SOUP;
+        }
     }
 
     public EnumContents getContentsState() {
@@ -309,9 +328,14 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                     if (cookTime <= 0) {
                         CookerRecipe recipe = getRecipe(getStackInSlot(SLOT_INPUT));
                         if (recipe != null) {
-                            ItemStack output = recipe.getOutputItem().copy();
-                            ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
-                            setInventorySlotContents(SLOT_INPUT, output);
+                            if (!recipe.getOutputSoup().isEmpty()) {
+                                setInventorySlotContents(SLOT_INPUT, ItemStackTools.getEmptyStack());
+                                soup = recipe.getOutputSoup();
+                            } else {
+                                ItemStack output = recipe.getOutputItem().copy();
+                                ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
+                                setInventorySlotContents(SLOT_INPUT, output);
+                            }
                             markDirtyClient();
                         }
                     }
@@ -374,6 +398,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         counter = tagCompound.getInteger("counter");
         cookTime = tagCompound.getInteger("cookTime");
         maxCookTime = tagCompound.getInteger("maxCookTime");
+        soup = tagCompound.getString("soup");
         connections.clear();
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (tagCompound.hasKey("c" + direction.ordinal())) {
@@ -390,7 +415,8 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                 .set("temperature", temperature)
                 .set("counter", counter)
                 .set("cookTime", cookTime)
-                .set("maxCookTime", maxCookTime);
+                .set("maxCookTime", maxCookTime)
+                .set("soup", soup);
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (connections.contains(direction)) {
                 helper.set("c" + direction.ordinal(), true);
