@@ -40,7 +40,8 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     private int cookTime = 0;
 
     private static CookerRecipe[] recipes = new CookerRecipe[] {
-            new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, 10)
+            new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, 10),
+            new CookerRecipe(ModItems.choppedVegetables, ModItems.vegetableSoup, 10),
     };
     private static Map<ResourceLocation, List<CookerRecipe>> recipeMap = null;
 

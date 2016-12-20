@@ -51,7 +51,8 @@ public class ItemDish extends CompatItemFood {
     }
 
     private static DishInfo[] dishInfos = new DishInfo[] {
-        new DishInfo("dish_carrots", 5, 0.6f, "carrots"),
+            new DishInfo("dish_carrots", 5, 0.6f, "carrots"),
+            new DishInfo("dish_vegetable_soup", 5, 0.6f, "carrots"),
     };
 
 

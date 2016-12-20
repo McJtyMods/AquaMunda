@@ -6,7 +6,8 @@
   },
   "variants": {
     "food": {
-      "carrots": { "textures": { "layer0": "aquamunda:items/bowl_cooked_carrots"  } }
+      "carrots": { "textures": { "layer0": "aquamunda:items/bowl_cooked_carrots"  } },
+      "vegetable_soup": { "textures": { "layer0": "aquamunda:items/bowl_vegetable_soup"  } }
     }
   }
 }
