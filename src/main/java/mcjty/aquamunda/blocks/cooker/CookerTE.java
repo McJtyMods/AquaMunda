@@ -36,6 +36,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     private int amount = 0;
     private float temperature = 20;
     private int counter = 0;
+    private int maxCookTime = 0;
     private int cookTime = 0;
 
     private static CookerRecipe[] recipes = new CookerRecipe[] {
@@ -48,7 +49,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
         addInterfaceHandle(new CookerHandle(this).slot(SLOT_INPUT).side(EnumFacing.UP).
                 bounds(0.33f, 0.33f, 0.66f, 0.66f).
-                renderOffset(new Vec3d(-0.095, 0.8, -0.02)).
+                renderOffset(new Vec3d(0.05, 0.8, -0.02)).
                 scale(.80f));
     }
 
@@ -207,7 +208,13 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         }
     }
 
+    public int getMaxCookTime() {
+        return maxCookTime;
+    }
 
+    public int getCookTime() {
+        return cookTime;
+    }
 
     public int getBoilingState() {
         if (temperature < 70) {
@@ -300,6 +307,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                             ItemStack output = recipe.getOutputItem().copy();
                             ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
                             setInventorySlotContents(SLOT_INPUT, output);
+                            markDirtyClient();
                         }
                     }
                 }
@@ -335,6 +343,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         CookerRecipe recipe = getRecipe(stack);
         if (recipe != null) {
             cookTime = recipe.getCookTime() * ItemStackTools.getStackSize(stack);
+            maxCookTime = cookTime;
             System.out.println("cookTime = " + cookTime);
             markDirty();
         }
@@ -359,6 +368,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         temperature = tagCompound.getFloat("temperature");
         counter = tagCompound.getInteger("counter");
         cookTime = tagCompound.getInteger("cookTime");
+        maxCookTime = tagCompound.getInteger("maxCookTime");
         connections.clear();
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (tagCompound.hasKey("c" + direction.ordinal())) {
@@ -374,7 +384,8 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
                 .set("amount", amount)
                 .set("temperature", temperature)
                 .set("counter", counter)
-                .set("cookTime", cookTime);
+                .set("cookTime", cookTime)
+                .set("maxCookTime", maxCookTime);
         for (EnumFacing direction : EnumFacing.VALUES) {
             if (connections.contains(direction)) {
                 helper.set("c" + direction.ordinal(), true);

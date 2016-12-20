@@ -65,9 +65,13 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
             CookerTE cookerTE = (CookerTE) te;
             DecimalFormat decimalFormat = new DecimalFormat("#.#");
 
-
             probeInfo.text(TextFormatting.GREEN + "Filled: " + cookerTE.getFilledPercentage() + "%");
             probeInfo.text(TextFormatting.GREEN + "Temperature: " + decimalFormat.format(cookerTE.getTemperature()));
+            int cookTime = cookerTE.getCookTime();
+            int maxCookTime = cookerTE.getMaxCookTime();
+            if (cookTime > 0) {
+                probeInfo.progress(maxCookTime - cookTime, maxCookTime);
+            }
         }
     }
 
