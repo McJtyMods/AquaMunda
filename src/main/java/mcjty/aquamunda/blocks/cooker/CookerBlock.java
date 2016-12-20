@@ -74,22 +74,23 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
 
     @Override
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
-            return true;
-        }
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (ItemStackTools.isValid(heldItem)) {
                 CookerTE cookerTE = getTE(world, pos);
 
                 if (FluidTools.isEmptyContainer(heldItem)) {
-                    extractIntoContainer(player, cookerTE);
+                    ItemStack container = heldItem.splitStack(1);
+                    extractIntoContainer(player, container, cookerTE);
                     return true;
                 } else if (FluidTools.isFilledContainer(heldItem)) {
                     fillFromContainer(player, world, cookerTE);
                     return true;
                 }
             }
+        }
+        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
+            return true;
         }
         return true;
     }
@@ -116,18 +117,17 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         }
     }
 
-    private void extractIntoContainer(EntityPlayer player, CookerTE cooker) {
+    private void extractIntoContainer(EntityPlayer player, ItemStack container, CookerTE cooker) {
         if (cooker.getAmount() > 0) {
             FluidStack fluidStack = new FluidStack(FluidSetup.freshWater, 1);
-            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isEmpty(heldItem)) {
+            if (ItemStackTools.isEmpty(container)) {
                 return;
             }
-            int capacity = FluidTools.getCapacity(fluidStack, heldItem);
+            int capacity = FluidTools.getCapacity(fluidStack, container);
             if (capacity != 0) {
                 if (cooker.getAmount() >= capacity) {
                     fluidStack.amount = capacity;
-                    ItemStack filledContainer = FluidTools.fillContainer(fluidStack, heldItem);
+                    ItemStack filledContainer = FluidTools.fillContainer(fluidStack, container);
                     if (ItemStackTools.isValid(filledContainer)) {
                         cooker.setAmount(cooker.getAmount() - capacity);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
