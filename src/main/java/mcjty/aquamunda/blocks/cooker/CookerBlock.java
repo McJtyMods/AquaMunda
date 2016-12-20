@@ -33,7 +33,6 @@ import java.text.DecimalFormat;
 
 public class CookerBlock extends GenericBlockWithTE<CookerTE> {
 
-    public static final PropertyEnum<EnumBoiling> BOILING = PropertyEnum.create("boiling", EnumBoiling.class, EnumBoiling.values());
     public static final PropertyEnum<EnumContents> CONTENTS = PropertyEnum.create("contents", EnumContents.class, EnumContents.values());
 
     public static final AxisAlignedBB COOKER_AABB = new AxisAlignedBB(0.05D, 0.0D, 0.05D, 0.95D, 0.62D, 0.95D);
@@ -168,14 +167,14 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         TileEntity te = worldIn.getTileEntity(pos);
         if (te instanceof CookerTE) {
             CookerTE cookerTE = (CookerTE) te;
-            state = state.withProperty(BOILING, cookerTE.getBoilingState()).withProperty(CONTENTS, cookerTE.getContentsState());
+            state = state.withProperty(CONTENTS, cookerTE.getContentsState());
         }
         return state;
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING_HORIZ, BOILING, CONTENTS);
+        return new BlockStateContainer(this, FACING_HORIZ, CONTENTS);
     }
 }
 

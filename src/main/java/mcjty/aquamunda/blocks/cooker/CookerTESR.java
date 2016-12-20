@@ -10,11 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -42,10 +40,100 @@ public class CookerTESR extends HandleTESR<CookerTE> {
     public void renderTileEntityAt(CookerTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         super.renderTileEntityAt(tileEntity, x, y, z, partialTicks, destroyStage);
 
-        renderCookingState(tileEntity);
+        renderBoilingState(tileEntity, x, y, z);
     }
 
-    private void renderCookingState(CookerTE tileEntity) {
+
+    private Vec3d offsets[] = new Vec3d[] {
+            new Vec3d(0, 0, 0),
+            new Vec3d(.25, 0, .2),
+            new Vec3d(0, 0, .26),
+            new Vec3d(-.1, 0, .3),
+            new Vec3d(-.17, 0, -.15),
+            new Vec3d(-.3, 0, -.2),
+            new Vec3d(.2, 0, -.3),
+            new Vec3d(-.07, 0, .12),
+            new Vec3d(.1, 0, -.1),
+            new Vec3d(-.23, 0, .15),
+    };
+    private long timeOffsets[] = new long[] {
+            0,
+            133,
+            300,
+            448,
+            750,
+            1010,
+            1200,
+            1344,
+            1800,
+            2369,
+    };
+
+    private void renderBoilingState(CookerTE tileEntity, double x, double y, double z) {
+        int boilingState = tileEntity.getBoilingState();
+        if (boilingState < 1) {
+            return;
+        }
+
+        GlStateManager.depthMask(false);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        this.bindTexture(particles);
+
+        GlStateManager.disableAlpha();
+
+        int brightness = 240;
+        int b1 = brightness >> 16 & 65535;
+        int b2 = brightness & 65535;
+
+        float height = tileEntity.getContentsHeight();
+        long time = System.currentTimeMillis();
+
+        double u1 = 10.0 / 16;
+        double v1 = 0.0;
+        double u2 = 12.0 / 16;
+        double v2 = 2.0 / 16;
+
+        for (int i = 0 ; i < offsets.length ; i++) {
+            float offset = ((time+timeOffsets[i]) % (3000 - boilingState * 250)) / 300.0f;
+
+            if (offset < 1) {
+                GlStateManager.pushMatrix();
+
+                double ox = offsets[i].xCoord + x + 0.5f;
+                double oy = offsets[i].yCoord + height - .47 + y + 0.5f;
+                double oz = offsets[i].zCoord + z + 0.5f;
+
+                GlStateManager.translate(ox, oy, oz);
+
+                rotateToPlayer();
+
+                Tessellator tessellator = Tessellator.getInstance();
+                VertexBuffer buffer = tessellator.getBuffer();
+                buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
+
+                double scale;
+                if (boilingState < 3) {
+                    scale = .002 + offset / 38.0f;
+                } else {
+                    scale = .01 + offset / (38.0f - boilingState * 2);
+                }
+
+                buffer.pos(-scale, -scale, 0).tex(u1, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+                buffer.pos(-scale,  scale, 0).tex(u1, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+                buffer.pos( scale,  scale, 0).tex(u2, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+                buffer.pos( scale, -scale, 0).tex(u2, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+
+                tessellator.draw();
+                GlStateManager.popMatrix();
+            }
+        }
+
+        GlStateManager.depthMask(true);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    private void renderCookingStateOld(CookerTE tileEntity, double x, double y, double z) {
         GlStateManager.depthMask(false);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
@@ -54,9 +142,6 @@ public class CookerTESR extends HandleTESR<CookerTE> {
         GlStateManager.disableAlpha();
 
         GlStateManager.pushMatrix();
-        int x = tileEntity.getPos().getX();
-        int y = tileEntity.getPos().getY();
-        int z = tileEntity.getPos().getZ();
         GlStateManager.translate(x + 0.5F, y + 0.5F, z + 0.5F);
 
         rotateToPlayer();
@@ -69,19 +154,29 @@ public class CookerTESR extends HandleTESR<CookerTE> {
         int b1 = brightness >> 16 & 65535;
         int b2 = brightness & 65535;
 
-        double ox = 0;
-        double oy = 0.8;
-        double oz = 0;
-        double scale = .4;
-        double u1 = 0.0;
-        double v1 = 0.0;
-        double u2 = 1.0/16;
-        double v2 = 1.0/16;
+        float height = tileEntity.getContentsHeight();
+        long time = System.currentTimeMillis();
 
-        buffer.pos(ox - scale, oy-scale, oz).tex(u1, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-        buffer.pos(ox - scale, oy+scale, oz).tex(u1, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-        buffer.pos(ox + scale, oy+scale, oz).tex(u2, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-        buffer.pos(ox + scale, oy-scale, oz).tex(u2, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+        double u1 = 10.0 / 16;
+        double v1 = 0.0;
+        double u2 = 12.0 / 16;
+        double v2 = 2.0 / 16;
+
+        for (int i = 0 ; i < offsets.length ; i++) {
+            float offset = ((time+timeOffsets[i]) % 1500) / 500.0f;
+
+            if (offset < 1) {
+                double ox = offsets[i].xCoord;
+                double oy = offsets[i].yCoord + height - .5;
+                double oz = offsets[i].zCoord;
+                double scale = .01 + offset / 18.0f;
+
+                buffer.pos(ox - scale, oy - scale, oz).tex(u1, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+                buffer.pos(ox - scale, oy + scale, oz).tex(u1, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+                buffer.pos(ox + scale, oy + scale, oz).tex(u2, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+                buffer.pos(ox + scale, oy - scale, oz).tex(u2, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
+            }
+        }
 
         tessellator.draw();
         GlStateManager.popMatrix();

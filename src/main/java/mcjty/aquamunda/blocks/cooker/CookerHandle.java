@@ -25,20 +25,7 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
         if (offset > .5) {
             offset = 1.0f - offset;
         }
-        float dy = 0;
-        switch(cookerTE.getContentsState()) {
-            case EMPTY:
-                dy = -.6f;
-                break;
-            case LOW:
-                dy = -.5f;
-                break;
-            case MEDIUM:
-                dy = -.3f;
-                break;
-            case FULL:
-                break;
-        }
+        float dy = cookerTE.getContentsHeight() - .6f;
         return super.getRenderOffset().addVector(0, (offset - 0.5f) / 20.0f + dy, 0);
     }
 

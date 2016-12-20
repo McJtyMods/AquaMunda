@@ -195,15 +195,13 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        EnumBoiling oldBoiling = getBoilingState();
         EnumContents oldContents = getContentsState();
 
         super.onDataPacket(net, packet);
         if (getWorld().isRemote) {
             // If needed send a render update.
-            EnumBoiling newBoiling = getBoilingState();
             EnumContents newContents = getContentsState();
-            if ((!newBoiling.equals(oldBoiling)) || (!newContents.equals(oldContents))) {
+            if (!newContents.equals(oldContents)) {
                 getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
             }
         }
@@ -211,14 +209,31 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
 
 
-    public EnumBoiling getBoilingState() {
+    public int getBoilingState() {
         if (temperature < 70) {
-            return EnumBoiling.COLD;
-        } else if (temperature < 97) {
-            return EnumBoiling.HOT;
-        } else {
-            return EnumBoiling.BOILING;
+            return 0;
+        } else if (temperature < 80) {
+            return 1;
+        } else if (temperature < 90) {
+            return 2;
+        } else if (temperature < 100) {
+            return (int) ((temperature-90) / 7 + 3);
         }
+        return 10;
+    }
+
+    public float getContentsHeight() {
+        switch (getContentsState()) {
+            case EMPTY:
+                return 0.1f;
+            case LOW:
+                return 0.4f * 0.6f;
+            case MEDIUM:
+                return 0.7f * 0.6f;
+            case FULL:
+                return 1.0f * 0.6f;
+        }
+        return 0.0f;
     }
 
     public EnumContents getContentsState() {
@@ -238,9 +253,9 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         if (temperature == newtemp) {
             return;
         }
-        EnumBoiling oldBoiling = getBoilingState();
+        int oldBoiling = getBoilingState();
         temperature = newtemp;
-        EnumBoiling newBoiling = getBoilingState();
+        int newBoiling = getBoilingState();
         if (oldBoiling != newBoiling) {
             markDirtyClient();
         } else {
