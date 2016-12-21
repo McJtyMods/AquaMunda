@@ -38,7 +38,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     private float temperature = 20;
     private int counter = 0;
     private int maxCookTime = 0;
-    private int cookTime = 0;
+    private int cookTime = -1;
 
     // If the cooker contains soup this will be the tag name of that dish
     private String soup = "";
@@ -298,69 +298,109 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     }
 
 
+    private int calculateMaxCookTime(ItemStack stack) {
+        CookerRecipe recipe = getRecipe(stack);
+        if (recipe != null) {
+            return (int) (recipe.getCookTime() * (0.5f + (ItemStackTools.getStackSize(stack)+3.0f) / 8.0f));
+        }
+        return 0;
+    }
+
     @Override
     public void update() {
         if (!getWorld().isRemote) {
+
             if (amount <= 0) {
-                // We have no liquid so we cool
-                if (temperature > 20) {
-                    changeTemperature(temperature-1);
-                    markDirty();
-                }
+                coolEmpty();
                 return;
             }
+
             counter--;
             if (counter <= 0) {
                 counter = TICKS_PER_OPERATION;
 
-                if (isHot()) {
-                    if (temperature < 100) {
-                        changeTemperature(temperature + (125.0f - getFilledPercentage()) / 100.0f);
-                    }
-                } else {
-                    if (temperature > 20) {
-                        changeTemperature(temperature - (125.0f - getFilledPercentage()) / 100.0f);
-                    }
-                }
-
+                fixCookTime();
+                changeTemperatureBasedOnHeat();
                 if (temperature > 99) {
-
-                    if (amount > 0) {
-                        // Evaporation
-                        setAmount(amount-1);
-                    }
-
-                    cookTime--;
-                    if (cookTime <= 0) {
-                        CookerRecipe recipe = getRecipe(getStackInSlot(SLOT_INPUT));
-                        if (recipe != null) {
-                            if (!recipe.getOutputSoup().isEmpty()) {
-                                setInventorySlotContents(SLOT_INPUT, ItemStackTools.getEmptyStack());
-                                soup = recipe.getOutputSoup();
-                            } else {
-                                ItemStack output = recipe.getOutputItem().copy();
-                                ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
-                                setInventorySlotContents(SLOT_INPUT, output);
-                            }
-                            markDirtyClient();
-                        }
-                    }
+                    boil();
                 }
             }
             markDirty();
         } else {
-            if (GeneralConfiguration.baseCookerVolume > 0.01f) {
-                int boilingState = getBoilingState();
-                if (boilingState >= 1) {
-                    float vol = (boilingState-1.0f)/9.0f;
-                    if (!CookerSoundController.isBoilingPlaying(getWorld(), pos)) {
-                        CookerSoundController.playBoiling(getWorld(), getPos(), vol);
-                    } else {
-                        CookerSoundController.updateVolume(getWorld(), getPos(), vol);
-                    }
+            updateBoilingSound();
+        }
+    }
+
+    private void fixCookTime() {
+        int mc = calculateMaxCookTime(getStackInSlot(SLOT_INPUT));
+        if (mc != maxCookTime) {
+            maxCookTime = mc;
+            if (cookTime > maxCookTime) {
+                cookTime = maxCookTime;
+            }
+        }
+    }
+
+    private void coolEmpty() {
+        // We have no liquid so we cool
+        if (temperature > 20) {
+            changeTemperature(temperature-1);
+            markDirty();
+        }
+    }
+
+    private void updateBoilingSound() {
+        if (GeneralConfiguration.baseCookerVolume > 0.01f) {
+            int boilingState = getBoilingState();
+            if (boilingState >= 1) {
+                float vol = (boilingState-1.0f)/9.0f;
+                if (!CookerSoundController.isBoilingPlaying(getWorld(), pos)) {
+                    CookerSoundController.playBoiling(getWorld(), getPos(), vol);
                 } else {
-                    CookerSoundController.stopSound(getWorld(), getPos());
+                    CookerSoundController.updateVolume(getWorld(), getPos(), vol);
                 }
+            } else {
+                CookerSoundController.stopSound(getWorld(), getPos());
+            }
+        }
+    }
+
+    private void boil() {
+        if (amount > 0) {
+            // Evaporation
+            setAmount(amount-1);
+        }
+
+        if (cookTime == -1) {
+            return;
+        }
+        cookTime++;
+        if (cookTime >= maxCookTime) {
+            cookTime = -1;
+            maxCookTime = 0;
+            CookerRecipe recipe = getRecipe(getStackInSlot(SLOT_INPUT));
+            if (recipe != null) {
+                if (!recipe.getOutputSoup().isEmpty()) {
+                    setInventorySlotContents(SLOT_INPUT, ItemStackTools.getEmptyStack());
+                    soup = recipe.getOutputSoup();
+                } else {
+                    ItemStack output = recipe.getOutputItem().copy();
+                    ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
+                    setInventorySlotContents(SLOT_INPUT, output);
+                }
+                markDirtyClient();
+            }
+        }
+    }
+
+    private void changeTemperatureBasedOnHeat() {
+        if (isHot()) {
+            if (temperature < 100) {
+                changeTemperature(temperature + (125.0f - getFilledPercentage()) / 100.0f);
+            }
+        } else {
+            if (temperature > 20) {
+                changeTemperature(temperature - (125.0f - getFilledPercentage()) / 100.0f);
             }
         }
     }
@@ -377,9 +417,8 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     public void setInventorySlotContents(int index, ItemStack stack) {
         CookerRecipe recipe = getRecipe(stack);
         if (recipe != null) {
-            cookTime = recipe.getCookTime() * ItemStackTools.getStackSize(stack);
-            maxCookTime = cookTime;
-            System.out.println("cookTime = " + cookTime);
+            maxCookTime = calculateMaxCookTime(stack);
+            cookTime = 0;
             markDirty();
         }
         super.setInventorySlotContents(index, stack);
