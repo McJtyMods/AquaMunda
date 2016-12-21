@@ -1,6 +1,7 @@
 package mcjty.aquamunda.blocks;
 
 import mcjty.aquamunda.blocks.cooker.CookerBlock;
+import mcjty.aquamunda.blocks.cuttingboard.CuttingBoardBlock;
 import mcjty.aquamunda.blocks.hose.HoseBlock;
 import mcjty.aquamunda.blocks.customblocks.BlockDeadCrop;
 import mcjty.aquamunda.blocks.customblocks.CustomFarmLand;
@@ -28,6 +29,7 @@ public class ModBlocks {
     public static DesalinationBoilerBlock desalinationBoilerBlock;
     public static DesalinationTankBlock desalinationTankBlock;
     public static CookerBlock cookerBlock;
+    public static CuttingBoardBlock cuttingBoardBlock;
 
     public static CustomFarmLand customFarmLand;
     public static BlockDeadCrop deadCarrot;
@@ -41,6 +43,7 @@ public class ModBlocks {
         desalinationBoilerBlock = new DesalinationBoilerBlock();
         desalinationTankBlock = new DesalinationTankBlock();
         cookerBlock = new CookerBlock();
+        cuttingBoardBlock = new CuttingBoardBlock();
 
         customFarmLand = new CustomFarmLand();
         GameRegistry.register(customFarmLand);
@@ -77,6 +80,7 @@ public class ModBlocks {
         desalinationTankBlock.initModel();
         customFarmLand.initModel();
         cookerBlock.initModel();
+        cuttingBoardBlock.initModel();
 
         deadCarrot.initModel();
         deadWheat.initModel();

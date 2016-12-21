@@ -390,8 +390,8 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return false;
+    public boolean isUsable(EntityPlayer player) {
+        return true;
     }
 
     private static Random random = new Random();

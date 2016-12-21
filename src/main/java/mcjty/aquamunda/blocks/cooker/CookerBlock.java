@@ -191,6 +191,11 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> {
         }
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+        return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
