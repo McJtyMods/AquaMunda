@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.cooker;
 
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.recipes.CookerRecipeRepository;
 import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,7 +51,7 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
         if (!cookerTE.getSoup().isEmpty()) {
             return false;
         }
-        return CookerTE.getRecipe(stack) != null;
+        return CookerRecipeRepository.getRecipe(stack) != null;
     }
 
     @Override

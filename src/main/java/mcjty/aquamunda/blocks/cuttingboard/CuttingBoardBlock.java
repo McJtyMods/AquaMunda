@@ -1,6 +1,7 @@
 package mcjty.aquamunda.blocks.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
+import mcjty.aquamunda.items.ModItems;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ItemStackTools;
@@ -54,15 +55,21 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> {
         super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
         TileEntity te = world.getTileEntity(data.getPos());
         if (te instanceof CuttingBoardTE) {
-            CuttingBoardTE cookerTE = (CuttingBoardTE) te;
+            CuttingBoardTE cuttingBoardTE = (CuttingBoardTE) te;
 
             // @todo make more general? Also used in immcraft
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(cookerTE, this);
+            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(cuttingBoardTE, this);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
                 if (ItemStackTools.isValid(currentStack)) {
                     probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
                 }
+            }
+
+            int chopCounter = cuttingBoardTE.getChopCounter();
+            int maxChopCounter = cuttingBoardTE.getMaxChopCounter();
+            if (chopCounter >= 0) {
+                probeInfo.progress(chopCounter, maxChopCounter);
             }
         }
     }
@@ -74,6 +81,9 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> {
 
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
+                return true;
+            } else if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == ModItems.kitchenKnife) {
+                cuttingBoardTE.chopChop(player);
                 return true;
             }
         }

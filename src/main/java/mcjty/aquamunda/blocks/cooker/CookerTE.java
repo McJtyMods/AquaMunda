@@ -4,26 +4,23 @@ import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
-import mcjty.aquamunda.items.ItemDish;
-import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.recipes.CookerRecipe;
+import mcjty.aquamunda.recipes.CookerRecipeRepository;
 import mcjty.aquamunda.sound.CookerSoundController;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.Fluid;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITickable {
@@ -43,12 +40,6 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     // If the cooker contains soup this will be the tag name of that dish
     private String soup = "";
 
-    private static CookerRecipe[] recipes = new CookerRecipe[] {
-            new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, "", 10),
-            new CookerRecipe(ModItems.choppedVegetables, null, ItemDish.DISH_VEGETABLE_SOUP, 10),
-    };
-    private static Map<ResourceLocation, List<CookerRecipe>> recipeMap = null;
-
     public CookerTE() {
         super(1);
 
@@ -59,38 +50,6 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     }
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
-
-    private static void setupRecipeMap() {
-        if (recipeMap == null) {
-            recipeMap = new HashMap<>();
-            for (CookerRecipe recipe : recipes) {
-                ResourceLocation key = recipe.getInputItem().getItem().getRegistryName();
-                if (!recipeMap.containsKey(key)) {
-                    recipeMap.put(key, new ArrayList<>());
-                }
-                recipeMap.get(key).add(recipe);
-            }
-        }
-    }
-
-    @Nullable
-    public static CookerRecipe getRecipe(ItemStack stack) {
-        if (ItemStackTools.isEmpty(stack)) {
-            return null;
-        }
-        setupRecipeMap();
-        ResourceLocation key = stack.getItem().getRegistryName();
-        if (recipeMap.containsKey(key)) {
-            List<CookerRecipe> recipes = recipeMap.get(key);
-            for (CookerRecipe recipe : recipes) {
-                if (ItemStack.areItemStackTagsEqual(recipe.getInputItem(), stack)) {
-                    return recipe;
-                }
-            }
-
-        }
-        return null;
-    }
 
     @Override
     public boolean canConnect(EnumFacing blockSide) {
@@ -299,7 +258,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
 
     private int calculateMaxCookTime(ItemStack stack) {
-        CookerRecipe recipe = getRecipe(stack);
+        CookerRecipe recipe = CookerRecipeRepository.getRecipe(stack);
         if (recipe != null) {
             return (int) (recipe.getCookTime() * (0.5f + (ItemStackTools.getStackSize(stack)+3.0f) / 8.0f));
         }
@@ -378,7 +337,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
         if (cookTime >= maxCookTime) {
             cookTime = -1;
             maxCookTime = 0;
-            CookerRecipe recipe = getRecipe(getStackInSlot(SLOT_INPUT));
+            CookerRecipe recipe = CookerRecipeRepository.getRecipe(getStackInSlot(SLOT_INPUT));
             if (recipe != null) {
                 if (!recipe.getOutputSoup().isEmpty()) {
                     setInventorySlotContents(SLOT_INPUT, ItemStackTools.getEmptyStack());
@@ -415,7 +374,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
-        CookerRecipe recipe = getRecipe(stack);
+        CookerRecipe recipe = CookerRecipeRepository.getRecipe(stack);
         if (recipe != null) {
             maxCookTime = calculateMaxCookTime(stack);
             cookTime = 0;
