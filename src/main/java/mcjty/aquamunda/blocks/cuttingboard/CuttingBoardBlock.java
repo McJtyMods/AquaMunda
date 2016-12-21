@@ -3,7 +3,6 @@ package mcjty.aquamunda.blocks.cuttingboard;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
-import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -19,7 +18,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -75,12 +73,9 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> {
             CuttingBoardTE cuttingBoardTE = getTE(world, pos);
 
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-
             if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
-            } else {
-                ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the soup out"));
+                return true;
             }
-            return true;
         }
         if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
             return true;

@@ -33,14 +33,14 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
 
         addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.UP)
                 .bounds(boundsdx * 4, boundsdy * y, boundsdx * (4 + 1), boundsdy * (y + 1))
-                .renderOffset(new Vec3d(renderdx * (4 - 1) - renderdx / 2.0, 0.15, renderdz * (y - 1) - .02))
+                .renderOffset(new Vec3d(renderdx * (4 - 1) - renderdx / 2.0, 0.3, renderdz * (y - 1) - .02))
                 .scale(.80f));
     }
 
     private void addInputHandle(float boundsdx, float boundsdy, double renderdx, double renderdz, int x, int y, int slot) {
         addInterfaceHandle(new InputInterfaceHandle().slot(slot).side(EnumFacing.UP)
                 .bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1))
-                .renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.1, renderdz * (y - 1) - .02))
+                .renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.3, renderdz * (y - 1) - .02))
                 .scale(.60f));
     }
 
