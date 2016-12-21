@@ -8,11 +8,13 @@ public class ModItems {
     public static ItemCookedCarrot cookedCarrot;
     public static ItemChoppedVegetables choppedVegetables;
     public static ItemDish dish;
+    public static ItemKitchenKnife kitchenKnife;
 
     public static void init() {
         cookedCarrot = new ItemCookedCarrot();
         choppedVegetables = new ItemChoppedVegetables();
         dish = new ItemDish();
+        kitchenKnife = new ItemKitchenKnife();
     }
 
     @SideOnly(Side.CLIENT)
@@ -20,5 +22,6 @@ public class ModItems {
         cookedCarrot.initModel();
         choppedVegetables.initModel();
         dish.initModel();
+        kitchenKnife.initModel();
     }
 }
