@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.grindstone.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
+import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
@@ -42,8 +43,8 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
         addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 1, 1, SLOT_INPUT);
 
         addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.UP)
-                .bounds(boundsdx * 3, boundsdy * 2, boundsdx * (3 + 1), boundsdy * (2 + 1))
-                .renderOffset(new Vec3d(renderdx * (3 - 1) - renderdx / 2.0, 0.55, renderdz * (2 - 1) - .02))
+                .bounds(boundsdx * 2, boundsdy * 1, boundsdx * (2 + 1), boundsdy * (1 + 1))
+                .renderOffset(new Vec3d(renderdx * (2 - 1) - renderdx / 2.0, 0.55, renderdz * (1 - 1) - .02))
                 .scale(.80f));
     }
 
@@ -55,12 +56,12 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
     }
 
     public void grind(EntityPlayer player) {
-        ItemStack outputItem = new ItemStack(Items.DIAMOND);
+        ItemStack outputItem = new ItemStack(ModItems.flour);
         if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"));
         } else {
             grindCounter = 0;
-            maxGrindCounter = 8;
+            maxGrindCounter = 5;
             markDirtyClient();
         }
     }
@@ -71,6 +72,18 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
             if (grindCounter >= maxGrindCounter) {
                 grindCounter = -1;
                 maxGrindCounter = 0;
+                ItemStack input = getStackInSlot(SLOT_INPUT);
+                if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT)) || ItemStack.areItemStackTagsEqual(new ItemStack(ModItems.flour), getStackInSlot(SLOT_OUTPUT))) {
+                    if (ItemStackTools.isValid(input) && input.getItem() == Items.WHEAT) {
+                        input = ItemStackTools.incStackSize(input, -1);
+                        setInventorySlotContents(SLOT_INPUT, input);
+                        if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT))) {
+                            setInventorySlotContents(SLOT_OUTPUT, new ItemStack(ModItems.flour));
+                        } else {
+                            ItemStackTools.incStackSize(getStackInSlot(SLOT_OUTPUT), 1);
+                        }
+                    }
+                }
                 markDirtyClient();
             }
         }
