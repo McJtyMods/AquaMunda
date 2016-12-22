@@ -4,6 +4,7 @@ import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.lib.tools.FluidTools;
 import mcjty.lib.tools.ItemStackTools;
@@ -146,7 +147,8 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         if (ItemStackTools.isEmpty(heldItem)) {
             return;
         }
-        FluidStack fluidStack = FluidTools.convertBucketToFluid(heldItem);
+        ItemStack container = heldItem.splitStack(1);
+        FluidStack fluidStack = FluidTools.convertBucketToFluid(container);
         if (fluidStack != null) {
             if (tank.getFluid() == fluidStack.getFluid() || tank.getFluid() == null) {
                 int newAmount = tank.getContents() + fluidStack.amount;
@@ -155,8 +157,8 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                     tank.setFluid(fluidStack.getFluid());
                     ImmersiveCraftHandler.tankNetwork.save(world);
                     if (!player.capabilities.isCreativeMode) {
-                        ItemStack emptyContainer = FluidTools.drainContainer(heldItem);
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, emptyContainer);
+                        ItemStack emptyContainer = FluidTools.drainContainer(container);
+                        InventoryHelper.giveItemToPlayer(player, emptyContainer);
                     }
                 }
             }
@@ -170,27 +172,24 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
             if (ItemStackTools.isEmpty(heldItem)) {
                 return;
             }
-            int capacity = FluidTools.getCapacity(fluidStack, heldItem);
+            ItemStack container = heldItem.splitStack(1);
+            int capacity = FluidTools.getCapacity(fluidStack, container);
             if (capacity != 0) {
                 if (tank.getContents() >= capacity) {
                     fluidStack.amount = capacity;
-                    ItemStack filledContainer = FluidTools.fillContainer(fluidStack, heldItem);
+                    ItemStack filledContainer = FluidTools.fillContainer(fluidStack, container);
                     if (ItemStackTools.isValid(filledContainer)) {
                         tank.setContents(tank.getContents() - capacity);
-                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                        if (!player.inventory.addItemStackToInventory(filledContainer)) {
-                            EntityItem entityItem = new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, filledContainer);
-                            WorldTools.spawnEntity(player.getEntityWorld(), entityItem);
-                        }
-                        player.openContainer.detectAndSendChanges();
+                        InventoryHelper.giveItemToPlayer(player, filledContainer);
                     } else {
                         // Try to insert the fluid back into the tank
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, filledContainer);
+                        InventoryHelper.giveItemToPlayer(player, container);
                         tank.setContents(tank.getContents() + capacity);
                     }
                     ImmersiveCraftHandler.tankNetwork.save(player.getEntityWorld());
                 }
             }
+            player.openContainer.detectAndSendChanges();
         }
     }
 
