@@ -83,19 +83,22 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
 
     @Override
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
+            return true;
+        }
         if (!world.isRemote) {
             CuttingBoardTE cuttingBoardTE = getTE(world, pos);
 
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
-                return true;
-            } else if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == ModItems.kitchenKnife) {
+            if (ItemStackTools.isEmpty(heldItem)) {
+                if (cuttingBoardTE.kneadDough(player)) {
+                    return true;
+                }
+            }
+            if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == ModItems.kitchenKnife) {
                 cuttingBoardTE.chopChop(player);
                 return true;
             }
-        }
-        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
-            return true;
         }
         return true;
     }

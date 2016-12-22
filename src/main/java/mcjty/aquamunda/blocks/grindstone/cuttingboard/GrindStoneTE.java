@@ -25,8 +25,7 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
 
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;
-
-    public static final int TICKS_PER_OPERATION = 20;
+    public static final int MAX_GRIND_COUNTER = 100;
 
     private int grindCounter = -1;
     private int maxGrindCounter = 0;
@@ -61,7 +60,7 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"));
         } else {
             grindCounter = 0;
-            maxGrindCounter = 5;
+            maxGrindCounter = MAX_GRIND_COUNTER;
             markDirtyClient();
         }
     }
@@ -100,17 +99,12 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
     @Override
     public void update() {
         if (!getWorld().isRemote) {
-
-            counter--;
-            if (counter <= 0) {
-                counter = TICKS_PER_OPERATION;
-
-                grind();
-            }
+            grind();
             markDirty();
         } else {
             if (grindCounter >= 0) {
                 startGrindingSound();
+                grindCounter++;     // Update grindCounter client side too
             } else {
                 SoundController.stopSound(getWorld(), getPos());
             }

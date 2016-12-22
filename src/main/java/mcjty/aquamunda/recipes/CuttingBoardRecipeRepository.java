@@ -16,7 +16,8 @@ import java.util.Map;
 public class CuttingBoardRecipeRepository {
 
     private static CuttingBoardRecipe[] recipes = new CuttingBoardRecipe[] {
-            new CuttingBoardRecipe(Items.CARROT, Items.BEETROOT, Item.getItemFromBlock(Blocks.BROWN_MUSHROOM), ModItems.choppedVegetables, 2)
+            new CuttingBoardRecipe(Items.CARROT, Items.BEETROOT, Item.getItemFromBlock(Blocks.BROWN_MUSHROOM), ModItems.choppedVegetables, 2, false),
+            new CuttingBoardRecipe(ModItems.flour, null, null, ModItems.dough, 10, true)
     };
     private static Map<KeyResourceLocations, List<CuttingBoardRecipe>> recipeMap = null;
 

@@ -32,7 +32,7 @@ public class CommonProxy {
     public void init(FMLInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         ModBlocks.initCrafting();
-//            ModItems.initCrafting();
+        ModItems.initCrafting();
         EntityTools.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
     }
 

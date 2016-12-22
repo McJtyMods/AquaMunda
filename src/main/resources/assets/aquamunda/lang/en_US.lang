@@ -4,6 +4,8 @@ item.chopped_vegetables.name=Chopped Vegetables
 item.dish_carrots.name=Cooked Carrot Dish
 item.dish_vegetable_soup.name=Vegetable Soup Dish
 item.kitchen_knife.name=Kitchen Knife
+item.flour.name=Flour
+item.dough.name=Dough
 
 tile.fresh_water.name=Fresh Water Fluid
 tile.freshWater.name=Fresh Water
