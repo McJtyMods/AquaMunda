@@ -21,10 +21,12 @@ public final class SoundController {
 
     private static SoundEvent boilingwater;
     private static SoundEvent chopping;
+    private static SoundEvent grindstone;
 
     public static void init() {
         boilingwater = registerSound(new ResourceLocation(AquaMunda.MODID, "boilingwater"));
         chopping = registerSound(new ResourceLocation(AquaMunda.MODID, "chopping"));
+        grindstone = registerSound(new ResourceLocation(AquaMunda.MODID, "grindstone"));
     }
 
     private static final Map<Pair<Integer, BlockPos>, AquaSound> sounds = Maps.newHashMap();
@@ -62,6 +64,10 @@ public final class SoundController {
         playSound(worldObj, pos, chopping, volume, GeneralConfiguration.baseCookerVolume);
     }
 
+    public static void playGrindstone(World worldObj, BlockPos pos, float volume) {
+        playSound(worldObj, pos, grindstone, volume, GeneralConfiguration.baseGrindstoneVolume);
+    }
+
     public static void updateVolume(World worldObj, BlockPos pos, float volume) {
         AquaSound sound = getSoundAt(worldObj, pos);
         if (sound != null) {
@@ -75,6 +81,10 @@ public final class SoundController {
 
     public static boolean isChoppingPlaying(World worldObj, BlockPos pos) {
         return isSoundTypePlayingAt(chopping, worldObj, pos);
+    }
+
+    public static boolean isGrindstonePlaying(World worldObj, BlockPos pos) {
+        return isSoundTypePlayingAt(grindstone, worldObj, pos);
     }
 
 

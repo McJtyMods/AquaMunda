@@ -7,6 +7,7 @@ public class GeneralConfiguration {
 
     public static float baseCookerVolume = 0.6f;     // Use 0 to turn off
     public static float baseChoppingVolume = 1.0f;   // Use 0 to turn off
+    public static float baseGrindstoneVolume = 0.6f; // Use 0 to turn off
 
     // @todo!!!!!
     public static void init(Configuration cfg) {
@@ -14,5 +15,7 @@ public class GeneralConfiguration {
                 "The volume for the cooker sound (0.0 is off)").getDouble();
         baseChoppingVolume = (float) cfg.get(CATEGORY_GENERAL, "baseChoppingVolume", baseChoppingVolume,
                 "The volume for the chopping sound (0.0 is off)").getDouble();
+        baseGrindstoneVolume = (float) cfg.get(CATEGORY_GENERAL, "baseGrindstoneVolume", baseGrindstoneVolume,
+                "The volume for the grindstone sound (0.0 is off)").getDouble();
     }
 }

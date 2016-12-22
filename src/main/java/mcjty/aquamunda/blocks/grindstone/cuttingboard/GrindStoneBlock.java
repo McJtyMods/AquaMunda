@@ -77,12 +77,12 @@ public class GrindStoneBlock extends GenericBlockWithTE<GrindStoneTE> implements
 
     @Override
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
-//            GrindStoneTE grindStoneTE = getTE(world, pos);
-
-        }
         if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
             return true;
+        }
+        if (!world.isRemote) {
+            GrindStoneTE grindStoneTE = getTE(world, pos);
+            grindStoneTE.grind(player);
         }
         return true;
     }

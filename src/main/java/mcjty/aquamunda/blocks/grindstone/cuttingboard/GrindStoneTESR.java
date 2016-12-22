@@ -56,8 +56,10 @@ public class GrindStoneTESR extends HandleTESR<GrindStoneTE> {
     protected void renderExtra(GrindStoneTE tileEntity) {
         GlStateManager.pushMatrix();
 
-        long t = System.currentTimeMillis();
-        GlStateManager.rotate(360.0f * (t % 2000) / 2000.0f, 0, 1, 0);
+        if (tileEntity.getGrindCounter() >= 0) {
+            long t = System.currentTimeMillis();
+            GlStateManager.rotate(360.0f * (t % 2000) / 2000.0f, 0, 1, 0);
+        }
 
         GlStateManager.translate(-tileEntity.getPos().getX()-.5, -tileEntity.getPos().getY() - 1, -tileEntity.getPos().getZ()-.5);
 
