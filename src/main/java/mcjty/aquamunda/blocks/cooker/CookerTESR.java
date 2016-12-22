@@ -134,58 +134,6 @@ public class CookerTESR extends HandleTESR<CookerTE> {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    private void renderCookingStateOld(CookerTE tileEntity, double x, double y, double z) {
-        GlStateManager.depthMask(false);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        this.bindTexture(particles);
-
-        GlStateManager.disableAlpha();
-
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x + 0.5F, y + 0.5F, z + 0.5F);
-
-        rotateToPlayer();
-
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
-
-        int brightness = 240;
-        int b1 = brightness >> 16 & 65535;
-        int b2 = brightness & 65535;
-
-        float height = tileEntity.getContentsHeight();
-        long time = System.currentTimeMillis();
-
-        double u1 = 10.0 / 16;
-        double v1 = 0.0;
-        double u2 = 12.0 / 16;
-        double v2 = 2.0 / 16;
-
-        for (int i = 0 ; i < offsets.length ; i++) {
-            float offset = ((time+timeOffsets[i]) % 1500) / 500.0f;
-
-            if (offset < 1) {
-                double ox = offsets[i].xCoord;
-                double oy = offsets[i].yCoord + height - .5;
-                double oz = offsets[i].zCoord;
-                double scale = .01 + offset / 18.0f;
-
-                buffer.pos(ox - scale, oy - scale, oz).tex(u1, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-                buffer.pos(ox - scale, oy + scale, oz).tex(u1, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-                buffer.pos(ox + scale, oy + scale, oz).tex(u2, v2).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-                buffer.pos(ox + scale, oy - scale, oz).tex(u2, v1).lightmap(b1, b2).color(255, 255, 255, 255).endVertex();
-            }
-        }
-
-        tessellator.draw();
-        GlStateManager.popMatrix();
-
-        GlStateManager.depthMask(true);
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    }
-
     public static void rotateToPlayer() {
         GlStateManager.rotate(-Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);

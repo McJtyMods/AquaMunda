@@ -1,4 +1,4 @@
-package mcjty.aquamunda.blocks.cuttingboard;
+package mcjty.aquamunda.blocks.grindstone.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.items.ModItems;
@@ -27,12 +27,12 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implements ISoundProducer {
+public class GrindStoneBlock extends GenericBlockWithTE<GrindStoneTE> implements ISoundProducer {
 
-    public static final AxisAlignedBB BOARD_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.05D, 0.90D, 0.1D, 0.95D);
+    public static final AxisAlignedBB BOARD_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.05D, 0.90D, 0.4D, 0.95D);
 
-    public CuttingBoardBlock() {
-        super(Material.IRON, "cutting_board", CuttingBoardTE.class);
+    public GrindStoneBlock() {
+        super(Material.ROCK, "grindstone", GrindStoneTE.class);
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("pickaxe", 0);
@@ -42,13 +42,7 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(CuttingBoardTE.class, new CuttingBoardTESR());
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-        return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+        ClientRegistry.bindTileEntitySpecialRenderer(GrindStoneTE.class, new GrindStoneTESR());
     }
 
 
@@ -58,25 +52,25 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+        return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
+    }
+
+    @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
         TileEntity te = world.getTileEntity(data.getPos());
-        if (te instanceof CuttingBoardTE) {
-            CuttingBoardTE cuttingBoardTE = (CuttingBoardTE) te;
+        if (te instanceof GrindStoneTE) {
+            GrindStoneTE grindStoneTE = (GrindStoneTE) te;
 
             // @todo make more general? Also used in immcraft
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(cuttingBoardTE, this);
+            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(grindStoneTE, this);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
                 if (ItemStackTools.isValid(currentStack)) {
                     probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
                 }
-            }
-
-            int chopCounter = cuttingBoardTE.getChopCounter();
-            int maxChopCounter = cuttingBoardTE.getMaxChopCounter();
-            if (chopCounter >= 0) {
-                probeInfo.progress(chopCounter, maxChopCounter);
             }
         }
     }
@@ -84,15 +78,8 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
     @Override
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            CuttingBoardTE cuttingBoardTE = getTE(world, pos);
+//            GrindStoneTE grindStoneTE = getTE(world, pos);
 
-            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
-                return true;
-            } else if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == ModItems.kitchenKnife) {
-                cuttingBoardTE.chopChop(player);
-                return true;
-            }
         }
         if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
             return true;

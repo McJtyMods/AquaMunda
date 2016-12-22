@@ -17,6 +17,7 @@ tile.boiler.name=Desalination Boiler
 tile.evaporator.name=Desalination Tank
 tile.cooker.name=Cooker
 tile.cutting_board.name=Cutting Board
+tile.grindstone.name=Grindstone
 
 itemGroup.AquaMunda=Aqua Munda
 key.categories.aquamunda=Aqua Munda
