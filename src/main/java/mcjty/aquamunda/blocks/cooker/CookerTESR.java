@@ -129,6 +129,8 @@ public class CookerTESR extends HandleTESR<CookerTE> {
         }
 
         GlStateManager.depthMask(true);
+        GlStateManager.enableAlpha();
+        GlStateManager.disableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
