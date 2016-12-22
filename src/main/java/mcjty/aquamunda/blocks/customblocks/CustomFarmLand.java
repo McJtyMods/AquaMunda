@@ -132,9 +132,9 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         GameData data = environmentData.getData();
         byte moistness = data.get(world.provider.getDimension(), pos);
         if (moistness == 0) {
-            if (random.nextInt(4) == 2) {
-                killPlant(world, pos);
-            }
+//            if (random.nextInt(4) == 2) {
+//                killPlant(world, pos);
+//            }
         } else {
             moistness--;
             data.set(world.provider.getDimension(), pos, moistness);

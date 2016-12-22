@@ -7,8 +7,9 @@ item.kitchen_knife.name=Kitchen Knife
 item.flour.name=Flour
 item.dough.name=Dough
 
-tile.fresh_water.name=Fresh Water Fluid
-tile.freshWater.name=Fresh Water
+fluid.fresh_water=Fresh Water
+
+tile.fresh_water.name=Fresh Water
 tile.dead_carrot.name=Dead Carrot
 tile.dead_wheat.name=Dead Wheat
 tile.sprinkler.name=Sprinkler

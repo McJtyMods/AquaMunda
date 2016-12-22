@@ -94,6 +94,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
             return false;
         } else {
             chopCounter = 0;
+            kneading = recipe.isEmptyHand();
             markDirtyClient();
         }
         return true;
