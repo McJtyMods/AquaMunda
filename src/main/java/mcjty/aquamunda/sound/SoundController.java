@@ -2,6 +2,7 @@ package mcjty.aquamunda.sound;
 
 import com.google.common.collect.Maps;
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.config.GeneralConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.util.ResourceLocation;
@@ -16,15 +17,17 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public final class CookerSoundController {
+public final class SoundController {
+
+    private static SoundEvent boilingwater;
+    private static SoundEvent chopping;
 
     public static void init() {
         boilingwater = registerSound(new ResourceLocation(AquaMunda.MODID, "boilingwater"));
+        chopping = registerSound(new ResourceLocation(AquaMunda.MODID, "chopping"));
     }
 
     private static final Map<Pair<Integer, BlockPos>, AquaSound> sounds = Maps.newHashMap();
-
-    protected static SoundEvent boilingwater;
 
     private static SoundEvent registerSound(ResourceLocation rl){
         SoundEvent ret = new SoundEvent(rl).setRegistryName(rl);
@@ -41,8 +44,8 @@ public final class CookerSoundController {
         }
     }
 
-    private static void playSound(World worldObj, BlockPos pos, SoundEvent soundType, float volume) {
-        AquaSound sound = new AquaSound(soundType, worldObj, pos);
+    private static void playSound(World worldObj, BlockPos pos, SoundEvent soundType, float volume, float baseVolume) {
+        AquaSound sound = new AquaSound(soundType, worldObj, pos, baseVolume);
         sound.setVolume(volume);
         stopSound(worldObj, pos);
         Minecraft.getMinecraft().getSoundHandler().playSound(sound);
@@ -52,7 +55,11 @@ public final class CookerSoundController {
 
 
     public static void playBoiling(World worldObj, BlockPos pos, float volume) {
-        playSound(worldObj, pos, boilingwater, volume);
+        playSound(worldObj, pos, boilingwater, volume, GeneralConfiguration.baseCookerVolume);
+    }
+
+    public static void playChopping(World worldObj, BlockPos pos, float volume) {
+        playSound(worldObj, pos, chopping, volume, GeneralConfiguration.baseCookerVolume);
     }
 
     public static void updateVolume(World worldObj, BlockPos pos, float volume) {
@@ -64,6 +71,10 @@ public final class CookerSoundController {
 
     public static boolean isBoilingPlaying(World worldObj, BlockPos pos) {
         return isSoundTypePlayingAt(boilingwater, worldObj, pos);
+    }
+
+    public static boolean isChoppingPlaying(World worldObj, BlockPos pos) {
+        return isSoundTypePlayingAt(chopping, worldObj, pos);
     }
 
 

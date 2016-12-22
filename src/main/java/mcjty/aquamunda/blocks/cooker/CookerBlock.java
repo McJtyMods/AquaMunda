@@ -4,6 +4,7 @@ import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ChatTools;
@@ -38,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.text.DecimalFormat;
 
-public class CookerBlock extends GenericBlockWithTE<CookerTE> {
+public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundProducer {
 
     public static final PropertyEnum<EnumContents> CONTENTS = PropertyEnum.create("contents", EnumContents.class, EnumContents.values());
     public static final PropertyEnum<EnumLiquid> LIQUID = PropertyEnum.create("liquid", EnumLiquid.class, EnumLiquid.values());

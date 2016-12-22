@@ -6,7 +6,7 @@ import mcjty.aquamunda.blocks.tank.TankModelLoader;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.items.ModItems;
-import mcjty.aquamunda.sound.CookerSoundController;
+import mcjty.aquamunda.sound.SoundController;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +28,7 @@ public class ClientProxy extends CommonProxy {
 
         ModBlocks.initModels();
         ModItems.initModels();
-        CookerSoundController.init();
+        SoundController.init();
         FluidSetup.initRenderer();
     }
 

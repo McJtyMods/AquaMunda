@@ -12,7 +12,7 @@ public class ItemKitchenKnife extends CompatItem {
 
     public ItemKitchenKnife() {
         super();
-        setMaxStackSize(64);
+        setMaxStackSize(1);
         setRegistryName("kitchen_knife");
         setUnlocalizedName("kitchen_knife");
         setCreativeTab(AquaMunda.creativeTab);

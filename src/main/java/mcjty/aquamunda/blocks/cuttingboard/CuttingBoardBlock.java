@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ItemStackTools;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> {
+public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implements ISoundProducer {
 
     public static final AxisAlignedBB BOARD_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.05D, 0.90D, 0.1D, 0.95D);
 

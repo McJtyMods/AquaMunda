@@ -12,7 +12,7 @@ public class ItemChoppedVegetables extends CompatItem {
 
     public ItemChoppedVegetables() {
         super();
-        setMaxStackSize(1);
+        setMaxStackSize(16);
         setRegistryName("chopped_vegetables");
         setUnlocalizedName("chopped_vegetables");
         setCreativeTab(AquaMunda.creativeTab);

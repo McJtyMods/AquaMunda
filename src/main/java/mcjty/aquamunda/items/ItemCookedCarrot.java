@@ -13,7 +13,7 @@ public class ItemCookedCarrot extends CompatItem implements ICookerResult {
 
     public ItemCookedCarrot() {
         super();
-        setMaxStackSize(64);
+        setMaxStackSize(16);
         setRegistryName("cooked_carrot");
         setUnlocalizedName("cooked_carrot");
         setCreativeTab(AquaMunda.creativeTab);

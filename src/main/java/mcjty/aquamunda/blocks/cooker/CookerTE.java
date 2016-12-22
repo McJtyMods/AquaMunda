@@ -6,7 +6,7 @@ import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.hosemultiblock.IHoseConnector;
 import mcjty.aquamunda.recipes.CookerRecipe;
 import mcjty.aquamunda.recipes.CookerRecipeRepository;
-import mcjty.aquamunda.sound.CookerSoundController;
+import mcjty.aquamunda.sound.SoundController;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.helpers.NBTHelper;
@@ -313,13 +313,13 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
             int boilingState = getBoilingState();
             if (boilingState >= 1) {
                 float vol = (boilingState-1.0f)/9.0f;
-                if (!CookerSoundController.isBoilingPlaying(getWorld(), pos)) {
-                    CookerSoundController.playBoiling(getWorld(), getPos(), vol);
+                if (!SoundController.isBoilingPlaying(getWorld(), pos)) {
+                    SoundController.playBoiling(getWorld(), getPos(), vol);
                 } else {
-                    CookerSoundController.updateVolume(getWorld(), getPos(), vol);
+                    SoundController.updateVolume(getWorld(), getPos(), vol);
                 }
             } else {
-                CookerSoundController.stopSound(getWorld(), getPos());
+                SoundController.stopSound(getWorld(), getPos());
             }
         }
     }
@@ -368,7 +368,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     public void invalidate() {
         super.invalidate();
         if (getWorld().isRemote) {
-            CookerSoundController.stopSound(getWorld(), getPos());
+            SoundController.stopSound(getWorld(), getPos());
         }
     }
 

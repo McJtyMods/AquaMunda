@@ -14,7 +14,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class AquaSound extends MovingSound {
 
-    public AquaSound(SoundEvent event, World world, BlockPos pos){
+    private final float baseVolume;
+
+    public AquaSound(SoundEvent event, World world, BlockPos pos, float baseVolume) {
         super(event, SoundCategory.BLOCKS);
         this.world = world;
         this.pos = pos;
@@ -25,6 +27,7 @@ public class AquaSound extends MovingSound {
         this.repeat = true;
         this.repeatDelay = 0;
         this.sound = event;
+        this.baseVolume = baseVolume;
     }
 
     private final World world;
@@ -35,11 +38,11 @@ public class AquaSound extends MovingSound {
     @Override
     public void update() {
         Block block = world.getBlockState(pos).getBlock();
-        if (block != ModBlocks.cookerBlock) {
+        if (!(block instanceof ISoundProducer)) {
             donePlaying = true;
             return;
         }
-        volume = GeneralConfiguration.baseCookerVolume * vol;
+        volume = baseVolume * vol;
     }
 
     public void setVolume(float volume) {

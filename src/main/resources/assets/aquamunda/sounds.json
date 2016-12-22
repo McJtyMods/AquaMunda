@@ -1,3 +1,4 @@
 {
-    "boilingwater" : {"category": "block", "sounds": ["aquamunda:boilingwater"]}
+    "boilingwater" : {"category": "block", "sounds": ["aquamunda:boilingwater"]},
+    "chopping" : {"category": "block", "sounds": ["aquamunda:chopping"]}
 }

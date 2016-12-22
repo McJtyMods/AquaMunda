@@ -1,8 +1,10 @@
 package mcjty.aquamunda.blocks.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
+import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.recipes.CuttingBoardRecipe;
 import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
+import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.InventoryHelper;
@@ -39,15 +41,13 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
         double renderdx = 0.19;
         double renderdz = 0.29;
 
-        int x = 0;
-        int y = 1;
         addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 0, 1, SLOT_INPUT);
         addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 2, 1, SLOT_INPUT+1);
         addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 1, 2, SLOT_INPUT+2);
 
         addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.UP)
-                .bounds(boundsdx * 3, boundsdy * y, boundsdx * (3 + 1), boundsdy * (y + 1))
-                .renderOffset(new Vec3d(renderdx * (3 - 1) - renderdx / 2.0, 0.25, renderdz * (y - 1) - .02))
+                .bounds(boundsdx * 3, boundsdy * 2, boundsdx * (3 + 1), boundsdy * (2 + 1))
+                .renderOffset(new Vec3d(renderdx * (3 - 1) - renderdx / 2.0, 0.25, renderdz * (2 - 1) - .02))
                 .scale(.80f));
     }
 
@@ -69,7 +69,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
                 ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the board first!"));
             } else {
                 chopCounter = 0;
-                markDirty();
+                markDirtyClient();
             }
         }
     }
@@ -130,31 +130,29 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
             }
             markDirty();
         } else {
-            updateChoppingSound();
+            if (chopCounter >= 0) {
+                startChoppingSound();
+            } else {
+                SoundController.stopSound(getWorld(), getPos());
+            }
         }
     }
 
-    private void updateChoppingSound() {
-//        if (GeneralConfiguration.baseCookerVolume > 0.01f) {
-//            int boilingState = getBoilingState();
-//            if (boilingState >= 1) {
-//                float vol = (boilingState-1.0f)/9.0f;
-//                if (!CookerSoundController.isBoilingPlaying(getWorld(), pos)) {
-//                    CookerSoundController.playBoiling(getWorld(), getPos(), vol);
-//                } else {
-//                    CookerSoundController.updateVolume(getWorld(), getPos(), vol);
-//                }
-//            } else {
-//                CookerSoundController.stopSound(getWorld(), getPos());
-//            }
-//        }
+    public void startChoppingSound() {
+        if (GeneralConfiguration.baseChoppingVolume > 0.01f) {
+            if (!SoundController.isChoppingPlaying(getWorld(), pos)) {
+                SoundController.playChopping(getWorld(), getPos(), 1.0f);
+            }
+        } else {
+            SoundController.stopSound(getWorld(), getPos());
+        }
     }
 
     @Override
     public void invalidate() {
         super.invalidate();
         if (getWorld().isRemote) {
-//            CookerSoundController.stopSound(getWorld(), getPos());
+            SoundController.stopSound(getWorld(), getPos());
         }
     }
 
