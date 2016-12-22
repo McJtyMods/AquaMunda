@@ -39,18 +39,18 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
         double renderdx = 0.19;
         double renderdz = 0.29;
 
-        addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 0, 1, SLOT_INPUT);
+        addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 1, 1, SLOT_INPUT);
 
         addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.UP)
                 .bounds(boundsdx * 3, boundsdy * 2, boundsdx * (3 + 1), boundsdy * (2 + 1))
-                .renderOffset(new Vec3d(renderdx * (3 - 1) - renderdx / 2.0, 0.25, renderdz * (2 - 1) - .02))
+                .renderOffset(new Vec3d(renderdx * (3 - 1) - renderdx / 2.0, 0.55, renderdz * (2 - 1) - .02))
                 .scale(.80f));
     }
 
     private void addInputHandle(float boundsdx, float boundsdy, double renderdx, double renderdz, int x, int y, int slot) {
         addInterfaceHandle(new InputInterfaceHandle().slot(slot).side(EnumFacing.UP)
                 .bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1))
-                .renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.25, renderdz * (y - 1) - .02))
+                .renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.55, renderdz * (y - 1) - .02))
                 .scale(.60f));
     }
 
