@@ -4,20 +4,17 @@ import mcjty.immcraft.api.input.KeyType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 
 public interface IInterfaceHandle {
-    float getMinX();
-    float getMaxX();
-    float getMinY();
-    float getMaxY();
-    EnumFacing getSide();
     float getScale();
-
-    Vec3d getRenderOffset();
+    String getSelectorID();
 
     ItemStack getCurrentStack(TileEntity inventoryTE);
+
+    default Vec3d getRenderOffset() {
+        return Vec3d.ZERO;
+    }
 
     default int getInsertAmount(boolean sneak) {
         return sneak ? 1 : -1;

@@ -3,6 +3,7 @@ package mcjty.immcraft.api.generic;
 
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.lib.compat.CompatBlock;
@@ -20,26 +21,37 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class GenericBlock extends CompatBlock implements IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
+    private final Map<String, HandleSelector> selectors = new HashMap<>();
+
     @SideOnly(Side.CLIENT)
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+    }
+
+    protected void addSelector(HandleSelector selector) {
+        selectors.put(selector.getId(), selector);
+    }
+
+    public Map<String, HandleSelector> getSelectors() {
+        return selectors;
     }
 
     protected abstract IImmersiveCraft getApi();
@@ -193,6 +205,18 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
         }
     }
 
+    public Vec3d worldToBlockSpace(World world, BlockPos pos, Vec3d v) {
+        switch (getMetaUsage()) {
+            case HORIZROTATION:
+                return OrientationTools.worldToBlockSpaceHoriz(v, world.getBlockState(pos));
+            case ROTATION:
+                return OrientationTools.worldToBlockSpace(v, world.getBlockState(pos));
+            case NONE:
+            default:
+                return v;
+        }
+    }
+
     @Override
     public IBlockState getStateFromMeta(int meta) {
         switch (getMetaUsage()) {
@@ -276,5 +300,26 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         InventoryHelper.getInventory(world, pos).ifPresent(p -> InventoryHelper.emptyInventoryInWorld(world, pos, state.getBlock(), p));
         super.breakBlock(world, pos, state);
+    }
+
+    @Nullable
+    @Override
+    public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
+        Vec3d p = new Vec3d(pos);
+        start = worldToBlockSpace(worldIn, pos, start.subtract(p));
+        end = worldToBlockSpace(worldIn, pos, end.subtract(p));
+
+        for (HandleSelector selector : selectors.values()) {
+            RayTraceResult result = selector.getBox().calculateIntercept(start, end);
+            if (result != null) {
+                RayTraceResult rc = new RayTraceResult(result.hitVec.add(p), result.sideHit, pos);
+                rc.hitInfo = selector;
+                return rc;
+            }
+        }
+
+        AxisAlignedBB boundingBox = blockState.getBoundingBox(worldIn, pos);
+        RayTraceResult raytraceresult = boundingBox.calculateIntercept(start, end);
+        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.add(p), raytraceresult.sideHit, pos);
     }
 }

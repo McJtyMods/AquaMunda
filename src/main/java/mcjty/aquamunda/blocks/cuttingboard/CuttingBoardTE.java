@@ -13,13 +13,9 @@ import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-
-import java.util.Random;
 
 public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
 
@@ -36,26 +32,10 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     public CuttingBoardTE() {
         super(4);
 
-        float boundsdx = .25f;
-        float boundsdy = .33f;
-        double renderdx = 0.19;
-        double renderdz = 0.29;
-
-        addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 0, 1, SLOT_INPUT);
-        addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 2, 1, SLOT_INPUT+1);
-        addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 1, 2, SLOT_INPUT+2);
-
-        addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.UP)
-                .bounds(boundsdx * 3, boundsdy * 2, boundsdx * (3 + 1), boundsdy * (2 + 1))
-                .renderOffset(new Vec3d(renderdx * (3 - 1) - renderdx / 2.0, 0.25, renderdz * (2 - 1) - .02))
-                .scale(.80f));
-    }
-
-    private void addInputHandle(float boundsdx, float boundsdy, double renderdx, double renderdz, int x, int y, int slot) {
-        addInterfaceHandle(new InputInterfaceHandle().slot(slot).side(EnumFacing.UP)
-                .bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1))
-                .renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.25, renderdz * (y - 1) - .02))
-                .scale(.60f));
+        addInterfaceHandle(new InputInterfaceHandle(CuttingBoardBlock.SEL_INPUT1).slot(SLOT_INPUT).scale(.60f));
+        addInterfaceHandle(new InputInterfaceHandle(CuttingBoardBlock.SEL_INPUT2).slot(SLOT_INPUT+1).scale(.60f));
+        addInterfaceHandle(new InputInterfaceHandle(CuttingBoardBlock.SEL_INPUT3).slot(SLOT_INPUT+2).scale(.60f));
+        addInterfaceHandle(new OutputInterfaceHandle(CuttingBoardBlock.SEL_OUTPUT).slot(SLOT_OUTPUT).scale(.80f));
     }
 
     public boolean kneadDough(EntityPlayer player) {

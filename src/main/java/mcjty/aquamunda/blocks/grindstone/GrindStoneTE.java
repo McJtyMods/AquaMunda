@@ -1,4 +1,4 @@
-package mcjty.aquamunda.blocks.grindstone.cuttingboard;
+package mcjty.aquamunda.blocks.grindstone;
 
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
@@ -13,9 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
@@ -34,24 +32,8 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
     public GrindStoneTE() {
         super(2);
 
-        float boundsdx = .25f;
-        float boundsdy = .33f;
-        double renderdx = 0.19;
-        double renderdz = 0.29;
-
-        addInputHandle(boundsdx, boundsdy, renderdx, renderdz, 1, 1, SLOT_INPUT);
-
-        addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.UP)
-                .bounds(boundsdx * 2, boundsdy * 1, boundsdx * (2 + 1), boundsdy * (1 + 1))
-                .renderOffset(new Vec3d(renderdx * (2 - 1) - renderdx / 2.0, 0.55, renderdz * (1 - 1) - .02))
-                .scale(.80f));
-    }
-
-    private void addInputHandle(float boundsdx, float boundsdy, double renderdx, double renderdz, int x, int y, int slot) {
-        addInterfaceHandle(new InputInterfaceHandle().slot(slot).side(EnumFacing.UP)
-                .bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1))
-                .renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.55, renderdz * (y - 1) - .02))
-                .scale(.60f));
+        addInterfaceHandle(new InputInterfaceHandle("input").slot(SLOT_INPUT).scale(.60f));
+        addInterfaceHandle(new OutputInterfaceHandle("output").slot(SLOT_OUTPUT).scale(.80f));
     }
 
     public void grind(EntityPlayer player) {

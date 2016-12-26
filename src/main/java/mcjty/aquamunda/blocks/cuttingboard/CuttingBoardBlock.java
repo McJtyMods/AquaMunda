@@ -3,6 +3,7 @@ package mcjty.aquamunda.blocks.cuttingboard;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.ISoundProducer;
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ItemStackTools;
@@ -13,7 +14,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -31,11 +31,28 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
 
     public static final AxisAlignedBB BOARD_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.05D, 0.90D, 0.1D, 0.95D);
 
+    public static final String SEL_INPUT1 = "i1";
+    public static final String SEL_INPUT2 = "i2";
+    public static final String SEL_INPUT3 = "i3";
+    public static final String SEL_OUTPUT = "o";
+
+
     public CuttingBoardBlock() {
         super(Material.IRON, "cutting_board", CuttingBoardTE.class);
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("pickaxe", 0);
+
+        float boundsdx = .2f;
+        float boundsdz = .3f;
+        addSelector(createSelector(SEL_INPUT1, boundsdx, boundsdz, 0, 1));
+        addSelector(createSelector(SEL_INPUT2, boundsdx, boundsdz, 2, 1));
+        addSelector(createSelector(SEL_INPUT3, boundsdx, boundsdz, 1, 2));
+        addSelector(createSelector(SEL_OUTPUT, boundsdx, boundsdz, 3, 1.5f));
+    }
+
+    private HandleSelector createSelector(String id, float boundsdx, float boundsdz, float x, float y) {
+        return new HandleSelector(id, new AxisAlignedBB(boundsdx * x + .1f, 0.2f, boundsdz * y + .1f, boundsdx * (x + 1) + .1f, 0.3f, boundsdz * (y + 1) + .1f));
     }
 
     @SideOnly(Side.CLIENT)
@@ -50,7 +67,6 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
     public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
         return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
     }
-
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {

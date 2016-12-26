@@ -1,8 +1,8 @@
-package mcjty.aquamunda.blocks.grindstone.cuttingboard;
+package mcjty.aquamunda.blocks.grindstone;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
-import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.ISoundProducer;
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ItemStackTools;
@@ -13,7 +13,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -36,6 +35,9 @@ public class GrindStoneBlock extends GenericBlockWithTE<GrindStoneTE> implements
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("pickaxe", 0);
+
+        addSelector(new HandleSelector("input", new AxisAlignedBB(.25, .4, .35, .49, .65, .65)));
+        addSelector(new HandleSelector("output", new AxisAlignedBB(.51, .4, .35, .75, .65, .65)));
     }
 
     @SideOnly(Side.CLIENT)

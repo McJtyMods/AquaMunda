@@ -21,7 +21,9 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.Fluid;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.Random;
+import java.util.Set;
 
 public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITickable {
 
@@ -43,10 +45,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     public CookerTE() {
         super(1);
 
-        addInterfaceHandle(new CookerHandle(this).slot(SLOT_INPUT).side(EnumFacing.UP).
-                bounds(0.33f, 0.33f, 0.66f, 0.66f).
-                renderOffset(new Vec3d(0.05, 0.8, -0.02)).
-                scale(.80f));
+        addInterfaceHandle(new CookerHandle(this, "slot").slot(SLOT_INPUT).scale(.80f));
     }
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);

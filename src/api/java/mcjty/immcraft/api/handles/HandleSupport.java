@@ -29,11 +29,9 @@ public class HandleSupport {
         interfaceHandles.add(handle);
     }
 
-    public IInterfaceHandle getHandleFromFace(EnumFacing worldSide, EnumFacing side, Vec3d hitVec, EnumFacing front) {
-        double sx2 = calculateHitX(hitVec, worldSide, front);
-        double sy2 = calculateHitY(hitVec, worldSide, front);
+    public IInterfaceHandle getHandleWithID(String id) {
         for (IInterfaceHandle handle : interfaceHandles) {
-            if (handle.getSide() == side && handle.getMinX() <= sx2 && sx2 <= handle.getMaxX() && handle.getMinY() <= sy2 && sy2 <= handle.getMaxY()) {
+            if (id.equals(handle.getSelectorID())) {
                 return handle;
             }
         }

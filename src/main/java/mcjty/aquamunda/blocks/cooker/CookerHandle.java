@@ -14,9 +14,11 @@ import net.minecraft.util.text.TextFormatting;
 
 class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
 
+
     private final CookerTE cookerTE;
 
-    public CookerHandle(CookerTE cookerTE) {
+    public CookerHandle(CookerTE cookerTE, String id) {
+        super(id);
         this.cookerTE = cookerTE;
     }
 
@@ -33,7 +35,7 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
             offset = 1.0f - offset;
         }
         float dy = cookerTE.getContentsHeight() - .6f;
-        return super.getRenderOffset().addVector(0, (offset - 0.5f) / 20.0f + dy, 0);
+        return new Vec3d(0, (offset - 0.5f) / 20.0f + dy, 0);
     }
 
     @Override

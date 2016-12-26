@@ -5,6 +5,7 @@ import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.ISoundProducer;
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ChatTools;
@@ -51,6 +52,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
         setHardness(2.0f);
         setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", 0);
+        addSelector(new HandleSelector("slot", new AxisAlignedBB(.33, .4, .33, .66, 1, .66)));
     }
 
     @SideOnly(Side.CLIENT)

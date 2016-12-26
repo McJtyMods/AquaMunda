@@ -1,4 +1,4 @@
-package mcjty.aquamunda.blocks.grindstone.cuttingboard;
+package mcjty.aquamunda.blocks.grindstone;
 
 
 import mcjty.aquamunda.AquaMunda;
