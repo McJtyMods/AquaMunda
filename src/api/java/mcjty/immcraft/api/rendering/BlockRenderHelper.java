@@ -33,6 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,7 @@ public final class BlockRenderHelper {
      * @param te
      * @return
      */
+    @Nullable
     public static IInterfaceHandle getFacingInterfaceHandle(GenericTE te, GenericBlock block) {
         RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
         if (mouseOver != null && te.getPos().equals(mouseOver.getBlockPos())) {
@@ -173,55 +175,59 @@ public final class BlockRenderHelper {
 
         for (IInterfaceHandle handle : te.getInterfaceHandles()) {
             boolean selected = selectedHandle == handle;
-            ItemStack ghosted = ItemStackTools.getEmptyStack();
-            ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
-            ItemStack stackInSlot = handle.getCurrentStack(te);
-            if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
-                if (handle.acceptAsInput(heldItem)) {
-                    ghosted = heldItem;
-                }
-            }
-            if (handle.getSelectorID() != null) {
-                HandleSelector selector = selectors.get(handle.getSelectorID());
-                if (selector != null) {
-                    AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-                    renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
-                }
-            }
+            renderHandle(te, selectors, handle, selected);
         }
         if (MinecraftTools.getPlayer(Minecraft.getMinecraft()).isSneaking()) {
             for (IInterfaceHandle handle : te.getInterfaceHandles()) {
                 boolean selected = selectedHandle == handle;
-                ItemStack ghosted = ItemStackTools.getEmptyStack();
-                ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
-                ItemStack stackInSlot = handle.getCurrentStack(te);
-                if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
-                    if (handle.acceptAsInput(heldItem)) {
-                        ghosted = heldItem;
-                    }
-                }
-
-                boolean showRequirements = selected && handle.isCrafting();
-                List<String> present = Collections.emptyList();
-                List<String> missing = Collections.emptyList();
-                if (showRequirements) {
-                    long time = System.currentTimeMillis();
-                    if ((time - lastUpdateTime) > 300) {
-                        lastUpdateTime = time;
-                        api.requestIngredients(te.getPos());
-                    }
-                    present = te.getIngredients();
-                    missing = te.getMissingIngredients();
-                }
-
-                if (handle.getSelectorID() != null) {
-                    HandleSelector selector = selectors.get(handle.getSelectorID());
-                    if (selector != null) {
-                        AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-                        renderTextOverlay(box.getCenter().add(handle.getRenderOffset()), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
-                    }
-                }
+                renderHandleText(api, te, textOffset, selectors, handle, selected);
             }
+        }
+    }
+
+    private static void renderHandleText(IImmersiveCraft api, GenericTE te, Vec3d textOffset, Map<String, HandleSelector> selectors, IInterfaceHandle handle, boolean selected) {
+        ItemStack ghosted = ItemStackTools.getEmptyStack();
+        ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack stackInSlot = handle.getCurrentStack(te);
+        if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
+            if (handle.acceptAsInput(heldItem)) {
+                ghosted = heldItem;
+            }
+        }
+
+        boolean showRequirements = selected && handle.isCrafting();
+        List<String> present = Collections.emptyList();
+        List<String> missing = Collections.emptyList();
+        if (showRequirements) {
+            long time = System.currentTimeMillis();
+            if ((time - lastUpdateTime) > 300) {
+                lastUpdateTime = time;
+                api.requestIngredients(te.getPos());
+            }
+            present = te.getIngredients();
+            missing = te.getMissingIngredients();
+        }
+
+        HandleSelector selector = selectors.get(handle.getSelectorID());
+        if (selector != null) {
+            AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
+            renderTextOverlay(box.getCenter().add(handle.getRenderOffset()), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
+        }
+    }
+
+    private static void renderHandle(GenericTE te, Map<String, HandleSelector> selectors, IInterfaceHandle handle, boolean selected) {
+        ItemStack ghosted = ItemStackTools.getEmptyStack();
+        ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack stackInSlot = handle.getCurrentStack(te);
+        if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
+            if (handle.acceptAsInput(heldItem)) {
+                ghosted = heldItem;
+            }
+        }
+        HandleSelector selector = selectors.get(handle.getSelectorID());
+        if (selector != null) {
+            AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
+            renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
         }
     }
 
