@@ -108,7 +108,7 @@ public class GenericTE extends TileEntity {
         return false;
     }
 
-    private IInterfaceHandle getHandle(EntityPlayer player) {
+    protected IInterfaceHandle getHandle(EntityPlayer player) {
         IInterfaceHandle handle = null;
         RayTraceResult traceResult = IntersectionTools.getMovingObjectPositionFromPlayer(getWorld(), player, true);
         if (traceResult != null && traceResult.hitInfo instanceof HandleSelector) {

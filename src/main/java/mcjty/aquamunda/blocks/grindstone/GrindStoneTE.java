@@ -4,6 +4,7 @@ import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.SoundController;
+import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
@@ -109,6 +110,16 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
         if (getWorld().isRemote) {
             SoundController.stopSound(getWorld(), getPos());
         }
+    }
+
+    @Override
+    public boolean onActivate(EntityPlayer player) {
+        IInterfaceHandle handle = getHandle(player);
+        if (handle == null && !getWorld().isRemote) {
+            grind(player);
+            return true;
+        }
+        return super.onActivate(player);
     }
 
     @Override
