@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
+import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.recipes.CuttingBoardRecipe;
 import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
 import mcjty.aquamunda.sound.SoundController;
@@ -11,8 +12,11 @@ import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -161,6 +165,19 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
         super.invalidate();
         if (getWorld().isRemote) {
             SoundController.stopSound(getWorld(), getPos());
+        }
+    }
+
+    @Override
+    public boolean onActivate(EntityPlayer player) {
+        if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.kitchenKnife) {
+            chopChop(player);
+            return true;
+        } else if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.doughRoller) {
+            kneadDough(player);
+            return true;
+        } else {
+            return super.onActivate(player);
         }
     }
 

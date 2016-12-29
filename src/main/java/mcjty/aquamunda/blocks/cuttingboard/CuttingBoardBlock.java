@@ -1,7 +1,6 @@
 package mcjty.aquamunda.blocks.cuttingboard;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
-import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
@@ -17,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -95,28 +93,6 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
                 probeInfo.progress(chopCounter, maxChopCounter);
             }
         }
-    }
-
-    @Override
-    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
-            return true;
-        }
-        if (!world.isRemote) {
-            CuttingBoardTE cuttingBoardTE = getTE(world, pos);
-
-            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isEmpty(heldItem)) {
-                if (cuttingBoardTE.kneadDough(player)) {
-                    return true;
-                }
-            }
-            if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == ModItems.kitchenKnife) {
-                cuttingBoardTE.chopChop(player);
-                return true;
-            }
-        }
-        return true;
     }
 
     @Override
