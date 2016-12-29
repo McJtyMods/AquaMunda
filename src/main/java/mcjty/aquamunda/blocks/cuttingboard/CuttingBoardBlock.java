@@ -52,7 +52,7 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
     }
 
     private HandleSelector createSelector(String id, float boundsdx, float boundsdz, float x, float y) {
-        return new HandleSelector(id, new AxisAlignedBB(boundsdx * x + .1f, 0.2f, boundsdz * y + .1f, boundsdx * (x + 1) + .1f, 0.3f, boundsdz * (y + 1) + .1f));
+        return new HandleSelector(id, new AxisAlignedBB(boundsdx * x + .1f, 0.15f, boundsdz * y + .1f, boundsdx * (x + 1) + .1f, 0.25f, boundsdz * (y + 1) + .1f));
     }
 
     @SideOnly(Side.CLIENT)
