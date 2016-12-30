@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 @Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME,
         dependencies =
                 "required-after:compatlayer@[" + AquaMunda.COMPATLAYER_VER + ",);" +
+                "required-after:immcraft@[" + AquaMunda.MIN_IMMCRAFT_VER + ",);" +
                 "after:Forge@[" + AquaMunda.MIN_FORGE10_VER + ",);" +
                 "after:forge@[" + AquaMunda.MIN_FORGE11_VER + ",)",
         version = AquaMunda.VERSION,
@@ -29,11 +30,11 @@ import javax.annotation.Nullable;
 public class AquaMunda {
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
-    public static final String VERSION = "1.0.0";
-    public static final String MIN_IMMCRAFT_VER = "1.2.3";
+    public static final String VERSION = "0.0.1alpha";
+    public static final String MIN_IMMCRAFT_VER = "1.2.4";
     public static final String MIN_FORGE10_VER = "12.18.1.2082";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
-    public static final String COMPATLAYER_VER = "0.1.5";
+    public static final String COMPATLAYER_VER = "0.1.6";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
     public static CommonProxy proxy;
