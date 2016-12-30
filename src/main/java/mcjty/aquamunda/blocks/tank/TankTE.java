@@ -21,7 +21,7 @@ import java.util.Map;
 public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTile<Tank> {
 
     public static final int MAX_CONTENTS = 10000;       // 10 buckets
-    public static final int ADD_RAIN = 100;             // How much to add when it is raining
+    public static final int ADD_RAIN = 200;             // How much to add when it is raining
     public static final int EVAPORATE_AMOUNT = 5;       // How much to remove on evaporation
 
     private int networkId = -1;
