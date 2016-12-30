@@ -17,6 +17,7 @@ public class CuttingBoardRecipeRepository {
 
     private static CuttingBoardRecipe[] recipes = new CuttingBoardRecipe[] {
             new CuttingBoardRecipe(Items.CARROT, Items.BEETROOT, Item.getItemFromBlock(Blocks.BROWN_MUSHROOM), ModItems.choppedVegetables, 2, false),
+            new CuttingBoardRecipe(Items.CARROT, Items.BEETROOT, Item.getItemFromBlock(Blocks.RED_MUSHROOM), ModItems.choppedVegetables, 2, false),
             new CuttingBoardRecipe(ModItems.flour, null, null, ModItems.dough, 10, true)
     };
     private static Map<KeyResourceLocations, List<CuttingBoardRecipe>> recipeMap = null;

@@ -12,10 +12,8 @@ import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.TextComponentString;
@@ -48,7 +46,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Nothing to knead here"));
             return false;
         }
-        if (!recipe.isEmptyHand()) {
+        if (!recipe.isUseRoller()) {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You can't knead those ingredients"));
             return false;
         }
@@ -62,7 +60,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You can't find anything useful to do with these ingredients"));
             return;
         }
-        if (recipe.isEmptyHand()) {
+        if (recipe.isUseRoller()) {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Using a knife on these ingredients wouldn't work very well"));
             return;
         }
@@ -78,7 +76,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
             return false;
         } else {
             chopCounter = 0;
-            kneading = recipe.isEmptyHand();
+            kneading = recipe.isUseRoller();
             markDirtyClient();
         }
         return true;

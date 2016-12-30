@@ -4,7 +4,6 @@ import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -13,9 +12,9 @@ public class CuttingBoardRecipe {
     private final ItemStack[] inputItems;
     private final ItemStack outputItem;
     private final int chopTime;
-    private final boolean emptyHand;
+    private final boolean useRoller;
 
-    public CuttingBoardRecipe(Item inputItem1, Item inputItem2, Item inputItem3, Item outputItem, int chopTime, boolean emptyHand) {
+    public CuttingBoardRecipe(Item inputItem1, Item inputItem2, Item inputItem3, Item outputItem, int chopTime, boolean useRoller) {
         inputItems = new ItemStack[3];
         inputItems[0] = new ItemStack(inputItem1);
         inputItems[1] = new ItemStack(inputItem2);
@@ -24,7 +23,7 @@ public class CuttingBoardRecipe {
 
         this.outputItem = outputItem == null ? ItemStackTools.getEmptyStack() : new ItemStack(outputItem);
         this.chopTime = chopTime;
-        this.emptyHand = emptyHand;
+        this.useRoller = useRoller;
     }
 
     public static void sortItems(ItemStack[] stacks) {
@@ -57,7 +56,7 @@ public class CuttingBoardRecipe {
         return chopTime;
     }
 
-    public boolean isEmptyHand() {
-        return emptyHand;
+    public boolean isUseRoller() {
+        return useRoller;
     }
 }
