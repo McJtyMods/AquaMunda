@@ -4,7 +4,9 @@ import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.compat.top.TOPInfoProvider;
+import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.environment.EnvironmentData;
+import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.aquamunda.waila.WailaProvider;
@@ -132,9 +134,11 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         GameData data = environmentData.getData();
         byte moistness = data.get(world.provider.getDimension(), pos);
         if (moistness == 0) {
-//            if (random.nextInt(4) == 2) {
-//                killPlant(world, pos);
-//            }
+            if (GeneralConfiguration.farmlandOverhaulType == FarmlandOverhaulType.HARSH) {
+                if (random.nextInt(8) == 2) {
+                    killPlant(world, pos);
+                }
+            }
         } else {
             moistness--;
             data.set(world.provider.getDimension(), pos, moistness);
@@ -161,7 +165,6 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
 
     @Override
     public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
-        IBlockState plant = plantable.getPlant(world, pos.offset(direction));
         net.minecraftforge.common.EnumPlantType plantType = plantable.getPlantType(world, pos.offset(direction));
         return plantType == EnumPlantType.Crop;
     }
@@ -173,7 +176,13 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         for (int l = x - 4; l <= x + 4; ++l) {
             for (int i1 = y; i1 <= y + 1; ++i1) {
                 for (int j1 = z - 4; j1 <= z + 4; ++j1) {
-                    if (world.getBlockState(new BlockPos(l, i1, j1)).getBlock() == ModBlocks.blockFreshWater) {
+                    Block block = world.getBlockState(new BlockPos(l, i1, j1)).getBlock();
+                    if (GeneralConfiguration.farmlandOverhaulType == FarmlandOverhaulType.NONE) {
+                        if (block == ModBlocks.blockFreshWater || block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
+                            return true;
+                        }
+                    }
+                    if (block == ModBlocks.blockFreshWater) {
                         return true;
                     }
                 }
