@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModItems {
 
     public static ItemCookedCarrot cookedCarrot;
+    public static ItemCookedPotato cookedPotato;
     public static ItemChoppedVegetables choppedVegetables;
     public static ItemDish dish;
     public static ItemKitchenKnife kitchenKnife;
@@ -22,6 +23,7 @@ public class ModItems {
 
     public static void init() {
         cookedCarrot = new ItemCookedCarrot();
+        cookedPotato = new ItemCookedPotato();
         choppedVegetables = new ItemChoppedVegetables();
         dish = new ItemDish();
         kitchenKnife = new ItemKitchenKnife();
@@ -41,6 +43,7 @@ public class ModItems {
     @SideOnly(Side.CLIENT)
     public static void initModels() {
         cookedCarrot.initModel();
+        cookedPotato.initModel();
         choppedVegetables.initModel();
         dish.initModel();
         kitchenKnife.initModel();

@@ -1,7 +1,9 @@
 item.fresh_water_bucket.name=Fresh Water Bucket
 item.cooked_carrot.name=Cooked Carrot
+item.cooked_potato.name=Cooked Potato
 item.chopped_vegetables.name=Chopped Vegetables
 item.dish_carrots.name=Cooked Carrot Dish
+item.dish_potatoes.name=Cooked Potato Dish
 item.dish_vegetable_soup.name=Vegetable Soup Dish
 item.kitchen_knife.name=Kitchen Knife
 item.dough_roller.name=Dough Roller

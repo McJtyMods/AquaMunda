@@ -17,6 +17,7 @@ public class CookerRecipeRepository {
 
     private static CookerRecipe[] recipes = new CookerRecipe[] {
             new CookerRecipe(Items.CARROT, ModItems.cookedCarrot, "", 10),
+            new CookerRecipe(Items.POTATO, ModItems.cookedPotato, "", 10),
             new CookerRecipe(ModItems.choppedVegetables, null, ItemDish.DISH_VEGETABLE_SOUP, 10),
     };
     private static Map<ResourceLocation, List<CookerRecipe>> recipeMap = null;

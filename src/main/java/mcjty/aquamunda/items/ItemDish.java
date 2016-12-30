@@ -54,10 +54,12 @@ public class ItemDish extends CompatItemFood {
 
     public static final String DISH_CARROTS = "carrots";
     public static final String DISH_VEGETABLE_SOUP = "vegetable_soup";
+    public static final String DISH_POTATO = "potatoes";
 
     private static DishInfo[] dishInfos = new DishInfo[] {
             new DishInfo("dish_carrots", 5, 0.6f, DISH_CARROTS),
             new DishInfo("dish_vegetable_soup", 5, 0.6f, DISH_VEGETABLE_SOUP),
+            new DishInfo("dish_potatoes", 5, 0.6f, DISH_POTATO),
     };
 
     private static Map<String, Integer> dishToMeta = null;
