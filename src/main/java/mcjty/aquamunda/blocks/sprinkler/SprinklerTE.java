@@ -27,7 +27,7 @@ import java.util.Set;
 public class SprinklerTE extends GenericAMTE implements IHoseConnector, ITickable {
 
     public static final int MAX_MOISTNESS = 5;
-    public static final int SPRINKLER_COUNTER = 10;
+    public static final int SPRINKLER_COUNTER = 20;
     public static final int INPUT_PER_TICK = 3;
     public static final int MAX_AMOUNT = SPRINKLER_COUNTER * INPUT_PER_TICK;
 
@@ -165,6 +165,9 @@ public class SprinklerTE extends GenericAMTE implements IHoseConnector, ITickabl
                             dirty = true;
                         }
                     } else if (block instanceof IGrowable) {
+                        if (random.nextInt(2) == 0) {
+                            block.updateTick(getWorld(), pos, blockState, random);
+                        }
 //                        if (random.nextInt(10) == 5) {
 //                            ((IGrowable) block).grow(getWorld(), random, pos, blockState);
 //                        }
