@@ -2,8 +2,10 @@ package mcjty.aquamunda.blocks.desalination;
 
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.api.IHoseConnector;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -28,6 +30,11 @@ public class DesalinationTankTE extends GenericAMTE implements IHoseConnector {
     public void setContents(int contents) {
         this.contents = contents;
         markDirty();
+    }
+
+    @Override
+    public ICableType getType() {
+        return ImmersiveCraftHandler.liquidType;
     }
 
     @Override

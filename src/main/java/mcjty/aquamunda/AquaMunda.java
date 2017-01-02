@@ -1,6 +1,10 @@
 package mcjty.aquamunda;
 
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import mcjty.aquamunda.api.IAquaMunda;
+import mcjty.aquamunda.apiimpl.AquaMundaImp;
 import mcjty.aquamunda.compat.MainCompatHandler;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
@@ -41,6 +45,8 @@ public class AquaMunda {
 
     @Mod.Instance
     public static AquaMunda instance;
+
+    public static AquaMundaImp aquaMundaImp = new AquaMundaImp();
 
     public static CreativeTabs creativeTab;
 
@@ -95,4 +101,15 @@ public class AquaMunda {
             return null;
         }
     }
+
+    @Mod.EventHandler
+    public void imcCallback(FMLInterModComms.IMCEvent event) {
+        for (FMLInterModComms.IMCMessage message : event.getMessages()) {
+            if ("getapi".equalsIgnoreCase(message.key)) {
+                Optional<Function<IAquaMunda, Void>> value = message.getFunctionValue(IAquaMunda.class, Void.class);
+                value.get().apply(aquaMundaImp);
+            }
+        }
+    }
+
 }

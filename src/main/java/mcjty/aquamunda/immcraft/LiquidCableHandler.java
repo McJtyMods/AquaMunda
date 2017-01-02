@@ -1,6 +1,6 @@
 package mcjty.aquamunda.immcraft;
 
-import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.immcraft.api.cable.*;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import net.minecraft.tileentity.TileEntity;

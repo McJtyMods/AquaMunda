@@ -2,9 +2,11 @@ package mcjty.aquamunda.blocks.desalination;
 
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
-import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.api.IHoseConnector;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -28,6 +30,11 @@ public class DesalinationBoilerTE extends GenericAMTE implements IHoseConnector,
     public static final int AMOUNT_PER_OPERATION = 20;
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
+
+    @Override
+    public ICableType getType() {
+        return ImmersiveCraftHandler.liquidType;
+    }
 
     @Override
     public boolean canConnect(EnumFacing blockSide) {

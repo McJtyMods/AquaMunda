@@ -1,6 +1,5 @@
-package mcjty.aquamunda.hosemultiblock;
+package mcjty.aquamunda.api;
 
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableConnector;
 import mcjty.immcraft.api.cable.ICableType;
 import net.minecraftforge.fluids.Fluid;
@@ -8,7 +7,7 @@ import net.minecraftforge.fluids.Fluid;
 public interface IHoseConnector extends ICableConnector {
 
     @Override
-    default ICableType getType() { return ImmersiveCraftHandler.liquidType; }
+    ICableType getType();
 
     // Get the liquid that is supported by this connection or null if everything is supported.
     Fluid getSupportedFluid();

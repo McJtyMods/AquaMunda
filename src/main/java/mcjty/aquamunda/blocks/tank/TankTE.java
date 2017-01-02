@@ -2,9 +2,10 @@ package mcjty.aquamunda.blocks.tank;
 
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.api.multiblock.IMultiBlockTile;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,6 +31,11 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
     }
 
     private Map<EnumFacing,boolean[]> connections = new HashMap<>();
+
+    @Override
+    public ICableType getType() {
+        return ImmersiveCraftHandler.liquidType;
+    }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {

@@ -5,8 +5,10 @@ import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.hosemultiblock.IHoseConnector;
+import mcjty.aquamunda.api.IHoseConnector;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableSubType;
+import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
@@ -36,6 +38,11 @@ public class SprinklerTE extends GenericAMTE implements IHoseConnector, ITickabl
     private int amount = 0;
 
     private Set<EnumFacing> connections = EnumSet.noneOf(EnumFacing.class);
+
+    @Override
+    public ICableType getType() {
+        return ImmersiveCraftHandler.liquidType;
+    }
 
     @Override
     public boolean canConnect(EnumFacing blockSide) {
