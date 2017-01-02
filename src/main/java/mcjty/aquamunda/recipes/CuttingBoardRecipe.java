@@ -3,9 +3,9 @@ package mcjty.aquamunda.recipes;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class CuttingBoardRecipe {
 
@@ -26,21 +26,29 @@ public class CuttingBoardRecipe {
         this.useRoller = useRoller;
     }
 
+    private static String getRegNameSafe(ItemStack s) {
+        if (s.getItem() == null) {
+            return "";
+        }
+        ResourceLocation r = s.getItem().getRegistryName();
+        if (r == null) {
+            return "";
+        }
+        return r.toString();
+    }
+
     public static void sortItems(ItemStack[] stacks) {
-        Arrays.sort(stacks, new Comparator<ItemStack>() {
-            @Override
-            public int compare(ItemStack i1, ItemStack i2) {
-                if (ItemStackTools.isValid(i1) && ItemStackTools.isValid(i2)) {
-                    return i1.getItem().getRegistryName().toString().compareTo(i2.getItem().getRegistryName().toString());
-                }
-                if (ItemStackTools.isValid(i1)) {
-                    return 1;
-                }
-                if (ItemStackTools.isValid(i2)) {
-                    return -1;
-                }
-                return 0;
+        Arrays.sort(stacks, (i1, i2) -> {
+            if (ItemStackTools.isValid(i1) && ItemStackTools.isValid(i2)) {
+                return getRegNameSafe(i1).compareTo(getRegNameSafe(i2));
             }
+            if (ItemStackTools.isValid(i1)) {
+                return 1;
+            }
+            if (ItemStackTools.isValid(i2)) {
+                return -1;
+            }
+            return 0;
         });
     }
 
