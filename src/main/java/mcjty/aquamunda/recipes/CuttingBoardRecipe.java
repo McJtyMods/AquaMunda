@@ -16,9 +16,9 @@ public class CuttingBoardRecipe {
 
     public CuttingBoardRecipe(Item inputItem1, Item inputItem2, Item inputItem3, Item outputItem, int chopTime, boolean useRoller) {
         inputItems = new ItemStack[3];
-        inputItems[0] = new ItemStack(inputItem1);
-        inputItems[1] = new ItemStack(inputItem2);
-        inputItems[2] = new ItemStack(inputItem3);
+        inputItems[0] = inputItem1 == null ? ItemStackTools.getEmptyStack() : new ItemStack(inputItem1);
+        inputItems[1] = inputItem2 == null ? ItemStackTools.getEmptyStack() : new ItemStack(inputItem2);
+        inputItems[2] = inputItem3 == null ? ItemStackTools.getEmptyStack() : new ItemStack(inputItem3);
         sortItems(inputItems);
 
         this.outputItem = outputItem == null ? ItemStackTools.getEmptyStack() : new ItemStack(outputItem);
