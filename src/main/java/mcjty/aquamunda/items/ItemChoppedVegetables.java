@@ -14,7 +14,7 @@ public class ItemChoppedVegetables extends CompatItem {
         super();
         setMaxStackSize(16);
         setRegistryName("chopped_vegetables");
-        setUnlocalizedName("chopped_vegetables");
+        setUnlocalizedName(AquaMunda.MODID + ".chopped_vegetables");
         setCreativeTab(AquaMunda.creativeTab);
         GameRegistry.register(this);
     }

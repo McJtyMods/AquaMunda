@@ -15,7 +15,7 @@ public class ItemFlour extends CompatItem {
         super();
         setMaxStackSize(16);
         setRegistryName("flour");
-        setUnlocalizedName("flour");
+        setUnlocalizedName(AquaMunda.MODID + ".flour");
         setCreativeTab(AquaMunda.creativeTab);
         GameRegistry.register(this);
     }

@@ -14,7 +14,7 @@ public class ItemKitchenKnife extends CompatItem {
         super();
         setMaxStackSize(1);
         setRegistryName("kitchen_knife");
-        setUnlocalizedName("kitchen_knife");
+        setUnlocalizedName(AquaMunda.MODID + ".kitchen_knife");
         setCreativeTab(AquaMunda.creativeTab);
         GameRegistry.register(this);
     }

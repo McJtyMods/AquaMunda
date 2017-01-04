@@ -14,7 +14,7 @@ public class ItemDough extends CompatItem {
         super();
         setMaxStackSize(16);
         setRegistryName("dough");
-        setUnlocalizedName("dough");
+        setUnlocalizedName(AquaMunda.MODID + ".dough");
         setCreativeTab(AquaMunda.creativeTab);
         GameRegistry.register(this);
     }

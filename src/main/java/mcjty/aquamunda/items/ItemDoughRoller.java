@@ -14,7 +14,7 @@ public class ItemDoughRoller extends CompatItem {
         super();
         setMaxStackSize(1);
         setRegistryName("dough_roller");
-        setUnlocalizedName("dough_roller");
+        setUnlocalizedName(AquaMunda.MODID + ".dough_roller");
         setCreativeTab(AquaMunda.creativeTab);
         GameRegistry.register(this);
     }

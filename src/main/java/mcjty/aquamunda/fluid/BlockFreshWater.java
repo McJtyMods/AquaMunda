@@ -30,7 +30,7 @@ public class BlockFreshWater extends BlockFluidClassic {
     public BlockFreshWater(Fluid fluid, Material material) {
         super(fluid, material);
         setCreativeTab(AquaMunda.creativeTab);
-        setUnlocalizedName("fresh_water");
+        setUnlocalizedName(AquaMunda.MODID + ".fresh_water");
         setRegistryName("fresh_water");
         GameRegistry.register(this);
         GameRegistry.register(new ItemBlock(this), getRegistryName());

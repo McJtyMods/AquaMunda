@@ -1,6 +1,7 @@
 package mcjty.immcraft.api.generic;
 
 
+import mcjty.aquamunda.AquaMunda;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.handles.HandleSelector;
@@ -81,7 +82,7 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
 
     protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         setRegistryName(name);
-        setUnlocalizedName(name);
+        setUnlocalizedName(AquaMunda.MODID + "." + name);
         GameRegistry.register(this);
         if (itemBlockClass != null) {
             GameRegistry.register(createItemBlock(itemBlockClass), getRegistryName());
