@@ -43,8 +43,8 @@ public class GenericBlockWithTE<T extends GenericAMTE> extends GenericAMBlock im
     }
 
     @Override
-    protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        super.register(name, clazz, itemBlockClass);
+    protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
+        super.register(modid, name, clazz, itemBlockClass);
         GameRegistry.registerTileEntity(clazz, AquaMunda.MODID + "_" + name + "TE");
     }
 
