@@ -23,6 +23,7 @@ public class CommonProxy {
         PacketHandler.registerMessages("aquamunda");
 
         ConfigSetup.preInit(e);
+
         FluidSetup.preInitFluids();
         ModBlocks.init();
         ModItems.init();
@@ -34,6 +35,8 @@ public class CommonProxy {
         ModBlocks.initCrafting();
         ModItems.initCrafting();
         EntityTools.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
+
+        ConfigSetup.readRecipesConfig();
     }
 
     public void postInit(FMLPostInitializationEvent e) {
