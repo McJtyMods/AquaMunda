@@ -1,0 +1,29 @@
+item.aquamunda.fresh_water_bucket.name=Eimer mit frischem Wasser
+item.aquamunda.cooked_carrot.name=Gekochte Karotte
+item.aquamunda.cooked_potato.name=Gekochte Kartoffel
+item.aquamunda.chopped_vegetables.name=Geschnittenes Gemüse
+item.aquamunda.dish_carrots.name=Gekochtes Karottengericht
+item.aquamunda.dish_potatoes.name=Gekochtes Kartoffelgericht
+item.aquamunda.dish_vegetable_soup.name=Vegetarisches Suppengericht
+item.aquamunda.kitchen_knife.name=Küchenmesser
+item.aquamunda.dough_roller.name=Teigroller
+item.aquamunda.flour.name=Mehl
+item.aquamunda.dough.name=Teig
+
+fluid.fresh_water=Frisches Wasser
+
+tile.aquamunda.fresh_water.name=Frisches Wasser
+tile.aquamunda.dead_carrot.name=Tote Karotte
+tile.aquamunda.dead_wheat.name=Toter Weizen
+tile.aquamunda.sprinkler.name=Rasensprenger
+tile.aquamunda.tank.name=Tank
+tile.aquamunda.hose.name=Schlauch
+tile.aquamunda.bundle.name=Bündel
+tile.aquamunda.boiler.name=Entsalzungskessel
+tile.aquamunda.evaporator.name=Entsalzungstank
+tile.aquamunda.cooker.name=Herd
+tile.aquamunda.cutting_board.name=Schneidbrett
+tile.aquamunda.grindstone.name=Schleifstein
+
+itemGroup.AquaMunda=Aqua Munda
+key.categories.aquamunda=Aqua Munda
