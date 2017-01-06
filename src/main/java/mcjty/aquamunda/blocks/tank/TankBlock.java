@@ -147,7 +147,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         if (ItemStackTools.isEmpty(heldItem)) {
             return;
         }
-        ItemStack container = heldItem.splitStack(1);
+        ItemStack container = heldItem.copy().splitStack(1);
         FluidStack fluidStack = FluidTools.convertBucketToFluid(container);
         if (fluidStack != null) {
             if (tank.getFluid() == fluidStack.getFluid() || tank.getFluid() == null) {
@@ -157,6 +157,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                     tank.setFluid(fluidStack.getFluid());
                     ImmersiveCraftHandler.tankNetwork.save(world);
                     if (!player.capabilities.isCreativeMode) {
+                        heldItem.splitStack(1);
                         ItemStack emptyContainer = FluidTools.drainContainer(container);
                         InventoryHelper.giveItemToPlayer(player, emptyContainer);
                     }
@@ -172,7 +173,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
             if (ItemStackTools.isEmpty(heldItem)) {
                 return;
             }
-            ItemStack container = heldItem.splitStack(1);
+            ItemStack container = heldItem.copy().splitStack(1);
             int capacity = FluidTools.getCapacity(fluidStack, container);
             if (capacity != 0) {
                 if (tank.getContents() >= capacity) {
@@ -180,11 +181,11 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                     ItemStack filledContainer = FluidTools.fillContainer(fluidStack, container);
                     if (ItemStackTools.isValid(filledContainer)) {
                         tank.setContents(tank.getContents() - capacity);
+                        heldItem.splitStack(1);
                         InventoryHelper.giveItemToPlayer(player, filledContainer);
                     } else {
                         // Try to insert the fluid back into the tank
                         InventoryHelper.giveItemToPlayer(player, container);
-                        tank.setContents(tank.getContents() + capacity);
                     }
                     ImmersiveCraftHandler.tankNetwork.save(player.getEntityWorld());
                 }
