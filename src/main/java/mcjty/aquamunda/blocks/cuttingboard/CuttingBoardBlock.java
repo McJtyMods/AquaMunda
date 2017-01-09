@@ -4,7 +4,6 @@ import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -78,8 +77,7 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
         if (te instanceof CuttingBoardTE) {
             CuttingBoardTE cuttingBoardTE = (CuttingBoardTE) te;
 
-            // @todo make more general? Also used in immcraft
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(cuttingBoardTE, this);
+            IInterfaceHandle selectedHandle = cuttingBoardTE.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
                 if (ItemStackTools.isValid(currentStack)) {

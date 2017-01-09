@@ -7,7 +7,6 @@ import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.FluidTools;
 import mcjty.lib.tools.ItemStackTools;
@@ -75,8 +74,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
         if (te instanceof CookerTE) {
             CookerTE cookerTE = (CookerTE) te;
 
-            // @todo make more general? Also used in immcraft
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(cookerTE, this);
+            IInterfaceHandle selectedHandle = cookerTE.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
                 if (ItemStackTools.isValid(currentStack)) {

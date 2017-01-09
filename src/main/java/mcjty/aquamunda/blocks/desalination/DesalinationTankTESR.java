@@ -5,7 +5,7 @@ import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
-import mcjty.aquamunda.rendering.BlockRenderHelper;
+import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;

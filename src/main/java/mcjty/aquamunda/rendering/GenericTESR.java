@@ -4,22 +4,20 @@ package mcjty.aquamunda.rendering;
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
+import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class GenericTESR<T extends GenericAMTE> extends TileEntitySpecialRenderer<T> {
@@ -57,34 +55,6 @@ public class GenericTESR<T extends GenericAMTE> extends TileEntitySpecialRendere
 
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
-    }
-
-    public void XrenderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
-        GL11.glPushAttrib(GL11.GL_CURRENT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_ENABLE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_TEXTURE_BIT);
-
-        GL11.glPushMatrix();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-        translate(tileEntity, (float) x, (float) y, (float) z);
-        BlockRenderHelper.rotateFacing(tileEntity, block.getMetaUsage());
-        IBakedModel m = getModel(tileEntity);
-        if (m != null) {
-            bindTexture(blockTexture);
-//            model.bake()
-            /*
-<fry> so, call IModel.bake, get baked model, call getFaceQuads + getGeneralQuads, for each of those quads - feed them to WorldRenderer
-<fry> either manually or doint IVertexConsumer cons = new WorldRendererConsumer(worldRenderer); quad.pipe(cons);
-             */
-            World world = tileEntity.getWorld();
-            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, m, world.getBlockState(tileEntity.getPos()), tileEntity.getPos(), Tessellator.getInstance().getBuffer(), false);
-        }
-
-        renderExtra(tileEntity);
-
-        GL11.glPopMatrix();
-
-        GL11.glPopAttrib();
     }
 
     protected IBakedModel getModel(T tileEntity) {

@@ -4,7 +4,6 @@ import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -65,8 +64,7 @@ public class GrindStoneBlock extends GenericBlockWithTE<GrindStoneTE> implements
         if (te instanceof GrindStoneTE) {
             GrindStoneTE grindStoneTE = (GrindStoneTE) te;
 
-            // @todo make more general? Also used in immcraft
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(grindStoneTE, this);
+            IInterfaceHandle selectedHandle = grindStoneTE.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
                 if (ItemStackTools.isValid(currentStack)) {
