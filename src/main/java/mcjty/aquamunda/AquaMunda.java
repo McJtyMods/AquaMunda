@@ -34,8 +34,8 @@ import javax.annotation.Nullable;
 public class AquaMunda {
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
-    public static final String VERSION = "0.0.5beta";
-    public static final String MIN_IMMCRAFT_VER = "1.2.5";
+    public static final String VERSION = "0.0.6beta";
+    public static final String MIN_IMMCRAFT_VER = "1.2.6";
     public static final String MIN_FORGE10_VER = "12.18.1.2082";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
     public static final String COMPATLAYER_VER = "0.1.7";
