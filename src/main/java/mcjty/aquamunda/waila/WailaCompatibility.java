@@ -21,7 +21,9 @@ public class WailaCompatibility implements IWailaDataProvider {
     public static final WailaCompatibility INSTANCE = new WailaCompatibility();
 
     public static void registerWaila() {
-        if(Loader.isModLoaded("Waila")) {
+        if (Loader.isModLoaded("waila")) {
+            FMLInterModComms.sendMessage("waila", "register", "mcjty.aquamunda.waila.WailaCompatibility.load");
+        } else if (Loader.isModLoaded("Waila")) {
             FMLInterModComms.sendMessage("Waila", "register", "mcjty.aquamunda.waila.WailaCompatibility.load");
         }
     }

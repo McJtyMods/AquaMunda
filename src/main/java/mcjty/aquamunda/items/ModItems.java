@@ -20,6 +20,7 @@ public class ModItems {
     public static ItemDoughRoller doughRoller;
     public static ItemFlour flour;
     public static ItemDough dough;
+    public static AquaMundaManual manual;
 
     public static void init() {
         cookedCarrot = new ItemCookedCarrot();
@@ -30,6 +31,7 @@ public class ModItems {
         doughRoller = new ItemDoughRoller();
         flour = new ItemFlour();
         dough = new ItemDough();
+        manual = new AquaMundaManual();
     }
 
     public static void initCrafting() {
@@ -37,6 +39,7 @@ public class ModItems {
         GameRegistry.addSmelting(dough, new ItemStack(Items.BREAD), 0);
         GameRegistry.addShapedRecipe(new ItemStack(kitchenKnife), "i  ", " i ", "  r", 'i', Items.IRON_INGOT, 'r', rock);
         GameRegistry.addShapedRecipe(new ItemStack(doughRoller), "  s", " p ", "s  ", 's', Items.STICK, 'p', Blocks.PLANKS);
+        GameRegistry.addShapedRecipe(new ItemStack(manual), "br", "s ", 'b', Items.BOOK, 'r', rock, 's', Items.WHEAT_SEEDS);
     }
 
 
@@ -50,5 +53,6 @@ public class ModItems {
         doughRoller.initModel();
         flour.initModel();
         dough.initModel();
+        manual.initModel();
     }
 }
