@@ -40,7 +40,7 @@
   {
     "text": [
       "#:2,bold:Vegetable Soup", "#",
-      "#i9:aquamunda:dish", "#",
+      "#i9:aquamunda:dish@0", "#",
       "##",
       "#:bold:Ingredients: ", "#",
       "#i3:aquamunda:chopped_vegetables"
