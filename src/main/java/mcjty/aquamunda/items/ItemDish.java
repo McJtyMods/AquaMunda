@@ -112,7 +112,7 @@ public class ItemDish extends CompatItemFood {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return "item." + dishInfos[stack.getItemDamage()].getUnlocName();
+        return "item.aquamunda." + dishInfos[stack.getItemDamage()].getUnlocName();
     }
 
     @Override
