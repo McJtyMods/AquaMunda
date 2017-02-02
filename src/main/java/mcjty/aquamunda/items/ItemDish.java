@@ -88,6 +88,7 @@ public class ItemDish extends CompatItemFood {
         GameRegistry.register(this);
     }
 
+    @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
         super.onItemUseFinish(stack, worldIn, entityLiving);
         return new ItemStack(Items.BOWL);

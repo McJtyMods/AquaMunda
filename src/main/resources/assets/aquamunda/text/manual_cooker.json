@@ -14,185 +14,36 @@
     "page": true
   },
   {
-    "section": "TOC",
     "text": [
-      "#:2:Table of Contents",
+      "#:2,bold:Cooked Carrot", "#",
+      "#i9:aquamunda:cooked_carrot", "#",
       "##",
-      "#>", "#l:Introduction",
-      "#>", "#l:Fresh Water",
-      "#>", "#l:Farmland",
-      "#>", "#l:The Blocks"
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:carrot"
     ]
   },
   {
     "page": true
   },
   {
-    "section": "Introduction",
     "text": [
-      "#:2:Introduction",
+      "#:2,bold:Cooked Potato", "#",
+      "#i9:aquamunda:cooked_potato", "#",
       "##",
-      "Aqua Munda is a mod that extends ImmersiveCraft and adds the concept of",
-      "fresh water and various things that you can do with that (like cooking)."
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:potato"
     ]
   },
   {
     "page": true
   },
   {
-    "section": "Fresh Water",
     "text": [
-      "#:2:Fresh Water",
+      "#:2,bold:Vegetable Soup", "#",
+      "#i9:aquamunda:dish", "#",
       "##",
-      "The water you can find in the normal world is too dirty or salty to actually use for",
-      "many purposes. That's why Aqua Munda adds ways to make fresh water."
-    ]
-  },
-  {
-    "text": [
-      "Fresh water can be collected (from tanks) with a bucket and you can also place it in the world."
-    ]
-  },
-  {
-    "text": [
-      "However, you cannot get infinite fresh water sources and fresh water source blocks are also",
-      "affected by gravity"
-    ]
-  },
-  {
-    "text": [
-      "There are currently",
-      "two ways to get fresh water:",
-      "#>", "#l:Collect rain water",
-      "#>", "#l:Desalinate water"
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "section": "Collect rain water",
-    "text": [
-      "To collect rain water you need to place some empty tanks in the open.",
-      "When it rains these tanks will collect fresh water"
-    ]
-  },
-  {
-    "text": [
-      "#:bold:Warning!",
-      "During the day, water in tanks that are visible to the sky",
-      "will slowly evaporate."
-    ]
-  },
-  {
-    "text": [
-      "A nice trick to prevent your collected water from evaporating",
-      "is to use other tanks that are not exposed and using hoses to bring the water from",
-      "the open tanks to the closed ones as soon as possible."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "section": "Desalinate water",
-    "text": [
-      "Another technique that can be used is with the ", "#l:desalinator", "(",
-      "#i:aquamunda:boiler", ")"
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "section": "Farmland",
-    "text": [
-      "By default farmland will require fresh water instead of normal water.",
-      "There is also a setting (not default) which requires the farmland from being",
-      "sprinkled (", "#i:aquamunda:sprinkler", ")."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "section": "The Blocks",
-    "text": [
-      "#:2:The Blocks",
-      "##",
-      "Aqua Munda has various blocks that you can use. All of them allow you to use them without having to access a GUI."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "text": [
-      "#i9:aquamunda:hose", "#:2,vcenter,bold:The Hose", "#",
-      "A hose is a semi flexible pipe that can transport liquids.",
-      "Just place them down and it will automatically connect to compatible devices."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "section": "desalinator",
-    "text": [
-      "#i9:aquamunda:boiler", "#i9:aquamunda:evaporator", "#",
-      "#:2,vcenter,bold:Desalinator and evaporator", "#",
-      "With these two blocks you can convert normal water to fresh water."
-    ]
-  },
-  {
-    "text": [
-      "To use this multiblock you can use hoses to transfer normal water to the desalinator."
-    ]
-  },
-  {
-    "text": [
-      "Then you can use another hose to transfer the fresh water to another tank."
-    ]
-  },
-  {
-    "text": [
-      "The desalinator will automatically work but very slow. To speed it up you can put a fire",
-      "under it (for example, using sticks). That will speed up the evaporation process."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "text": [
-      "#i9:aquamunda:sprinkler", "#:2,vcenter,bold:Sprinkler", "#",
-      "The sprinkler can be used to speed up growth of crops. It does need fresh water which you can",
-      "supply using a hose"
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "text": [
-      "#i9:aquamunda:tank", "#:2,vcenter,bold:Tanks", "#",
-      "Tanks are a multiblock that can contain liquids. You can use buckets to put in or out liquids."
-    ]
-  },
-  {
-    "text": [
-      "A tank that is visible to the sky will collect fresh water when it rains.",
-      "Note however that water will evaporate slowly if it is sunny."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "text": [
-      "#i9:aquamunda:grinder", "#:2,vcenter,bold:Grinder", "#",
-      "The grinder is a block that can be used to grind wheat into flour.",
-      "Just put the wheat on the grinder and then right click it to start grinding."
+      "#:bold:Ingredients: ", "#",
+      "#i3:aquamunda:chopped_vegetables"
     ]
   }
 ]
