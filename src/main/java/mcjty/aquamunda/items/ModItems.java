@@ -44,6 +44,8 @@ public class ModItems {
         GameRegistry.addShapedRecipe(new ItemStack(kitchenKnife), "i  ", " i ", "  r", 'i', Items.IRON_INGOT, 'r', rock);
         GameRegistry.addShapedRecipe(new ItemStack(doughRoller), "  s", " p ", "s  ", 's', Items.STICK, 'p', Blocks.PLANKS);
         GameRegistry.addShapedRecipe(new ItemStack(manual), "br", "s ", 'b', Items.BOOK, 'r', rock, 's', Items.WHEAT_SEEDS);
+        GameRegistry.addShapedRecipe(new ItemStack(boardManual), "br", "s ", 'b', Items.BOOK, 'r', rock, 's', kitchenKnife);
+        GameRegistry.addShapedRecipe(new ItemStack(cookerManual), "br", "ss", 'b', Items.BOOK, 'r', rock, 's', Items.WHEAT_SEEDS);
     }
 
 
