@@ -10,6 +10,8 @@ item.aquamunda.dough_roller.name=Dough Roller
 item.aquamunda.flour.name=Flour
 item.aquamunda.dough.name=Dough
 item.aquamunda.manual.name=Aqua Munda Manual
+item.aquamunda.cooker_manual.name=Cooker Manual
+item.aquamunda.board_manual.name=Cutting Board Manual
 
 fluid.fresh_water=Fresh Water
 

@@ -21,6 +21,8 @@ public class ModItems {
     public static ItemFlour flour;
     public static ItemDough dough;
     public static AquaMundaManual manual;
+    public static BoardManual boardManual;
+    public static CookerManual cookerManual;
 
     public static void init() {
         cookedCarrot = new ItemCookedCarrot();
@@ -32,6 +34,8 @@ public class ModItems {
         flour = new ItemFlour();
         dough = new ItemDough();
         manual = new AquaMundaManual();
+        boardManual = new BoardManual();
+        cookerManual = new CookerManual();
     }
 
     public static void initCrafting() {
@@ -54,5 +58,7 @@ public class ModItems {
         flour.initModel();
         dough.initModel();
         manual.initModel();
+        boardManual.initModel();
+        cookerManual.initModel();
     }
 }

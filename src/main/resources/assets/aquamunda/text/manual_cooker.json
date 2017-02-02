@@ -2,10 +2,10 @@
   {
     "section": "Title",
     "text": [
-      "#I7:aquamunda:textures/gui/titles.png:0,0,64,64,128,128", "#",
+      "#I7:aquamunda:textures/gui/titles.png:64,64,64,64,128,128", "#",
       "##",
       "##",
-      "#:3,white,center:The", "##", "#:3,white,center:Aqua Munda", "##", "#:3,white,center:Manual",
+      "#:3,white,center:Cooker", "##", "#:3,white,center:Recipes",
       "##",
       "#:1,white,center,italic:By McJty "
     ]
@@ -139,9 +139,7 @@
   {
     "section": "desalinator",
     "text": [
-      "##",
       "#i9:aquamunda:boiler", "#i9:aquamunda:evaporator", "#",
-      "##",
       "#:2,vcenter,bold:Desalinator and evaporator", "#",
       "With these two blocks you can convert normal water to fresh water."
     ]
@@ -192,45 +190,9 @@
   },
   {
     "text": [
-      "#i9:aquamunda:grindstone", "#:2,vcenter,bold:Grindstone", "#",
-      "##",
-      "The grindstone is a block that can be used to grind wheat into flour.",
-      "Just put the wheat on the grindstone and then right click it to start grinding."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "text": [
-      "#i9:aquamunda:cooker", "#:2,vcenter,bold:Cooker", "#",
-      "The cooker needs fresh water and a fire below it.",
-      "It can be used to cook various foods."
-    ]
-  },
-  {
-    "text": [
-      "There is a separate recipe book for the cooker."
-    ]
-  },
-  {
-    "text": [
-      "You need a bowl (", "#i:minecraft:bowl", ") to extract the dish from the cooker."
-    ]
-  },
-  {
-    "page": true
-  },
-  {
-    "text": [
-      "#i9:aquamunda:cutting_board", "#",
-      "#:2,vcenter,bold:Cutting Board", "#",
-      "You can prepare various dishes using a kitchen knife or a roller on this board."
-    ]
-  },
-  {
-    "text": [
-      "There is a separate recipe book for the cutting board."
+      "#i9:aquamunda:grinder", "#:2,vcenter,bold:Grinder", "#",
+      "The grinder is a block that can be used to grind wheat into flour.",
+      "Just put the wheat on the grinder and then right click it to start grinding."
     ]
   }
 ]
