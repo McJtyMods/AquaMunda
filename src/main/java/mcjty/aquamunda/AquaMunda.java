@@ -63,7 +63,7 @@ public class AquaMunda {
         FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
 
         logger = event.getModLog();
-        creativeTab = new CompatCreativeTabs("Aqua Munda") {
+        creativeTab = new CompatCreativeTabs("aquamunda") {
 
             @Override
             protected Item getItem() {
