@@ -27,10 +27,6 @@ public class ForgeEventHandlers {
 
     @SubscribeEvent
     public void onUseHoeEvent(UseHoeEvent event) {
-        event.setCanceled(true);
-
-        System.out.println("ForgeEventHandlers.onUseHoeEvent");
-
         World world = event.getWorld();
         BlockPos pos = event.getPos();
         EntityPlayer player = event.getEntityPlayer();
@@ -41,13 +37,16 @@ public class ForgeEventHandlers {
 
         if (world.isAirBlock(pos.up())) {
             if (block == Blocks.GRASS) {
+                event.setCanceled(true);
                 useHoe(stack, player, world, pos, ModBlocks.customFarmLand.getDefaultState());
             } else if (block == Blocks.DIRT) {
                 switch (iblockstate.getValue(BlockDirt.VARIANT)) {
                     case DIRT:
+                        event.setCanceled(true);
                         useHoe(stack, player, world, pos, ModBlocks.customFarmLand.getDefaultState());
                         break;
                     case COARSE_DIRT:
+                        event.setCanceled(true);
                         useHoe(stack, player, world, pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
                         break;
                 }
