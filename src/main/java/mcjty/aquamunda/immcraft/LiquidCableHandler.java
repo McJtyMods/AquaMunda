@@ -27,6 +27,9 @@ public class LiquidCableHandler implements ICableHandler {
         int id = section.getId();
 
         ICable hose = getHose(bundleTE, id);
+        if (hose.getPath().isEmpty()) {
+            return;     // Safety
+        }
         BlockPos first = hose.getPath().get(0);
         if (!first.equals(bundleTE.getPos())) {
             // We only let the first hosemultiblock TE in the path do the work.
