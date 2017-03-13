@@ -124,7 +124,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
 
             if (ItemStackTools.isValid(heldItem)) {
                 if (FluidTools.isEmptyContainer(heldItem)) {
-                    ItemStack container = heldItem.splitStack(1);
+                    ItemStack container = heldItem.copy().splitStack(1);    // Don't modify what the player is holding
                     extractIntoContainer(player, container, cookerTE);
                     return true;
                 } else if (FluidTools.isFilledContainer(heldItem)) {
