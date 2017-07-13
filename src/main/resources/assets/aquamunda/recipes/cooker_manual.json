@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "aquamunda:cooker_manual"
+  },
+  "pattern": [
+    "br",
+    "ss"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "s": {
+      "item": "minecraft:wheat_seeds"
+    }
+  }
+}

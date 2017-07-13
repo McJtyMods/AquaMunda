@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "aquamunda:sprinkler"
+  },
+  "pattern": [
+    " i ",
+    " g ",
+    "www"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "w": {
+      "item": "minecraft:wool",
+      "data": 0
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "dyeGreen"
+    },
+    "i": {
+      "item": "aquamunda:hose"
+    }
+  }
+}

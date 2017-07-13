@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "aquamunda:grindstone"
+  },
+  "pattern": [
+    "  s",
+    "ccc",
+    "ccc"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "c": {
+      "item": "minecraft:stone",
+      "data": 0
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "aquamunda:evaporator"
+  },
+  "pattern": [
+    " g ",
+    "g g",
+    "iii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

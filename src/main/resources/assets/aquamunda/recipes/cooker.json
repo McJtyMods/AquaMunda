@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "aquamunda:cooker"
+  },
+  "pattern": [
+    "r r",
+    "i i",
+    " i "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

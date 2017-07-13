@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "aquamunda:cutting_board"
+  },
+  "pattern": [
+    "   ",
+    "sss",
+    "www"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "w": {
+      "item": "minecraft:planks",
+      "data": 0
+    }
+  }
+}

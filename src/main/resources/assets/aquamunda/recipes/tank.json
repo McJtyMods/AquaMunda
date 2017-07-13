@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "aquamunda:tank"
+  },
+  "pattern": [
+    "r r",
+    "i i",
+    "iii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

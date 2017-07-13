@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "aquamunda:boiler"
+  },
+  "pattern": [
+    "iii",
+    "i i",
+    "sgs"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "g": {
+      "item": "immcraft:rock"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "aquamunda:hose",
+    "count": 8
+  },
+  "pattern": [
+    "www",
+    "ggg",
+    "www"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "w": {
+      "item": "minecraft:wool",
+      "data": 0
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "dyeGreen"
+    }
+  }
+}

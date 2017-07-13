@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "aquamunda:manual"
+  },
+  "pattern": [
+    "br",
+    "s "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "s": {
+      "item": "minecraft:wheat_seeds"
+    }
+  }
+}

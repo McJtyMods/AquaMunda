@@ -31,7 +31,7 @@ public class AquaMunda {
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
     public static final String VERSION = "0.1.1beta";
-    public static final String MIN_IMMCRAFT_VER = "1.3.0";
+    public static final String MIN_IMMCRAFT_VER = "1.3.5";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")

@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "aquamunda:dough_roller"
+  },
+  "pattern": [
+    "  s",
+    " p ",
+    "s  "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "minecraft:planks",
+      "data": 0
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  }
+}

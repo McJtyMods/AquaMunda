@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "aquamunda:kitchen_knife"
+  },
+  "pattern": [
+    "i  ",
+    " i ",
+    "  r"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

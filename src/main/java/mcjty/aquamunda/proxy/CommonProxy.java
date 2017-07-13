@@ -32,7 +32,6 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent e) {
-        ModBlocks.initCrafting();
         ModItems.initCrafting();
         EntityRegistry.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
 
