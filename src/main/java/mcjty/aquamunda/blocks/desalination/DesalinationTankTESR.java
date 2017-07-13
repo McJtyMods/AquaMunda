@@ -7,9 +7,9 @@ import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.PacketHandler;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -26,7 +26,7 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
     }
 
     @Override
-    public void renderTileEntityAt(DesalinationTankTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(DesalinationTankTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 
@@ -65,7 +65,7 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
             float scaley = percentage / 240.0f;
             float offsety = percentage / 480.0f + .24f;
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer renderer = tessellator.getBuffer();
+            BufferBuilder renderer = tessellator.getBuffer();
             renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
             renderer.pos(-scalex, offsety - scaley, -scalex).tex(sprite.getMinU(), sprite.getMinV()).endVertex();

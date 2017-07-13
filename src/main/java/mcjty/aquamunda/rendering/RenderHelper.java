@@ -1,14 +1,13 @@
 package mcjty.aquamunda.rendering;
 
-import mcjty.immcraft.api.util.Vector;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -125,7 +124,7 @@ public class RenderHelper {
             net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, short1 / 1.0F, short2 / 1.0F);
             itemRender.renderItemAndEffectIntoGUI(itm, x, y);
-            itemRender.renderItemOverlayIntoGUI(mc.fontRendererObj, itm, x, y, txt);
+            itemRender.renderItemOverlayIntoGUI(mc.fontRenderer, itm, x, y, txt);
             GL11.glPopMatrix();
             if (isRescaleNormalEnabled) {
                 GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -367,11 +366,11 @@ public class RenderHelper {
 
     public static void drawQuad(Vec3d p1, Vec3d p2, Vec3d p3, Vec3d p4) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer renderer = tessellator.getBuffer();
-        renderer.pos(p1.xCoord, p1.yCoord, p1.zCoord).tex(0, 0).endVertex();
-        renderer.pos(p2.xCoord, p2.yCoord, p2.zCoord).tex(1, 0).endVertex();
-        renderer.pos(p3.xCoord, p3.yCoord, p3.zCoord).tex(1, 1).endVertex();
-        renderer.pos(p4.xCoord, p4.yCoord, p4.zCoord).tex(0, 1).endVertex();
+        BufferBuilder renderer = tessellator.getBuffer();
+        renderer.pos(p1.x, p1.y, p1.z).tex(0, 0).endVertex();
+        renderer.pos(p2.x, p2.y, p2.z).tex(1, 0).endVertex();
+        renderer.pos(p3.x, p3.y, p3.z).tex(1, 1).endVertex();
+        renderer.pos(p4.x, p4.y, p4.z).tex(0, 1).endVertex();
     }
 
 //    public static IIcon checkIcon(IIcon icon) {

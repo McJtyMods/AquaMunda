@@ -1,8 +1,6 @@
 package mcjty.aquamunda;
 
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import mcjty.aquamunda.api.IAquaMunda;
 import mcjty.aquamunda.apiimpl.AquaMundaImp;
 import mcjty.aquamunda.compat.MainCompatHandler;
@@ -21,6 +19,8 @@ import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.function.Function;
 
 
 @Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME,

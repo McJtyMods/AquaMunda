@@ -1,6 +1,7 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.lib.compat.CompatItemFood;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -11,7 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -85,7 +85,7 @@ public class ItemDish extends CompatItemFood {
         this.setRegistryName("dish");
         this.setCreativeTab(AquaMunda.creativeTab);
         this.setMaxStackSize(1);
-        GameRegistry.register(this);
+        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @Override

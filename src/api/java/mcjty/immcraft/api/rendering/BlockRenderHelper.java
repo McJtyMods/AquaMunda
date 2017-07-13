@@ -7,8 +7,6 @@ import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.util.Plane;
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -44,7 +42,7 @@ public final class BlockRenderHelper {
     private BlockRenderHelper(){}
 
     public static void renderItemDefault(ItemStack is, int rotation, float scale) {
-        if (ItemStackTools.isValid(is)) {
+        if (!is.isEmpty()) {
             GlStateManager.pushMatrix();
 
             RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
@@ -60,7 +58,7 @@ public final class BlockRenderHelper {
     }
 
     public static void renderItemCustom(ItemStack is, int rotation, float scale, boolean normal) {
-        if (ItemStackTools.isValid(is)) {
+        if (!is.isEmpty()) {
             GlStateManager.pushMatrix();
 
             GlStateManager.scale(scale, scale, scale);
@@ -79,7 +77,7 @@ public final class BlockRenderHelper {
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 
 //        IBakedModel ibakedmodel = renderItem.getItemModelMesher().getItemModel(is);
-        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
         IBakedModel ibakedmodel = renderItem.getItemModelWithOverrides(is, player.getEntityWorld(), player);
 
         textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -175,7 +173,7 @@ public final class BlockRenderHelper {
             boolean selected = selectedHandle == handle;
             renderHandle(te, selectors, handle, selected);
         }
-        if (MinecraftTools.getPlayer(Minecraft.getMinecraft()).isSneaking()) {
+        if (Minecraft.getMinecraft().player.isSneaking()) {
             for (IInterfaceHandle handle : te.getInterfaceHandles()) {
                 boolean selected = selectedHandle == handle;
                 renderHandleText(api, te, textOffset, selectors, handle, selected);
@@ -184,10 +182,10 @@ public final class BlockRenderHelper {
     }
 
     private static void renderHandleText(IImmersiveCraft api, GenericTE te, Vec3d textOffset, Map<String, HandleSelector> selectors, IInterfaceHandle handle, boolean selected) {
-        ItemStack ghosted = ItemStackTools.getEmptyStack();
-        ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack ghosted = ItemStack.EMPTY;
+        ItemStack heldItem = Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND);
         ItemStack stackInSlot = handle.getCurrentStack(te);
-        if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
+        if (selected && !heldItem.isEmpty() && stackInSlot.isEmpty()) {
             if (handle.acceptAsInput(heldItem)) {
                 ghosted = handle.getRenderStack(te, heldItem);
             }
@@ -214,10 +212,10 @@ public final class BlockRenderHelper {
     }
 
     private static void renderHandle(GenericTE te, Map<String, HandleSelector> selectors, IInterfaceHandle handle, boolean selected) {
-        ItemStack ghosted = ItemStackTools.getEmptyStack();
-        ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack ghosted = ItemStack.EMPTY;
+        ItemStack heldItem = Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND);
         ItemStack stackInSlot = handle.getCurrentStack(te);
-        if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
+        if (selected && !heldItem.isEmpty() && stackInSlot.isEmpty()) {
             if (handle.acceptAsInput(heldItem)) {
                 ghosted = handle.getRenderStack(te, heldItem);
             }
@@ -232,20 +230,20 @@ public final class BlockRenderHelper {
 
     private static void renderItemStackInWorld(Vec3d offset, boolean selected, boolean crafting, ItemStack ghosted, ItemStack stack, float scale) {
         scale *= .6f;
-        if (ItemStackTools.isValid(ghosted)) {
+        if (!ghosted.isEmpty()) {
             stack = ghosted;
         }
-        if (ItemStackTools.isValid(stack)) {
+        if (!stack.isEmpty()) {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
-            GlStateManager.translate(offset.xCoord, offset.yCoord, offset.zCoord);
+            GlStateManager.translate(offset.x, offset.y, offset.z);
 
-            boolean ghostly = ItemStackTools.isValid(ghosted) || crafting;
+            boolean ghostly = !ghosted.isEmpty() || crafting;
             if (ghostly) {
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
             }
             renderItemCustom(stack, 0, 0.3f * scale, !ghostly);
-            if (selected && ItemStackTools.isEmpty(ghosted)) {
+            if (selected && ghosted.isEmpty()) {
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 GlStateManager.depthFunc(GL11.GL_EQUAL);
@@ -257,23 +255,23 @@ public final class BlockRenderHelper {
                 GlStateManager.disableBlend();
             }
 
-            GlStateManager.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
+            GlStateManager.translate(-offset.x, -offset.y, -offset.z);
         }
     }
 
     private static void renderTextOverlay(Vec3d offset, List<String> present, List<String> missing, ItemStack ghosted, ItemStack stack, float scale, Vec3d textOffset) {
-        if (ItemStackTools.isValid(ghosted)) {
+        if (!ghosted.isEmpty()) {
             stack = ghosted;
         }
-        if (ItemStackTools.isValid(stack)) {
+        if (!stack.isEmpty()) {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate(offset.xCoord + -0.5 + textOffset.xCoord, offset.yCoord + 0.5 + textOffset.yCoord, offset.zCoord + 0.2 + textOffset.zCoord);
+            GlStateManager.translate(offset.x + -0.5 + textOffset.x, offset.y + 0.5 + textOffset.y, offset.z + 0.2 + textOffset.z);
             float f3 = 0.0075F;
             float factor = 1.5f;
             GlStateManager.scale(f3 * factor, -f3 * factor, f3);
-            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
             GlStateManager.disableLighting();
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             GlStateManager.disableDepth();
@@ -293,7 +291,7 @@ public final class BlockRenderHelper {
                 GlStateManager.popMatrix();
             }
 
-            fontrenderer.drawStringWithShadow(String.valueOf(ItemStackTools.getStackSize(stack)), 40, 40, 0xffffffff);
+            fontrenderer.drawStringWithShadow(String.valueOf(stack.getCount()), 40, 40, 0xffffffff);
             GlStateManager.enableDepth();
             GlStateManager.enableLighting();
 
@@ -342,7 +340,7 @@ public final class BlockRenderHelper {
         float f1 = 1.0f/toth;
         double zLevel = 50;
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
         vertexbuffer.pos((double)(x + 0), (double)(y + height), zLevel).tex((double)((float)(textureX + 0) *  f), (double)((float)(textureY + height) * f1)).endVertex();
         vertexbuffer.pos((double)(x + width), (double)(y + height), zLevel).tex((double)((float)(textureX + width) * f), (double)((float)(textureY + height) * f1)).endVertex();
@@ -363,7 +361,7 @@ public final class BlockRenderHelper {
         double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
         double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
         double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
-        RenderGlobal.drawSelectionBoundingBox(box.expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), r, g, b, a);
+        RenderGlobal.drawSelectionBoundingBox(box.expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-d0, -d1, -d2), r, g, b, a);
 
         GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
@@ -403,7 +401,7 @@ public final class BlockRenderHelper {
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
         drawLine(vertexbuffer, plane.getS1(), plane.getS2());
         drawLine(vertexbuffer, plane.getS2(), plane.getS4());
@@ -428,7 +426,7 @@ public final class BlockRenderHelper {
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
         drawLine(vertexbuffer, s1, s2);
         tessellator.draw();
@@ -438,8 +436,8 @@ public final class BlockRenderHelper {
 //        GlStateManager.disableBlend();
     }
 
-    private static void drawLine(VertexBuffer buffer, Vec3d p1, Vec3d p2) {
-        buffer.pos(p1.xCoord, p1.yCoord, p1.zCoord).color(1,1,0,1).endVertex();
-        buffer.pos(p2.xCoord, p2.yCoord, p2.zCoord).color(1,1,0,1).endVertex();
+    private static void drawLine(BufferBuilder buffer, Vec3d p1, Vec3d p2) {
+        buffer.pos(p1.x, p1.y, p1.z).color(1,1,0,1).endVertex();
+        buffer.pos(p2.x, p2.y, p2.z).color(1,1,0,1).endVertex();
     }
 }

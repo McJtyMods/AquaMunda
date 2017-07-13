@@ -32,7 +32,7 @@ public class GenericAMBlock extends GenericBlock implements WailaProvider, TOPIn
     }
 
     public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        super(material, AquaMunda.MODID, name, clazz, itemBlockClass);
+        super(material, ImmersiveCraftHandler.immersiveCraft.getRegistry(), AquaMunda.MODID, name, clazz, itemBlockClass);
         this.setCreativeTab(AquaMunda.creativeTab);
     }
 

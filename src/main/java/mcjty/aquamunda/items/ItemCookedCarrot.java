@@ -2,14 +2,14 @@ package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.cooker.ICookerResult;
-import mcjty.lib.compat.CompatItem;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemCookedCarrot extends CompatItem implements ICookerResult {
+public class ItemCookedCarrot extends Item implements ICookerResult {
 
     public ItemCookedCarrot() {
         super();
@@ -17,7 +17,7 @@ public class ItemCookedCarrot extends CompatItem implements ICookerResult {
         setRegistryName("cooked_carrot");
         setUnlocalizedName(AquaMunda.MODID + ".cooked_carrot");
         setCreativeTab(AquaMunda.creativeTab);
-        GameRegistry.register(this);
+        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @SideOnly(Side.CLIENT)

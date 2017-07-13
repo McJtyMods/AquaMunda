@@ -94,7 +94,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
     }
 
     @Override
-    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             CookerTE cookerTE = getTE(world, pos);
 
@@ -133,7 +133,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
                 }
             }
         }
-        if (super.clOnBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
+        if (super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ)) {
             return true;
         }
         return true;

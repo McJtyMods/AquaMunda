@@ -1,6 +1,5 @@
 package mcjty.aquamunda.blocks.tank;
 
-import com.google.common.base.Function;
 import mcjty.aquamunda.AquaMunda;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.*;
@@ -17,6 +16,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class TankBakedModel implements IBakedModel {
 
@@ -141,7 +141,7 @@ public class TankBakedModel implements IBakedModel {
                         break;
                     }
                 case NORMAL:
-                    builder.put(e, (float) normal.xCoord, (float) normal.yCoord, (float) normal.zCoord, 0f);
+                    builder.put(e, (float) normal.x, (float) normal.y, (float) normal.z, 0f);
                     break;
                 default:
                     builder.put(e);
@@ -155,10 +155,10 @@ public class TankBakedModel implements IBakedModel {
 
         UnpackedBakedQuad.Builder builder = new UnpackedBakedQuad.Builder(format);
         builder.setTexture(sprite);
-        putVertex(builder, normal, v1.xCoord, v1.yCoord, v1.zCoord, 0, 0);
-        putVertex(builder, normal, v2.xCoord, v2.yCoord, v2.zCoord, 0, 16);
-        putVertex(builder, normal, v3.xCoord, v3.yCoord, v3.zCoord, 16, 16);
-        putVertex(builder, normal, v4.xCoord, v4.yCoord, v4.zCoord, 16, 0);
+        putVertex(builder, normal, v1.x, v1.y, v1.z, 0, 0);
+        putVertex(builder, normal, v2.x, v2.y, v2.z, 0, 16);
+        putVertex(builder, normal, v3.x, v3.y, v3.z, 16, 16);
+        putVertex(builder, normal, v4.x, v4.y, v4.z, 16, 0);
         return builder.build();
     }
 

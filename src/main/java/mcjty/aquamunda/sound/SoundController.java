@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,17 +23,17 @@ public final class SoundController {
     private static SoundEvent chopping;
     private static SoundEvent grindstone;
 
-    public static void init() {
-        boilingwater = registerSound(new ResourceLocation(AquaMunda.MODID, "boilingwater"));
-        chopping = registerSound(new ResourceLocation(AquaMunda.MODID, "chopping"));
-        grindstone = registerSound(new ResourceLocation(AquaMunda.MODID, "grindstone"));
+    public static void init(RegistryEvent.Register<SoundEvent> sounds) {
+        boilingwater = registerSound(sounds, new ResourceLocation(AquaMunda.MODID, "boilingwater"));
+        chopping = registerSound(sounds, new ResourceLocation(AquaMunda.MODID, "chopping"));
+        grindstone = registerSound(sounds, new ResourceLocation(AquaMunda.MODID, "grindstone"));
     }
 
     private static final Map<Pair<Integer, BlockPos>, AquaSound> sounds = Maps.newHashMap();
 
-    private static SoundEvent registerSound(ResourceLocation rl){
+    private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> sounds, ResourceLocation rl){
         SoundEvent ret = new SoundEvent(rl).setRegistryName(rl);
-        ((FMLControlledNamespacedRegistry)SoundEvent.REGISTRY).register(ret);
+        sounds.getRegistry().register(ret);
         return ret;
     }
 

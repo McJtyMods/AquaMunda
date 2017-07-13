@@ -139,7 +139,7 @@ public class BlockTools {
                 entityitem.motionZ = ((float)random.nextGaussian() * f3);
 
                 if (itemstack.hasTagCompound()) {
-                    entityitem.getEntityItem().setTagCompound(itemstack.getTagCompound().copy());
+                    entityitem.getItem().setTagCompound(itemstack.getTagCompound().copy());
                 }
                 WorldTools.spawnEntity(world, entityitem);
             }

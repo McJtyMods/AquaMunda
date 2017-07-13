@@ -2,6 +2,7 @@ package mcjty.aquamunda.fluid;
 
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -18,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -32,8 +32,7 @@ public class BlockFreshWater extends BlockFluidClassic {
         setCreativeTab(AquaMunda.creativeTab);
         setUnlocalizedName(AquaMunda.MODID + ".fresh_water");
         setRegistryName("fresh_water");
-        GameRegistry.register(this);
-        GameRegistry.register(new ItemBlock(this), getRegistryName());
+        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID, ItemBlock.class, null);
     }
 
     @SideOnly(Side.CLIENT)

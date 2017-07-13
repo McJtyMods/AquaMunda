@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,7 +23,7 @@ public class AquaMundaManual extends CompatItem implements IBook {
         setRegistryName("manual");
         setUnlocalizedName(AquaMunda.MODID + ".manual");
         setCreativeTab(AquaMunda.creativeTab);
-        GameRegistry.register(this);
+        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @Override

@@ -7,9 +7,9 @@ import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
@@ -37,8 +37,8 @@ public class CookerTESR extends HandleTESR<CookerTE> {
     }
 
     @Override
-    public void renderTileEntityAt(CookerTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
-        super.renderTileEntityAt(tileEntity, x, y, z, partialTicks, destroyStage);
+    public void render(CookerTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        super.render(tileEntity, x, y, z, partialTicks, destroyStage, alpha);
         renderBoilingState(tileEntity, x, y, z);
     }
 
@@ -99,16 +99,16 @@ public class CookerTESR extends HandleTESR<CookerTE> {
             if (offset < 1) {
                 GlStateManager.pushMatrix();
 
-                double ox = offsets[i].xCoord + x + 0.5f;
-                double oy = offsets[i].yCoord + height - .47 + y + 0.5f;
-                double oz = offsets[i].zCoord + z + 0.5f;
+                double ox = offsets[i].x + x + 0.5f;
+                double oy = offsets[i].y + height - .47 + y + 0.5f;
+                double oz = offsets[i].z + z + 0.5f;
 
                 GlStateManager.translate(ox, oy, oz);
 
                 rotateToPlayer();
 
                 Tessellator tessellator = Tessellator.getInstance();
-                VertexBuffer buffer = tessellator.getBuffer();
+                BufferBuilder buffer = tessellator.getBuffer();
                 buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 
                 double scale;

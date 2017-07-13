@@ -5,7 +5,6 @@ import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -32,7 +31,7 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
     protected abstract IImmersiveCraft getApi();
 
     @Override
-    public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
         IBlockState state = tileEntity.getWorld().getBlockState(tileEntity.getPos());
         if (!(state.getBlock() instanceof GenericBlock)) {
@@ -54,7 +53,7 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
     }
 
     protected void renderHandles(T tileEntity) {
-        double distanceSq = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getDistanceSq(tileEntity.getPos());
+        double distanceSq = Minecraft.getMinecraft().player.getDistanceSq(tileEntity.getPos());
         if (distanceSq > getApi().getMaxHandleRenderDistanceSquared()) {
             return;
         }

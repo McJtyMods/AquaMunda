@@ -12,6 +12,9 @@ public class Plane {
     private final Vec3d s3;
     private final Vec3d s4;
 
+    // The plane is:
+    //         S1 S2
+    //         S3 S4
     public Plane(Vec3d s1, Vec3d s2, Vec3d s3, Vec3d s4) {
         this.s1 = s1;
         this.s2 = s2;
@@ -42,7 +45,7 @@ public class Plane {
     private static DecimalFormat dfCommas = new DecimalFormat("###.##");
 
     public static String v(Vec3d v) {
-        return dfCommas.format(v.xCoord) + " " + dfCommas.format(v.yCoord) + " " + dfCommas.format(v.zCoord);
+        return dfCommas.format(v.x) + " " + dfCommas.format(v.y) + " " + dfCommas.format(v.z);
     }
 
     public Vec2f intersect(Vec3d r1, Vec3d r2) {

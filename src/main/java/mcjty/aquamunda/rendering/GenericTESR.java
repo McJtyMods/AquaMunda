@@ -43,7 +43,7 @@ public class GenericTESR<T extends GenericAMTE> extends TileEntitySpecialRendere
     }
 
     @Override
-    public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 

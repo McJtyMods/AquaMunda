@@ -4,7 +4,7 @@ import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.lib.tools.WorldTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.storage.WorldSavedData;
 
 public class EnvironmentData extends WorldSavedData {
 
