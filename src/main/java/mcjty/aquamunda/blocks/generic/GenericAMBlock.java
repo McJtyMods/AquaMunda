@@ -2,6 +2,7 @@ package mcjty.aquamunda.blocks.generic;
 
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.compat.top.TOPInfoProvider;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.waila.WailaProvider;
@@ -23,16 +24,12 @@ import java.util.List;
 
 public class GenericAMBlock extends GenericBlock implements WailaProvider, TOPInfoProvider {
 
-    public GenericAMBlock(Material material, String name) {
-        this(material, name, null, null);
-    }
-
     public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz) {
-        this(material, name, clazz, null);
+        this(material, name, clazz, ItemBlock.class);
     }
 
     public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        super(material, ImmersiveCraftHandler.immersiveCraft.getRegistry(), AquaMunda.MODID, name, clazz, itemBlockClass);
+        super(material, AquaMundaRegister.getRegistry(), AquaMunda.MODID, name, clazz, itemBlockClass);
         this.setCreativeTab(AquaMunda.creativeTab);
     }
 

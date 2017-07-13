@@ -1,6 +1,7 @@
 package mcjty.aquamunda.events;
 
 
+import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.blocks.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
@@ -8,11 +9,13 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -59,6 +62,16 @@ public class ForgeEventHandlers {
             stack.damageItem(1, player);
             return true;
         }
+    }
+
+    @SubscribeEvent
+    public void registerBlocks(RegistryEvent.Register<Block> event) {
+        AquaMundaRegister.registerBlocks(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void registerItems(RegistryEvent.Register<Item> event) {
+        AquaMundaRegister.registerItems(event.getRegistry());
     }
 
 

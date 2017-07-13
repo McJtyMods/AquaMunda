@@ -1,6 +1,7 @@
 package mcjty.aquamunda.blocks;
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.blocks.cooker.CookerBlock;
 import mcjty.aquamunda.blocks.customblocks.BlockDeadCrop;
 import mcjty.aquamunda.blocks.customblocks.CustomFarmLand;
@@ -13,7 +14,6 @@ import mcjty.aquamunda.blocks.sprinkler.SprinklerBlock;
 import mcjty.aquamunda.blocks.tank.TankBlock;
 import mcjty.aquamunda.fluid.BlockFreshWater;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.varia.BlockReplacerHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -52,7 +52,7 @@ public class ModBlocks {
         grindStoneBlock = new GrindStoneBlock();
 
         customFarmLand = new CustomFarmLand();
-        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(customFarmLand, AquaMunda.MODID, ItemBlock.class, null);
+        AquaMundaRegister.getRegistry().registerLater(customFarmLand, AquaMunda.MODID, ItemBlock.class, null);
 //        try {
 //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
 //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));

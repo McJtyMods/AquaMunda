@@ -1,8 +1,8 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.blocks.cooker.ICookerResult;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -17,7 +17,7 @@ public class ItemCookedPotato extends Item implements ICookerResult {
         setRegistryName("cooked_potato");
         setUnlocalizedName(AquaMunda.MODID + ".cooked_potato");
         setCreativeTab(AquaMunda.creativeTab);
-        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID);
+        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @SideOnly(Side.CLIENT)

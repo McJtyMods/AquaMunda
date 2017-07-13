@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
  */
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
+        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         PacketHandler.registerMessages("aquamunda");
 
         ConfigSetup.preInit(e);
@@ -31,7 +32,6 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent e) {
-        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         ModBlocks.initCrafting();
         ModItems.initCrafting();
         EntityRegistry.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);

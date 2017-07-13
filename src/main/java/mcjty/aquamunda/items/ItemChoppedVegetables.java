@@ -1,7 +1,7 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.AquaMundaRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -16,7 +16,7 @@ public class ItemChoppedVegetables extends Item {
         setRegistryName("chopped_vegetables");
         setUnlocalizedName(AquaMunda.MODID + ".chopped_vegetables");
         setCreativeTab(AquaMunda.creativeTab);
-        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID);
+        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @SideOnly(Side.CLIENT)

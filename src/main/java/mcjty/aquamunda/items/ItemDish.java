@@ -1,7 +1,7 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.AquaMundaRegister;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -85,7 +85,7 @@ public class ItemDish extends ItemFood {
         this.setRegistryName("dish");
         this.setCreativeTab(AquaMunda.creativeTab);
         this.setMaxStackSize(1);
-        ImmersiveCraftHandler.immersiveCraft.getRegistry().registerLater(this, AquaMunda.MODID);
+        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @Override
