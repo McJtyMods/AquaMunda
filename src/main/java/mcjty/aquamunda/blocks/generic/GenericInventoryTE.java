@@ -2,9 +2,8 @@ package mcjty.aquamunda.blocks.generic;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.NBTHelper;
-import mcjty.lib.compat.CompatSidedInventory;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,7 +15,7 @@ import net.minecraftforge.common.util.Constants;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class GenericInventoryTE extends GenericAMTE implements CompatSidedInventory {
+public class GenericInventoryTE extends GenericAMTE implements ISidedInventory {
 
     protected InventoryHelper inventoryHelper;
     private int[] accessible;
@@ -77,7 +76,12 @@ public class GenericInventoryTE extends GenericAMTE implements CompatSidedInvent
     }
 
     @Override
-    public boolean isUsable(EntityPlayer player) {
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean isUsableByPlayer(EntityPlayer player) {
         return !this.isInvalid() && (player.getDistanceSq(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, (double) this.getPos().getZ() + 0.5D) <= 64.0D);
     }
 
@@ -149,7 +153,7 @@ public class GenericInventoryTE extends GenericAMTE implements CompatSidedInvent
         NBTTagList bufferTagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for (int i = 0 ; i < bufferTagList.tagCount() ; i++) {
             NBTTagCompound nbtTagCompound = bufferTagList.getCompoundTagAt(i);
-            inventoryHelper.setStackInSlot(i, ItemStackTools.loadFromNBT(nbtTagCompound));
+            inventoryHelper.setStackInSlot(i, new ItemStack(nbtTagCompound));
         }
     }
 

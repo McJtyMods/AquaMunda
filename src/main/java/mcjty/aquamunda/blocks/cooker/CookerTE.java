@@ -1,10 +1,9 @@
 package mcjty.aquamunda.blocks.cooker;
 
-import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.recipes.CookerRecipe;
 import mcjty.aquamunda.recipes.CookerRecipeRepository;
@@ -13,8 +12,6 @@ import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
-import mcjty.lib.tools.ItemStackTools;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -267,7 +264,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     private int calculateMaxCookTime(ItemStack stack) {
         CookerRecipe recipe = CookerRecipeRepository.getRecipe(stack);
         if (recipe != null) {
-            return (int) (recipe.getCookTime() * (0.5f + (ItemStackTools.getStackSize(stack)+3.0f) / 8.0f));
+            return (int) (recipe.getCookTime() * (0.5f + (stack.getCount() +3.0f) / 8.0f));
         }
         return 0;
     }
@@ -347,11 +344,16 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
             CookerRecipe recipe = CookerRecipeRepository.getRecipe(getStackInSlot(SLOT_INPUT));
             if (recipe != null) {
                 if (!recipe.getOutputSoup().isEmpty()) {
-                    setInventorySlotContents(SLOT_INPUT, ItemStackTools.getEmptyStack());
+                    setInventorySlotContents(SLOT_INPUT, ItemStack.EMPTY);
                     soup = recipe.getOutputSoup();
                 } else {
                     ItemStack output = recipe.getOutputItem().copy();
-                    ItemStackTools.setStackSize(output, ItemStackTools.getStackSize(getStackInSlot(SLOT_INPUT)));
+                    int amount1 = getStackInSlot(SLOT_INPUT).getCount();
+                    if (amount1 <= 0) {
+                        output.setCount(0);
+                    } else {
+                        output.setCount(amount1);
+                    }
                     setInventorySlotContents(SLOT_INPUT, output);
                 }
                 markDirtyClient();
@@ -392,11 +394,6 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
 
     private boolean isHot() {
         return BlockTools.isHot(getWorld(), getPos().down());
-    }
-
-    @Override
-    public boolean isUsable(EntityPlayer player) {
-        return true;
     }
 
     private static Random random = new Random();

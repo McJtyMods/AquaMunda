@@ -4,11 +4,9 @@ import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.varia.FluidTools;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
-import mcjty.lib.tools.FluidTools;
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.WorldTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -144,7 +142,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
 
     private void fillFromContainer(EntityPlayer player, World world, Tank tank) {
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (ItemStackTools.isEmpty(heldItem)) {
+        if (heldItem.isEmpty()) {
             return;
         }
         ItemStack container = heldItem.copy().splitStack(1);
@@ -170,7 +168,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
         if (tank.getContents() > 0) {
             FluidStack fluidStack = new FluidStack(tank.getFluid(), 1);
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isEmpty(heldItem)) {
+            if (heldItem.isEmpty()) {
                 return;
             }
             ItemStack container = heldItem.copy().splitStack(1);
@@ -179,7 +177,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
                 if (tank.getContents() >= capacity) {
                     fluidStack.amount = capacity;
                     ItemStack filledContainer = FluidTools.fillContainer(fluidStack, container);
-                    if (ItemStackTools.isValid(filledContainer)) {
+                    if (!filledContainer.isEmpty()) {
                         tank.setContents(tank.getContents() - capacity);
                         heldItem.splitStack(1);
                         InventoryHelper.giveItemToPlayer(player, filledContainer);
@@ -198,7 +196,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isValid(heldItem)) {
+            if (!heldItem.isEmpty()) {
                 TankTE tankTE = getTE(world, pos);
                 int id = tankTE.getID();
 
@@ -266,7 +264,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
 
             }
             EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-            WorldTools.spawnEntity(world, entityItem);
+            world.spawnEntity(entityItem);
         }
         super.breakBlock(world, pos, state);
     }

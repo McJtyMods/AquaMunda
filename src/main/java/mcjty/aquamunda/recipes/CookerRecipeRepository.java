@@ -1,6 +1,5 @@
 package mcjty.aquamunda.recipes;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -19,7 +18,7 @@ public class CookerRecipeRepository {
 
     @Nullable
     public static CookerRecipe getRecipe(ItemStack stack) {
-        if (ItemStackTools.isEmpty(stack)) {
+        if (stack.isEmpty()) {
             return null;
         }
         ResourceLocation key = stack.getItem().getRegistryName();

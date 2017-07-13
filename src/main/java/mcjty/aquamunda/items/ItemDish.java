@@ -2,14 +2,14 @@ package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
-import mcjty.lib.compat.CompatItemFood;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ItemDish extends CompatItemFood {
+public class ItemDish extends ItemFood {
 
     public static class DishInfo {
         private final String unlocName;
@@ -126,11 +126,13 @@ public class ItemDish extends CompatItemFood {
     }
 
     @Override
-    protected void clGetSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        int meta = 0;
-        for (DishInfo info : dishInfos) {
-            subItems.add(new ItemStack(this, 1, meta));
-            meta++;
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+        if (isInCreativeTab(tab)) {
+            int meta = 0;
+            for (DishInfo info : dishInfos) {
+                items.add(new ItemStack(this, 1, meta));
+                meta++;
+            }
         }
     }
 }

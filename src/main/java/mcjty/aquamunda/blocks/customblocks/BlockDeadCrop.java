@@ -2,7 +2,6 @@ package mcjty.aquamunda.blocks.customblocks;
 
 
 import mcjty.aquamunda.blocks.generic.GenericAMBlock;
-import mcjty.immcraft.api.generic.GenericBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

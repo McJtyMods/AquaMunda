@@ -1,7 +1,5 @@
 package mcjty.aquamunda.sound;
 
-import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.config.GeneralConfiguration;
 import net.minecraft.block.Block;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.util.SoundCategory;

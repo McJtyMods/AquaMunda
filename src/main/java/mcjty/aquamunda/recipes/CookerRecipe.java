@@ -1,6 +1,5 @@
 package mcjty.aquamunda.recipes;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -15,7 +14,7 @@ public class CookerRecipe {
 
     public CookerRecipe(Item inputItem, Item outputItem, @Nonnull String outputSoup, int cookTime) {
         this.inputItem = new ItemStack(inputItem);
-        this.outputItem = outputItem == null ? ItemStackTools.getEmptyStack() : new ItemStack(outputItem);
+        this.outputItem = outputItem == null ? ItemStack.EMPTY : new ItemStack(outputItem);
         this.outputSoup = outputSoup;
         this.cookTime = cookTime;
     }

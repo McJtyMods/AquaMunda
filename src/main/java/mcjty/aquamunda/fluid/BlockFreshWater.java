@@ -3,7 +3,6 @@ package mcjty.aquamunda.fluid;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
-import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -99,7 +98,7 @@ public class BlockFreshWater extends BlockFluidClassic {
                 if (!world.isRemote) {
                     IBlockState state = world.getBlockState(pos);
                     EntityFallingFreshWaterBlock entityfallingblock = new EntityFallingFreshWaterBlock(world, (pos.getX() + 0.5F), (pos.getY() + 0.5F), (pos.getZ() + 0.5F), state);
-                    WorldTools.spawnEntity(world, entityfallingblock);
+                    world.spawnEntity(entityfallingblock);
                 }
             } else {
                 world.setBlockToAir(pos);

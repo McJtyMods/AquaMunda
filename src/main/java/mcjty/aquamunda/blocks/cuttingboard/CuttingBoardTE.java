@@ -9,13 +9,12 @@ import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
-import mcjty.lib.tools.ChatTools;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
@@ -43,11 +42,21 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     public boolean kneadDough(EntityPlayer player) {
         CuttingBoardRecipe recipe = getCurrentRecipe();
         if (recipe == null) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Nothing to knead here"));
+            ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "Nothing to knead here");
+            if (player instanceof EntityPlayer) {
+                ((EntityPlayer) player).sendStatusMessage(component, false);
+            } else {
+                player.sendMessage(component);
+            }
             return false;
         }
         if (!recipe.isUseRoller()) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You can't knead those ingredients"));
+            ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "You can't knead those ingredients");
+            if (player instanceof EntityPlayer) {
+                ((EntityPlayer) player).sendStatusMessage(component, false);
+            } else {
+                player.sendMessage(component);
+            }
             return false;
         }
 
@@ -57,11 +66,21 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     public void chopChop(EntityPlayer player) {
         CuttingBoardRecipe recipe = getCurrentRecipe();
         if (recipe == null) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You can't find anything useful to do with these ingredients"));
+            ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "You can't find anything useful to do with these ingredients");
+            if (player instanceof EntityPlayer) {
+                ((EntityPlayer) player).sendStatusMessage(component, false);
+            } else {
+                player.sendMessage(component);
+            }
             return;
         }
         if (recipe.isUseRoller()) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Using a knife on these ingredients wouldn't work very well"));
+            ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "Using a knife on these ingredients wouldn't work very well");
+            if (player instanceof EntityPlayer) {
+                ((EntityPlayer) player).sendStatusMessage(component, false);
+            } else {
+                player.sendMessage(component);
+            }
             return;
         }
 
@@ -71,8 +90,13 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     private boolean startProcessing(EntityPlayer player, CuttingBoardRecipe recipe) {
         maxChopCounter = recipe.getChopTime();
         ItemStack outputItem = recipe.getOutputItem();
-        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the board first!"));
+        if (!getStackInSlot(SLOT_OUTPUT).isEmpty() && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+            ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "Clean up the board first!");
+            if (player instanceof EntityPlayer) {
+                ((EntityPlayer) player).sendStatusMessage(component, false);
+            } else {
+                player.sendMessage(component);
+            }
             return false;
         } else {
             chopCounter = 0;
@@ -98,19 +122,26 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
                 CuttingBoardRecipe recipe = getCurrentRecipe();
                 if (recipe != null) {
                     ItemStack output = recipe.getOutputItem().copy();
-                    if (ItemStackTools.isValid(getStackInSlot(SLOT_INPUT))) {
-                        ItemStackTools.incStackSize(getStackInSlot(SLOT_INPUT), -1);
+                    if (!getStackInSlot(SLOT_INPUT).isEmpty()) {
+                        ItemStack stack = getStackInSlot(SLOT_INPUT);
+                        int amount = -1;
+                        stack.grow(amount);
                     }
-                    if (ItemStackTools.isValid(getStackInSlot(SLOT_INPUT+1))) {
-                        ItemStackTools.incStackSize(getStackInSlot(SLOT_INPUT+1), -1);
+                    if (!getStackInSlot(SLOT_INPUT + 1).isEmpty()) {
+                        ItemStack stack = getStackInSlot(SLOT_INPUT+1);
+                        int amount = -1;
+                        stack.grow(amount);
                     }
-                    if (ItemStackTools.isValid(getStackInSlot(SLOT_INPUT+2))) {
-                        ItemStackTools.incStackSize(getStackInSlot(SLOT_INPUT+2), -1);
+                    if (!getStackInSlot(SLOT_INPUT + 2).isEmpty()) {
+                        ItemStack stack = getStackInSlot(SLOT_INPUT+2);
+                        int amount = -1;
+                        stack.grow(amount);
                     }
-                    if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT))) {
+                    if (getStackInSlot(SLOT_OUTPUT).isEmpty()) {
                         setInventorySlotContents(SLOT_OUTPUT, output);
                     } else {
-                        ItemStackTools.incStackSize(getStackInSlot(SLOT_OUTPUT), 1);
+                        ItemStack stack = getStackInSlot(SLOT_OUTPUT);
+                        stack.grow(1);
                     }
                     markDirtyClient();
                 }
@@ -168,20 +199,15 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
 
     @Override
     public boolean onActivate(EntityPlayer player) {
-        if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.kitchenKnife) {
+        if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.kitchenKnife) {
             chopChop(player);
             return true;
-        } else if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.doughRoller) {
+        } else if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.doughRoller) {
             kneadDough(player);
             return true;
         } else {
             return super.onActivate(player);
         }
-    }
-
-    @Override
-    public boolean isUsable(EntityPlayer player) {
-        return true;
     }
 
     @Override

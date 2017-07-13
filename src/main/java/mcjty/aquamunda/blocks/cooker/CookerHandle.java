@@ -4,7 +4,6 @@ import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.recipes.CookerRecipeRepository;
 import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -43,7 +42,7 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
         ItemStack stack = super.extractOutput(genericTE, player, amount);
         if (isItemThatNeedsExtractionItem(stack)) {
             String dishName = ((ICookerResult) stack.getItem()).getDishName();
-            stack = new ItemStack(ModItems.dish, ItemStackTools.getStackSize(stack), ItemDish.getDishMeta(dishName));
+            stack = new ItemStack(ModItems.dish, stack.getCount(), ItemDish.getDishMeta(dishName));
         }
         return stack;
     }
@@ -63,7 +62,7 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
 
     @Override
     public boolean isItemThatNeedsExtractionItem(ItemStack item) {
-        if (ItemStackTools.isValid(item)) {
+        if (!item.isEmpty()) {
             return item.getItem() instanceof ICookerResult;
         }
         return false;
@@ -71,7 +70,7 @@ class CookerHandle extends DefaultInterfaceHandle<DefaultInterfaceHandle> {
 
     @Override
     public boolean isSuitableExtractionItem(ItemStack item) {
-        if (ItemStackTools.isValid(item)) {
+        if (!item.isEmpty()) {
             return item.getItem() == Items.BOWL;
         }
         return false;

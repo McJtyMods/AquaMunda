@@ -2,12 +2,12 @@ package mcjty.aquamunda.fluid;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.lib.tools.EntityTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -93,7 +93,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
             }
 
             this.motionY -= 0.03999999910593033D;
-            EntityTools.moveEntity(this, this.motionX, this.motionY, this.motionZ);
+            move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.9800000190734863D;
             this.motionY *= 0.9800000190734863D;
             this.motionZ *= 0.9800000190734863D;

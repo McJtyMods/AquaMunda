@@ -1,8 +1,8 @@
 package mcjty.aquamunda.blocks.desalination;
 
+import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;

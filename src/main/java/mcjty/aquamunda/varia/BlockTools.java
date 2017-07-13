@@ -1,14 +1,10 @@
 package mcjty.aquamunda.varia;
 
 import mcjty.aquamunda.blocks.generic.GenericAMBlock;
-import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.MathTools;
-import mcjty.lib.tools.WorldTools;
+import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -16,9 +12,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -106,7 +101,7 @@ public class BlockTools {
         for (int i = 0; i < inventory.getSizeInventory(); ++i) {
             ItemStack itemstack = inventory.getStackInSlot(i);
             spawnItemStack(world, pos, itemstack);
-            inventory.setInventorySlotContents(i, ItemStackTools.getEmptyStack());
+            inventory.setInventorySlotContents(i, ItemStack.EMPTY);
         }
 
         world.updateComparatorOutputLevel(pos, block);
@@ -118,20 +113,21 @@ public class BlockTools {
     }
 
     public static void spawnItemStack(World world, int x, int y, int z, ItemStack itemstack) {
-        if (ItemStackTools.isValid(itemstack)) {
+        if (!itemstack.isEmpty()) {
             float f = random.nextFloat() * 0.8F + 0.1F;
             float f1 = random.nextFloat() * 0.8F + 0.1F;
             EntityItem entityitem;
 
             float f2 = random.nextFloat() * 0.8F + 0.1F;
-            while (ItemStackTools.isValid(itemstack)) {
+            while (!itemstack.isEmpty()) {
                 int j = random.nextInt(21) + 10;
 
-                if (j > ItemStackTools.getStackSize(itemstack)) {
-                    j = ItemStackTools.getStackSize(itemstack);
+                if (j > itemstack.getCount()) {
+                    j = itemstack.getCount();
                 }
 
-                ItemStackTools.incStackSize(itemstack, -j);
+                int amount = -j;
+                itemstack.grow(amount);
                 entityitem = new EntityItem(world, (x + f), (y + f1), (z + f2), new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
                 float f3 = 0.05F;
                 entityitem.motionX = ((float)random.nextGaussian() * f3);
@@ -141,7 +137,7 @@ public class BlockTools {
                 if (itemstack.hasTagCompound()) {
                     entityitem.getItem().setTagCompound(itemstack.getTagCompound().copy());
                 }
-                WorldTools.spawnEntity(world, entityitem);
+                world.spawnEntity(entityitem);
             }
         }
     }

@@ -5,12 +5,9 @@ import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.sound.ISoundProducer;
+import mcjty.aquamunda.varia.FluidTools;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.lib.tools.ChatTools;
-import mcjty.lib.tools.FluidTools;
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.WorldTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -28,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
@@ -77,8 +75,8 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
             IInterfaceHandle selectedHandle = cookerTE.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
-                if (ItemStackTools.isValid(currentStack)) {
-                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
+                if (!currentStack.isEmpty()) {
+                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.getCount() + ")");
                 }
             }
             DecimalFormat decimalFormat = new DecimalFormat("#.#");
@@ -101,28 +99,33 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
 
             if (!cookerTE.getSoup().isEmpty()) {
-                if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.BOWL) {
+                if (!heldItem.isEmpty() && heldItem.getItem() == Items.BOWL) {
                     heldItem.splitStack(1);
                     ItemStack dish = new ItemStack(ModItems.dish, 1, ItemDish.getDishMeta(cookerTE.getSoup()));
-                    if (ItemStackTools.isEmpty(player.getHeldItem(EnumHand.MAIN_HAND))) {
+                    if (player.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
                         player.setHeldItem(EnumHand.MAIN_HAND, dish);
                     } else {
                         // @todo generalize
                         if (!player.inventory.addItemStackToInventory(dish)) {
                             EntityItem entityItem = new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, dish);
-                            WorldTools.spawnEntity(player.getEntityWorld(), entityItem);
+                            player.getEntityWorld().spawnEntity(entityItem);
                         }
                     }
                     cookerTE.setSoup("");
                     cookerTE.setAmount(0);
                     player.openContainer.detectAndSendChanges();
                 } else {
-                    ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the soup out"));
+                    ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the soup out");
+                    if (player instanceof EntityPlayer) {
+                        ((EntityPlayer) player).sendStatusMessage(component, false);
+                    } else {
+                        player.sendMessage(component);
+                    }
                 }
                 return true;
             }
 
-            if (ItemStackTools.isValid(heldItem)) {
+            if (!heldItem.isEmpty()) {
                 if (FluidTools.isEmptyContainer(heldItem)) {
                     ItemStack container = heldItem.copy().splitStack(1);    // Don't modify what the player is holding
                     extractIntoContainer(player, container, cookerTE);
@@ -141,7 +144,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
 
     private void fillFromContainer(EntityPlayer player, World world, CookerTE cooker) {
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (ItemStackTools.isEmpty(heldItem)) {
+        if (heldItem.isEmpty()) {
             return;
         }
         FluidStack fluidStack = FluidTools.convertBucketToFluid(heldItem);
@@ -164,7 +167,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
     private void extractIntoContainer(EntityPlayer player, ItemStack container, CookerTE cooker) {
         if (cooker.getAmount() > 0) {
             FluidStack fluidStack = new FluidStack(FluidSetup.freshWater, 1);
-            if (ItemStackTools.isEmpty(container)) {
+            if (container.isEmpty()) {
                 return;
             }
             int capacity = FluidTools.getCapacity(fluidStack, container);
@@ -172,13 +175,13 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
                 if (cooker.getAmount() >= capacity) {
                     fluidStack.amount = capacity;
                     ItemStack filledContainer = FluidTools.fillContainer(fluidStack, container);
-                    if (ItemStackTools.isValid(filledContainer)) {
+                    if (!filledContainer.isEmpty()) {
                         cooker.setAmount(cooker.getAmount() - capacity);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
                         // @todo generalize
                         if (!player.inventory.addItemStackToInventory(filledContainer)) {
                             EntityItem entityItem = new EntityItem(player.getEntityWorld(), player.posX, player.posY, player.posZ, filledContainer);
-                            WorldTools.spawnEntity(player.getEntityWorld(), entityItem);
+                            player.getEntityWorld().spawnEntity(entityItem);
                         }
                         player.openContainer.detectAndSendChanges();
                     } else {

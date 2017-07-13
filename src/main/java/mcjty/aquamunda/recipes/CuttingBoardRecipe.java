@@ -1,6 +1,5 @@
 package mcjty.aquamunda.recipes;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -16,12 +15,12 @@ public class CuttingBoardRecipe {
 
     public CuttingBoardRecipe(Item inputItem1, Item inputItem2, Item inputItem3, Item outputItem, int chopTime, boolean useRoller) {
         inputItems = new ItemStack[3];
-        inputItems[0] = inputItem1 == null ? ItemStackTools.getEmptyStack() : new ItemStack(inputItem1);
-        inputItems[1] = inputItem2 == null ? ItemStackTools.getEmptyStack() : new ItemStack(inputItem2);
-        inputItems[2] = inputItem3 == null ? ItemStackTools.getEmptyStack() : new ItemStack(inputItem3);
+        inputItems[0] = inputItem1 == null ? ItemStack.EMPTY : new ItemStack(inputItem1);
+        inputItems[1] = inputItem2 == null ? ItemStack.EMPTY : new ItemStack(inputItem2);
+        inputItems[2] = inputItem3 == null ? ItemStack.EMPTY : new ItemStack(inputItem3);
         sortItems(inputItems);
 
-        this.outputItem = outputItem == null ? ItemStackTools.getEmptyStack() : new ItemStack(outputItem);
+        this.outputItem = outputItem == null ? ItemStack.EMPTY : new ItemStack(outputItem);
         this.chopTime = chopTime;
         this.useRoller = useRoller;
     }
@@ -39,13 +38,13 @@ public class CuttingBoardRecipe {
 
     public static void sortItems(ItemStack[] stacks) {
         Arrays.sort(stacks, (i1, i2) -> {
-            if (ItemStackTools.isValid(i1) && ItemStackTools.isValid(i2)) {
+            if (!i1.isEmpty() && !i2.isEmpty()) {
                 return getRegNameSafe(i1).compareTo(getRegNameSafe(i2));
             }
-            if (ItemStackTools.isValid(i1)) {
+            if (!i1.isEmpty()) {
                 return 1;
             }
-            if (ItemStackTools.isValid(i2)) {
+            if (!i2.isEmpty()) {
                 return -1;
             }
             return 0;

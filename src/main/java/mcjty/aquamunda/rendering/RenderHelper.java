@@ -1,6 +1,5 @@
 package mcjty.aquamunda.rendering;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -94,10 +93,10 @@ public class RenderHelper {
 //    }
 
     public static boolean renderItemStackWithCount(Minecraft mc, RenderItem itemRender, ItemStack itm, int xo, int yo, boolean highlight) {
-        if (ItemStackTools.getStackSize(itm) == 1 || ItemStackTools.isEmpty(itm)) {
+        if (itm.getCount() == 1 || itm.isEmpty()) {
             return renderItemStack(mc, itemRender, itm, xo, yo, "", highlight);
         } else {
-            return renderItemStack(mc, itemRender, itm, xo, yo, "" + ItemStackTools.getStackSize(itm), highlight);
+            return renderItemStack(mc, itemRender, itm, xo, yo, "" + itm.getCount(), highlight);
         }
     }
 

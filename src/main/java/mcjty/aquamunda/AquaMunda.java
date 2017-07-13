@@ -8,10 +8,9 @@ import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.proxy.CommonProxy;
 import mcjty.immcraft.api.IImmersiveCraft;
-import mcjty.lib.compat.CompatCreativeTabs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -25,20 +24,15 @@ import java.util.function.Function;
 
 @Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME,
         dependencies =
-                "required-after:compatlayer@[" + AquaMunda.COMPATLAYER_VER + ",);" +
                 "required-after:immcraft@[" + AquaMunda.MIN_IMMCRAFT_VER + ",);" +
-                "after:Forge@[" + AquaMunda.MIN_FORGE10_VER + ",);" +
                 "after:forge@[" + AquaMunda.MIN_FORGE11_VER + ",)",
-        version = AquaMunda.VERSION,
-        acceptedMinecraftVersions = "[1.10,1.12)")
+        version = AquaMunda.VERSION)
 public class AquaMunda {
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
     public static final String VERSION = "0.1.1beta";
     public static final String MIN_IMMCRAFT_VER = "1.3.0";
-    public static final String MIN_FORGE10_VER = "12.18.1.2082";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
-    public static final String COMPATLAYER_VER = "0.1.7";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
     public static CommonProxy proxy;
@@ -63,11 +57,10 @@ public class AquaMunda {
         FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
 
         logger = event.getModLog();
-        creativeTab = new CompatCreativeTabs("aquamunda") {
-
+        creativeTab = new CreativeTabs("aquamunda") {
             @Override
-            protected Item getItem() {
-                return Items.WATER_BUCKET;
+            public ItemStack getTabIconItem() {
+                return new ItemStack(Items.WATER_BUCKET);
             }
         };
         proxy.preInit(event);

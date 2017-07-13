@@ -4,7 +4,6 @@ import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.sound.ISoundProducer;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -80,8 +79,8 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
             IInterfaceHandle selectedHandle = cuttingBoardTE.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
-                if (ItemStackTools.isValid(currentStack)) {
-                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
+                if (!currentStack.isEmpty()) {
+                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.getCount() + ")");
                 }
             }
 

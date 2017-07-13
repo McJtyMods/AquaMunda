@@ -1,6 +1,5 @@
 package mcjty.aquamunda.recipes;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
@@ -12,7 +11,7 @@ public class KeyResourceLocations {
         r = new String[items.length];
         for (int i = 0 ; i < items.length ; i++) {
             ItemStack item = items[i];
-            if (ItemStackTools.isValid(item)) {
+            if (!item.isEmpty()) {
                 r[i] = item.getItem().getRegistryName().toString();
             } else {
                 r[i] = "";

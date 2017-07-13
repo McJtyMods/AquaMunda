@@ -1,7 +1,6 @@
 package mcjty.aquamunda.environment;
 
 import mcjty.aquamunda.chunkdata.GameData;
-import mcjty.lib.tools.WorldTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
@@ -24,7 +23,7 @@ public class EnvironmentData extends WorldSavedData {
         if (instance != null) {
             return instance;
         }
-        instance = WorldTools.loadData(world, EnvironmentData.class, NAME);
+        instance = (EnvironmentData) world.loadData(EnvironmentData.class, NAME);
         if (instance == null) {
             instance = new EnvironmentData(NAME);
         }

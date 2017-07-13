@@ -1,6 +1,5 @@
 package mcjty.aquamunda.recipes;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -18,7 +17,7 @@ public class CuttingBoardRecipeRepository {
 
     @Nullable
     public static CuttingBoardRecipe getRecipe(ItemStack stack1, ItemStack stack2, ItemStack stack3) {
-        if (ItemStackTools.isEmpty(stack1) && ItemStackTools.isEmpty(stack2) && ItemStackTools.isEmpty(stack3)) {
+        if (stack1.isEmpty() && stack2.isEmpty() && stack3.isEmpty()) {
             return null;
         }
         ItemStack[] items = new ItemStack[] { stack1, stack2, stack3 };
@@ -28,7 +27,7 @@ public class CuttingBoardRecipeRepository {
             CuttingBoardRecipe recipe = recipeMap.get(key);
             for (int i = 0 ; i < items.length ; i++) {
                 ItemStack item = items[i];
-                if (ItemStackTools.isValid(item)) {
+                if (!item.isEmpty()) {
                     if (!ItemStack.areItemStackTagsEqual(recipe.getInputItems()[i], item)) {
                         return null;
                     }
