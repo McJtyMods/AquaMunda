@@ -7,7 +7,6 @@ import mcjty.aquamunda.recipes.CookerRecipe;
 import mcjty.aquamunda.recipes.CookerRecipeRepository;
 import mcjty.aquamunda.recipes.CuttingBoardRecipe;
 import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -53,7 +52,7 @@ public class GeneralConfiguration {
             // Initialize with defaults
             addRecipe(cfg, "cookedcarrot", new ItemStack(Items.CARROT), new ItemStack(ModItems.cookedCarrot), "", 10);
             addRecipe(cfg, "cookedpotato", new ItemStack(Items.POTATO), new ItemStack(ModItems.cookedPotato), "", 10);
-            addRecipe(cfg, "vegetablesoup", new ItemStack(ModItems.choppedVegetables), ItemStackTools.getEmptyStack(), ItemDish.DISH_VEGETABLE_SOUP, 10);
+            addRecipe(cfg, "vegetablesoup", new ItemStack(ModItems.choppedVegetables), ItemStack.EMPTY, ItemDish.DISH_VEGETABLE_SOUP, 10);
         } else {
             for (Map.Entry<String, Property> entry : category.entrySet()) {
                 String[] list = entry.getValue().getStringList();
@@ -68,7 +67,7 @@ public class GeneralConfiguration {
             // Initialize with defaults
             addRecipe(cfg, "chopped1", new ItemStack(Items.CARROT), new ItemStack(Items.BEETROOT), new ItemStack(Item.getItemFromBlock(Blocks.BROWN_MUSHROOM)), new ItemStack(ModItems.choppedVegetables), 2, "knife");
             addRecipe(cfg, "chopped2", new ItemStack(Items.CARROT), new ItemStack(Items.BEETROOT), new ItemStack(Item.getItemFromBlock(Blocks.RED_MUSHROOM)), new ItemStack(ModItems.choppedVegetables), 2, "knife");
-            addRecipe(cfg, "dough", new ItemStack(ModItems.flour), ItemStackTools.getEmptyStack(), ItemStackTools.getEmptyStack(), new ItemStack(ModItems.dough), 10, "roller");
+            addRecipe(cfg, "dough", new ItemStack(ModItems.flour), ItemStack.EMPTY, ItemStack.EMPTY, new ItemStack(ModItems.dough), 10, "roller");
         } else {
             for (Map.Entry<String, Property> entry : category.entrySet()) {
                 String[] list = entry.getValue().getStringList();
@@ -80,11 +79,11 @@ public class GeneralConfiguration {
 
     private static ItemStack getItem(String[] list, int index) {
         if (index >= list.length) {
-            return ItemStackTools.getEmptyStack();
+            return ItemStack.EMPTY;
         }
         String reg = list[index];
         if ("-".equals(reg)) {
-            return ItemStackTools.getEmptyStack();
+            return ItemStack.EMPTY;
         }
         return getItem(reg);
     }
@@ -118,7 +117,7 @@ public class GeneralConfiguration {
     }
 
     private static String itemToString(ItemStack stack) {
-        if (ItemStackTools.isEmpty(stack)) {
+        if (stack.isEmpty()) {
             return "-";
         } else {
             String s = stack.getItem().getRegistryName().toString();
