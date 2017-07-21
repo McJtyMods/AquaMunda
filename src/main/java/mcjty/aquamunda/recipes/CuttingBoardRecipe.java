@@ -13,14 +13,14 @@ public class CuttingBoardRecipe {
     private final int chopTime;
     private final boolean useRoller;
 
-    public CuttingBoardRecipe(Item inputItem1, Item inputItem2, Item inputItem3, Item outputItem, int chopTime, boolean useRoller) {
+    public CuttingBoardRecipe(ItemStack inputItem1, ItemStack inputItem2, ItemStack inputItem3, ItemStack outputItem, int chopTime, boolean useRoller) {
         inputItems = new ItemStack[3];
-        inputItems[0] = inputItem1 == null ? ItemStack.EMPTY : new ItemStack(inputItem1);
-        inputItems[1] = inputItem2 == null ? ItemStack.EMPTY : new ItemStack(inputItem2);
-        inputItems[2] = inputItem3 == null ? ItemStack.EMPTY : new ItemStack(inputItem3);
+        inputItems[0] = inputItem1;
+        inputItems[1] = inputItem2;
+        inputItems[2] = inputItem3;
         sortItems(inputItems);
 
-        this.outputItem = outputItem == null ? ItemStack.EMPTY : new ItemStack(outputItem);
+        this.outputItem = outputItem;
         this.chopTime = chopTime;
         this.useRoller = useRoller;
     }

@@ -12,9 +12,9 @@ public class CookerRecipe {
     private final String outputSoup;
     private final int cookTime;
 
-    public CookerRecipe(Item inputItem, Item outputItem, @Nonnull String outputSoup, int cookTime) {
-        this.inputItem = new ItemStack(inputItem);
-        this.outputItem = outputItem == null ? ItemStack.EMPTY : new ItemStack(outputItem);
+    public CookerRecipe(ItemStack inputItem, ItemStack outputItem, @Nonnull String outputSoup, int cookTime) {
+        this.inputItem = inputItem;
+        this.outputItem = outputItem;
         this.outputSoup = outputSoup;
         this.cookTime = cookTime;
     }
