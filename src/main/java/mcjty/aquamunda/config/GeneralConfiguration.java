@@ -7,14 +7,17 @@ import mcjty.aquamunda.recipes.CookerRecipe;
 import mcjty.aquamunda.recipes.CookerRecipeRepository;
 import mcjty.aquamunda.recipes.CuttingBoardRecipe;
 import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -48,9 +51,9 @@ public class GeneralConfiguration {
         ConfigCategory category = cfg.getCategory(CATEGORY_RECIPES_COOKER);
         if (category.isEmpty()) {
             // Initialize with defaults
-            addRecipe(cfg, "cookedcarrot", Items.CARROT, ModItems.cookedCarrot, "", 10);
-            addRecipe(cfg, "cookedpotato", Items.POTATO, ModItems.cookedPotato, "", 10);
-            addRecipe(cfg, "vegetablesoup", ModItems.choppedVegetables, null, ItemDish.DISH_VEGETABLE_SOUP, 10);
+            addRecipe(cfg, "cookedcarrot", new ItemStack(Items.CARROT), new ItemStack(ModItems.cookedCarrot), "", 10);
+            addRecipe(cfg, "cookedpotato", new ItemStack(Items.POTATO), new ItemStack(ModItems.cookedPotato), "", 10);
+            addRecipe(cfg, "vegetablesoup", new ItemStack(ModItems.choppedVegetables), ItemStackTools.getEmptyStack(), ItemDish.DISH_VEGETABLE_SOUP, 10);
         } else {
             for (Map.Entry<String, Property> entry : category.entrySet()) {
                 String[] list = entry.getValue().getStringList();
@@ -63,9 +66,9 @@ public class GeneralConfiguration {
         ConfigCategory category = cfg.getCategory(CATEGORY_RECIPES_CUTTINGBOARD);
         if (category.isEmpty()) {
             // Initialize with defaults
-            addRecipe(cfg, "chopped1", Items.CARROT, Items.BEETROOT, Item.getItemFromBlock(Blocks.BROWN_MUSHROOM), ModItems.choppedVegetables, 2, "knife");
-            addRecipe(cfg, "chopped2", Items.CARROT, Items.BEETROOT, Item.getItemFromBlock(Blocks.RED_MUSHROOM), ModItems.choppedVegetables, 2, "knife");
-            addRecipe(cfg, "dough", ModItems.flour, null, null, ModItems.dough, 10, "roller");
+            addRecipe(cfg, "chopped1", new ItemStack(Items.CARROT), new ItemStack(Items.BEETROOT), new ItemStack(Item.getItemFromBlock(Blocks.BROWN_MUSHROOM)), new ItemStack(ModItems.choppedVegetables), 2, "knife");
+            addRecipe(cfg, "chopped2", new ItemStack(Items.CARROT), new ItemStack(Items.BEETROOT), new ItemStack(Item.getItemFromBlock(Blocks.RED_MUSHROOM)), new ItemStack(ModItems.choppedVegetables), 2, "knife");
+            addRecipe(cfg, "dough", new ItemStack(ModItems.flour), ItemStackTools.getEmptyStack(), ItemStackTools.getEmptyStack(), new ItemStack(ModItems.dough), 10, "roller");
         } else {
             for (Map.Entry<String, Property> entry : category.entrySet()) {
                 String[] list = entry.getValue().getStringList();
@@ -75,19 +78,25 @@ public class GeneralConfiguration {
         }
     }
 
-    private static Item getItem(String[] list, int index) {
+    private static ItemStack getItem(String[] list, int index) {
         if (index >= list.length) {
-            return null;
+            return ItemStackTools.getEmptyStack();
         }
         String reg = list[index];
         if ("-".equals(reg)) {
-            return null;
+            return ItemStackTools.getEmptyStack();
         }
         return getItem(reg);
     }
 
-    private static Item getItem(String reg) {
-        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(reg));
+    private static ItemStack getItem(String reg) {
+        String[] split = StringUtils.split(reg, '@');
+        String name = split[0];
+        int meta = 0;
+        if (split.length > 1) {
+            meta = Integer.parseInt(split[1]);
+        }
+        return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name)), 1, meta);
     }
 
     private static int getInt(String[] list, int index) {
@@ -108,17 +117,34 @@ public class GeneralConfiguration {
         return s;
     }
 
-    private static void addRecipe(Configuration cfg, String name, Item it1, Item it2, Item it3, Item outi, int chopTime, String tool) {
-        cfg.get(CATEGORY_RECIPES_CUTTINGBOARD, name, new String[] { it1 == null ? "-" : it1.getRegistryName().toString(),
-                it2 == null ? "-" : it2.getRegistryName().toString(),
-                it3 == null ? "-" : it3.getRegistryName().toString(),
-                outi.getRegistryName().toString(), Integer.toString(chopTime), tool });
+    private static String itemToString(ItemStack stack) {
+        if (ItemStackTools.isEmpty(stack)) {
+            return "-";
+        } else {
+            String s = stack.getItem().getRegistryName().toString();
+            if (stack.getItemDamage() != 0) {
+                s += "@" + stack.getItemDamage();
+            }
+            return s;
+        }
+    }
+
+    private static void addRecipe(Configuration cfg, String name, ItemStack it1, ItemStack it2, ItemStack it3, ItemStack outi, int chopTime, String tool) {
+        cfg.get(CATEGORY_RECIPES_CUTTINGBOARD, name, new String[] {
+                itemToString(it1),
+                itemToString(it2),
+                itemToString(it3),
+                itemToString(outi),
+                Integer.toString(chopTime), tool });
         CuttingBoardRecipeRepository.addRecipe(new CuttingBoardRecipe(it1, it2, it3, outi, chopTime, "roller".equals(tool)));
     }
 
-    private static void addRecipe(Configuration cfg, String name, Item in, Item out, String soup, int cookTime) {
-        cfg.get(CATEGORY_RECIPES_COOKER, name, new String[] { in == null ? "-" : in.getRegistryName().toString(),
-                out == null ? "-" : out.getRegistryName().toString(), "".equals(soup) ? "-" : soup, Integer.toString(cookTime) });
+    private static void addRecipe(Configuration cfg, String name, ItemStack in, ItemStack out, String soup, int cookTime) {
+        cfg.get(CATEGORY_RECIPES_COOKER, name, new String[] {
+                itemToString(in),
+                itemToString(out),
+                "".equals(soup) ? "-" : soup,
+                Integer.toString(cookTime) });
         CookerRecipeRepository.addRecipe(new CookerRecipe(in, out, soup, cookTime));
     }
 
