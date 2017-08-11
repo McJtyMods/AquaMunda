@@ -26,6 +26,7 @@ import java.util.function.Function;
         dependencies =
                 "required-after:immcraft@[" + AquaMunda.MIN_IMMCRAFT_VER + ",);" +
                 "after:forge@[" + AquaMunda.MIN_FORGE11_VER + ",)",
+        acceptedMinecraftVersions = "[1.12,1.13)",
         version = AquaMunda.VERSION)
 public class AquaMunda {
     public static final String MODID = "aquamunda";
