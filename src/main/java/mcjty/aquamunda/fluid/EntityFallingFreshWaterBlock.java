@@ -2,7 +2,6 @@ package mcjty.aquamunda.fluid;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.network.NetworkTools;
 import mcjty.lib.tools.EntityTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -13,17 +12,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements IEntityAdditionalSpawnData {
     private IBlockState fallTile;
@@ -115,7 +114,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
                         this.setDead();
 
                         if (!this.canSetAsBlock) {
-                            if (this.getEntityWorld().mayPlace(block, blockpos1, true, EnumFacing.UP, null)) {
+                            if (mayPlace(this.getEntityWorld(), block, blockpos1, true, EnumFacing.UP, null)) {
                                 if (!BlockFalling.canFallThrough(this.getEntityWorld().getBlockState(blockpos1.down())) && this.getEntityWorld().setBlockState(blockpos1, this.fallTile, 3)) {
                                     if (block instanceof BlockFalling) {
                                         ((BlockFalling) block).onEndFalling(this.getEntityWorld(), blockpos1);
@@ -130,6 +129,20 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
             }
         }
     }
+
+    /**
+     * mayPlace does not exist on 1.10 so we have a workaround for that here
+     */
+    private boolean mayPlace(World world, Block block, BlockPos pos, boolean p_190527_3_, EnumFacing facing, @Nullable Entity entity) {
+        IBlockState iblockstate = world.getBlockState(pos);
+        AxisAlignedBB axisalignedbb = p_190527_3_ ? null : block.getDefaultState().getCollisionBoundingBox(world, pos);
+        return axisalignedbb != Block.NULL_AABB && !world.checkNoEntityCollision(axisalignedbb.offset(pos), entity)
+                ? false
+                : (iblockstate.getMaterial() == Material.CIRCUITS && block == Blocks.ANVIL
+                ? true
+                : iblockstate.getBlock().isReplaceable(world, pos) && block.canPlaceBlockOnSide(world, pos, facing));
+    }
+
 
     @Override
     public void fall(float distance, float damageMultiplier) {
