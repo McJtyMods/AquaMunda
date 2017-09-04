@@ -34,7 +34,9 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
         GlStateManager.disableRescaleNormal();
 
         BlockRenderHelper.rotateFacing(tileEntity, GenericAMBlock.MetaUsage.HORIZROTATION);
-        renderExtra(tileEntity);
+        if (!tileEntity.getWorld().isAirBlock(tileEntity.getPos())) {
+            renderExtra(tileEntity);
+        }
 
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
