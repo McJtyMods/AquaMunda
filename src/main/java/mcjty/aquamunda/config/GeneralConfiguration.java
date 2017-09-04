@@ -135,7 +135,7 @@ public class GeneralConfiguration {
             meta = Integer.parseInt(split[1]);
         }
         Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-        if (block != null) {
+        if (block != null && block != Blocks.AIR) {
             return new ItemStack(block, cnt, meta);
         }
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(name));

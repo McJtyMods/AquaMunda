@@ -8,6 +8,7 @@ import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -46,6 +47,8 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
         ItemStack outputItem = recipe.getOutputItem();
         if (!getStackInSlot(SLOT_OUTPUT).isEmpty() && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
             player.sendStatusMessage(new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"), false);
+        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"));
         } else {
             grindCounter = 0;
             maxGrindCounter = recipe.getGrindTime();
@@ -69,6 +72,8 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
 
                 if (getStackInSlot(SLOT_OUTPUT).isEmpty() || ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
                     if (!input.isEmpty() && ItemStack.areItemStackTagsEqual(input, recipe.getInputItem())) {
+                if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT)) || InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+                    if (ItemStackTools.isValid(input) && InventoryHelper.isItemStackConsideredEqual(input, recipe.getInputItem())) {
                         // Check if there is room
                         if ((getStackInSlot(SLOT_OUTPUT).getCount() + outputItem.getCount()) < outputItem.getMaxStackSize()) {
                             input.shrink(1);

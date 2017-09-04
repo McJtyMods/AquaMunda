@@ -1,5 +1,7 @@
 package mcjty.aquamunda.recipes;
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,7 +26,7 @@ public class CookerRecipeRepository {
         ResourceLocation key = stack.getItem().getRegistryName();
         if (recipeMap.containsKey(key)) {
             CookerRecipe recipe = recipeMap.get(key);
-            if (ItemStack.areItemStackTagsEqual(recipe.getInputItem(), stack)) {
+            if (InventoryHelper.isItemStackConsideredEqual(recipe.getInputItem(), stack)) {
                 return recipe;
             }
 
