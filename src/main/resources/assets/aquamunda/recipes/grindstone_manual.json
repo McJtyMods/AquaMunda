@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "aquamunda:board_manual"
+  },
+  "pattern": [
+    "br",
+    "B "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "B": {
+      "item": "minecraft:bone"
+    }
+  }
+}

@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -44,12 +43,7 @@ public class BoardManual extends Item implements IBook {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ITextComponent component = new TextComponentString("Use this book on a book stand");
-        if (player instanceof EntityPlayer) {
-            ((EntityPlayer) player).sendStatusMessage(component, false);
-        } else {
-            player.sendMessage(component);
-        }
+        player.sendStatusMessage(new TextComponentString("Use this book on a book stand"), false);
         return EnumActionResult.PASS;
     }
 

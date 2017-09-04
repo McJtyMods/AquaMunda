@@ -50,19 +50,9 @@ public class ModBlocks {
         cuttingBoardBlock = new CuttingBoardBlock();
         grindStoneBlock = new GrindStoneBlock();
 
-        customFarmLand = new CustomFarmLand();
-        AquaMundaRegister.getRegistry().registerLater(customFarmLand, AquaMunda.MODID, ItemBlock.class, null);
-//        try {
-//            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
-//            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));
-//        } catch (ExistingSubstitutionException e) {
-//            throw new RuntimeException(e);
-//        }
-//        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
         if (GeneralConfiguration.farmlandOverhaulType != FarmlandOverhaulType.VANILLA) {
             customFarmLand = new CustomFarmLand();
-            GameRegistry.register(customFarmLand);
-            GameRegistry.register(new ItemBlock(customFarmLand), customFarmLand.getRegistryName());
+            AquaMundaRegister.getRegistry().registerLater(customFarmLand, AquaMunda.MODID, ItemBlock.class, null);
             //        try {
             //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
             //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));

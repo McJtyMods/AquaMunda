@@ -3,12 +3,7 @@ package mcjty.aquamunda.config;
 import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
-import mcjty.aquamunda.recipes.CookerRecipe;
-import mcjty.aquamunda.recipes.CookerRecipeRepository;
-import mcjty.aquamunda.recipes.CuttingBoardRecipe;
-import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
 import mcjty.aquamunda.recipes.*;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -147,7 +142,7 @@ public class GeneralConfiguration {
         if (item != null) {
             return new ItemStack(item, cnt, meta);
         }
-        return ItemStackTools.getEmptyStack();
+        return ItemStack.EMPTY;
     }
 
     private static int getInt(String[] list, int index) {
@@ -173,8 +168,8 @@ public class GeneralConfiguration {
             return "-";
         } else {
             String s;
-            if (ItemStackTools.getStackSize(stack) > 1) {
-                s = Integer.toString(ItemStackTools.getStackSize(stack)) + "x";
+            if (stack.getCount() > 1) {
+                s = Integer.toString(stack.getCount()) + "x";
             } else {
                 s = "";
             }

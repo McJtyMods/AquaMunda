@@ -44,12 +44,7 @@ public class CookerManual extends Item implements IBook {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ITextComponent component = new TextComponentString("Use this book on a book stand");
-        if (player instanceof EntityPlayer) {
-            ((EntityPlayer) player).sendStatusMessage(component, false);
-        } else {
-            player.sendMessage(component);
-        }
+        player.sendStatusMessage(new TextComponentString("Use this book on a book stand"), false);
         return EnumActionResult.PASS;
     }
 

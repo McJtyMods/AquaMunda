@@ -28,10 +28,6 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
 
     @Override
     public void render(TankTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        GlStateManager.pushAttrib();
-//        GL11.glPushAttrib(GL11.GL_CURRENT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_ENABLE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_TEXTURE_BIT);
-
-    public void renderTileEntityAt(TankTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.disableRescaleNormal();
         GlStateManager.color(1, 1, 1, 1);

@@ -1,30 +1,29 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.book.IBook;
-import mcjty.lib.compat.CompatItem;
-import mcjty.lib.tools.ChatTools;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GrindstoneManual extends CompatItem implements IBook {
+public class GrindstoneManual extends Item implements IBook {
 
     public GrindstoneManual() {
         setMaxStackSize(1);
         setRegistryName("grindstone_manual");
         setUnlocalizedName(AquaMunda.MODID + ".grindstone_manual");
         setCreativeTab(AquaMunda.creativeTab);
-        GameRegistry.register(this);
+        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
     }
 
     @Override
@@ -43,13 +42,13 @@ public class GrindstoneManual extends CompatItem implements IBook {
     }
 
     @Override
-    protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ChatTools.addChatMessage(player, new TextComponentString("Use this book on a book stand"));
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        player.sendStatusMessage(new TextComponentString("Use this book on a book stand"), false);
         return EnumActionResult.PASS;
     }
 
     @Override
-    protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (world.isRemote) {
             ImmersiveCraftHandler.immersiveCraft.openManual(player);

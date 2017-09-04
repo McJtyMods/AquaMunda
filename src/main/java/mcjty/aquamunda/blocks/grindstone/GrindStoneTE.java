@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
@@ -37,24 +36,16 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
     }
 
     public void grind(EntityPlayer player) {
-        ItemStack outputItem = new ItemStack(ModItems.flour);
-        if (!getStackInSlot(SLOT_OUTPUT).isEmpty() && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
-            ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!");
-            if (player instanceof EntityPlayer) {
-                ((EntityPlayer) player).sendStatusMessage(component, false);
-            } else {
-                player.sendMessage(component);
-            }
         ItemStack input = getStackInSlot(SLOT_INPUT);
         GrindstoneRecipe recipe = GrindstoneRecipeRepository.getRecipe(input);
         if (recipe == null) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You cannot grind this!"));
+            player.sendStatusMessage(new TextComponentString(TextFormatting.YELLOW + "You cannot grind this!"), false);
             return;
         }
 
         ItemStack outputItem = recipe.getOutputItem();
-        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"));
+        if (!getStackInSlot(SLOT_OUTPUT).isEmpty() && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+            player.sendStatusMessage(new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"), false);
         } else {
             grindCounter = 0;
             maxGrindCounter = recipe.getGrindTime();
@@ -76,28 +67,17 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
                 }
                 ItemStack outputItem = recipe.getOutputItem();
 
-                if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT)) || ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
-                    if (ItemStackTools.isValid(input) && ItemStack.areItemStackTagsEqual(input, recipe.getInputItem())) {
+                if (getStackInSlot(SLOT_OUTPUT).isEmpty() || ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+                    if (!input.isEmpty() && ItemStack.areItemStackTagsEqual(input, recipe.getInputItem())) {
                         // Check if there is room
-                        if ((ItemStackTools.getStackSize(getStackInSlot(SLOT_OUTPUT)) + ItemStackTools.getStackSize(outputItem)) < outputItem.getMaxStackSize()) {
-                            input = ItemStackTools.incStackSize(input, -1);
+                        if ((getStackInSlot(SLOT_OUTPUT).getCount() + outputItem.getCount()) < outputItem.getMaxStackSize()) {
+                            input.shrink(1);
                             setInventorySlotContents(SLOT_INPUT, input);
-                            if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT))) {
+                            if (getStackInSlot(SLOT_OUTPUT).isEmpty()) {
                                 setInventorySlotContents(SLOT_OUTPUT, outputItem);
                             } else {
-                                ItemStackTools.incStackSize(getStackInSlot(SLOT_OUTPUT), ItemStackTools.getStackSize(outputItem));
+                                getStackInSlot(SLOT_OUTPUT).grow(outputItem.getCount());
                             }
-                if (getStackInSlot(SLOT_OUTPUT).isEmpty() || ItemStack.areItemStackTagsEqual(new ItemStack(ModItems.flour), getStackInSlot(SLOT_OUTPUT))) {
-                    if (!input.isEmpty() && input.getItem() == Items.WHEAT) {
-                        int amount = -1;
-                        input.grow(amount);
-                        input = input;
-                        setInventorySlotContents(SLOT_INPUT, input);
-                        if (getStackInSlot(SLOT_OUTPUT).isEmpty()) {
-                            setInventorySlotContents(SLOT_OUTPUT, new ItemStack(ModItems.flour));
-                        } else {
-                            ItemStack stack = getStackInSlot(SLOT_OUTPUT);
-                            stack.grow(1);
                         }
                     }
                 }
@@ -156,6 +136,12 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
         }
         return super.onActivate(player);
     }
+
+    @Override
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        return true;
+    }
+
 
     private static Random random = new Random();
 
