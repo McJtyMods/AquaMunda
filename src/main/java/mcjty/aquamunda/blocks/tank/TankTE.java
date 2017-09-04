@@ -1,6 +1,7 @@
 package mcjty.aquamunda.blocks.tank;
 
 import mcjty.aquamunda.blocks.generic.GenericAMTE;
+import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
@@ -22,8 +23,6 @@ import java.util.Map;
 public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTile<Tank> {
 
     public static final int MAX_CONTENTS = 10000;       // 10 buckets
-    public static final int ADD_RAIN = 200;             // How much to add when it is raining
-    public static final int EVAPORATE_AMOUNT = 5;       // How much to remove on evaporation
 
     private int networkId = -1;
 
@@ -179,9 +178,13 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
             return;
         }
         if (getWorld().isRaining()) {
-            checkRain();
+            if (GeneralConfiguration.tankCatchesRain > 0) {
+                checkRain();
+            }
         } else {
-            checkEvaporation();
+            if (GeneralConfiguration.tankEvaporation > 0) {
+                checkEvaporation();
+            }
         }
     }
 
@@ -209,7 +212,7 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
             if (getWorld().canBlockSeeSky(getPos())) {
                 Tank tank = getMultiBlock();
                 if (tank.getFluid() == FluidSetup.freshWater || tank.getFluid() == FluidRegistry.WATER) {
-                    int newContents = tank.getContents() - EVAPORATE_AMOUNT;
+                    int newContents = tank.getContents() - GeneralConfiguration.tankEvaporation;
                     if (newContents < 0) {
                         newContents = 0;
                     }
@@ -227,7 +230,7 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
                 tank.setFluid(FluidSetup.freshWater);
             }
             if (tank.getFluid() == FluidSetup.freshWater || tank.getFluid() == FluidRegistry.WATER) {
-                int newContents = tank.getContents() + ADD_RAIN;
+                int newContents = tank.getContents() + GeneralConfiguration.tankCatchesRain;
                 if (newContents > tank.getMaxContents()) {
                     newContents = tank.getMaxContents();
                 }

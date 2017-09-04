@@ -30,6 +30,9 @@ public class GeneralConfiguration {
     public static float baseChoppingVolume = 1.0f;   // Use 0 to turn off
     public static float baseGrindstoneVolume = 0.6f; // Use 0 to turn off
 
+    public static int tankCatchesRain = 200;
+    public static int tankEvaporation = 5;
+
     public static FarmlandOverhaulType farmlandOverhaulType = FarmlandOverhaulType.FRESH;
 
     public static void init(Configuration cfg) {
@@ -39,6 +42,9 @@ public class GeneralConfiguration {
                 "The volume for the chopping sound (0.0 is off)").getDouble();
         baseGrindstoneVolume = (float) cfg.get(CATEGORY_GENERAL, "baseGrindstoneVolume", baseGrindstoneVolume,
                 "The volume for the grindstone sound (0.0 is off)").getDouble();
+
+        tankCatchesRain = cfg.getInt("tankCatchesRain", CATEGORY_GENERAL, tankCatchesRain, 0, 100000, "By default tanks will catch this amount of rainfall every update tick. Set this to 0 if you don't want that");
+        tankEvaporation = cfg.getInt("tankEvaporation", CATEGORY_GENERAL, tankEvaporation, 0, 100000, "By default water in tanks in the sun will evaporate this amount of water every update tick. Set this to 0 if you don't want that");
 
         String overhaul = cfg.get(CATEGORY_GENERAL, "farmlandOverhaulType", GeneralConfiguration.farmlandOverhaulType.getName(),
                 "The type of overhaul for farmland: 'none' means vanilla water will work, 'vanilla' means the farmland is not replaced, 'fresh' means fresh water is required, 'harsh' means fresh water is required and the farmland must be sprinkled").getString();
