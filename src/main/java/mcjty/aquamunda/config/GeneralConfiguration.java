@@ -3,13 +3,12 @@ package mcjty.aquamunda.config;
 import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
-import mcjty.aquamunda.recipes.CookerRecipe;
-import mcjty.aquamunda.recipes.CookerRecipeRepository;
-import mcjty.aquamunda.recipes.CuttingBoardRecipe;
-import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
+import mcjty.aquamunda.recipes.*;
 import mcjty.lib.tools.ItemStackTools;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +24,7 @@ public class GeneralConfiguration {
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_RECIPES_CUTTINGBOARD = "recipescuttingboard";
     public static final String CATEGORY_RECIPES_COOKER = "recipescooker";
+    public static final String CATEGORY_RECIPES_GRINDSTONE = "recipesgrindstone";
 
     public static float baseCookerVolume = 0.6f;     // Use 0 to turn off
     public static float baseChoppingVolume = 1.0f;   // Use 0 to turn off
@@ -45,6 +45,24 @@ public class GeneralConfiguration {
         farmlandOverhaulType = FarmlandOverhaulType.getByName(overhaul);
         if (farmlandOverhaulType == null) {
             farmlandOverhaulType = FarmlandOverhaulType.FRESH;
+        }
+    }
+
+    public static void initGrindstoneRecipes(Configuration cfg) {
+        ConfigCategory category = cfg.getCategory(CATEGORY_RECIPES_GRINDSTONE);
+        if (category.isEmpty()) {
+            // Initialize with defaults
+            addRecipe(cfg, "flour", new ItemStack(Items.WHEAT), new ItemStack(ModItems.flour), 100);
+            addRecipe(cfg, "bonemeal", new ItemStack(Items.BONE), new ItemStack(Items.DYE, 5, EnumDyeColor.WHITE.getDyeDamage()), 100);
+            addRecipe(cfg, "flint", new ItemStack(Blocks.GRAVEL), new ItemStack(Items.FLINT, 2), 100);
+            addRecipe(cfg, "glowstone", new ItemStack(Blocks.GLOWSTONE), new ItemStack(Items.GLOWSTONE_DUST, 4), 300);
+            addRecipe(cfg, "sugar", new ItemStack(Items.REEDS), new ItemStack(Items.SUGAR, 2), 100);
+            addRecipe(cfg, "blazepowder", new ItemStack(Items.BLAZE_ROD), new ItemStack(Items.BLAZE_POWDER, 3), 200);
+        } else {
+            for (Map.Entry<String, Property> entry : category.entrySet()) {
+                String[] list = entry.getValue().getStringList();
+                GrindstoneRecipeRepository.addRecipe(new GrindstoneRecipe(getItem(list, 0), getItem(list, 1), getInt(list, 2)));
+            }
         }
     }
 
@@ -91,13 +109,35 @@ public class GeneralConfiguration {
     }
 
     private static ItemStack getItem(String reg) {
+        int cnt = 1;
+        if (!reg.isEmpty() && Character.isDigit(reg.charAt(0))) {
+            int c = 0;
+            int i = 0;
+            while (i < reg.length() && Character.isDigit(reg.charAt(i))) {
+                c = c*10 + (reg.charAt(i)-'0');
+                i++;
+            }
+            if (i < reg.length() && reg.charAt(i) == 'x') {
+                reg = reg.substring(i+1);
+                cnt = c > 0 ? c : 1;
+            }
+        }
+
         String[] split = StringUtils.split(reg, '@');
         String name = split[0];
         int meta = 0;
         if (split.length > 1) {
             meta = Integer.parseInt(split[1]);
         }
-        return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name)), 1, meta);
+        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
+        if (block != null) {
+            return new ItemStack(block, cnt, meta);
+        }
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(name));
+        if (item != null) {
+            return new ItemStack(item, cnt, meta);
+        }
+        return ItemStackTools.getEmptyStack();
     }
 
     private static int getInt(String[] list, int index) {
@@ -122,7 +162,14 @@ public class GeneralConfiguration {
         if (ItemStackTools.isEmpty(stack)) {
             return "-";
         } else {
-            String s = stack.getItem().getRegistryName().toString();
+            String s;
+            if (ItemStackTools.getStackSize(stack) > 1) {
+                s = Integer.toString(ItemStackTools.getStackSize(stack)) + "x";
+            } else {
+                s = "";
+            }
+
+            s += stack.getItem().getRegistryName().toString();
             if (stack.getItemDamage() != 0) {
                 s += "@" + stack.getItemDamage();
             }
@@ -144,9 +191,16 @@ public class GeneralConfiguration {
         cfg.get(CATEGORY_RECIPES_COOKER, name, new String[] {
                 itemToString(in),
                 itemToString(out),
-                "".equals(soup) ? "-" : soup,
+                soup != null && soup.isEmpty() ? "-" : soup,
                 Integer.toString(cookTime) });
         CookerRecipeRepository.addRecipe(new CookerRecipe(in, out, soup, cookTime));
     }
 
+    private static void addRecipe(Configuration cfg, String name, ItemStack in, ItemStack out, int grindTime) {
+        cfg.get(CATEGORY_RECIPES_GRINDSTONE, name, new String[] {
+                itemToString(in),
+                itemToString(out),
+                Integer.toString(grindTime) });
+        GrindstoneRecipeRepository.addRecipe(new GrindstoneRecipe(in, out, grindTime));
+    }
 }
