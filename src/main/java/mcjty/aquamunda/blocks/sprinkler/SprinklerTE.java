@@ -90,7 +90,7 @@ public class SprinklerTE extends GenericAMTE implements IHoseConnector, ITickabl
     public void disconnect(int connectorId) {
         EnumFacing side = EnumFacing.values()[connectorId >> 2];
         connections.remove(side);
-        markDirty();;
+        markDirty();
     }
 
     @Override

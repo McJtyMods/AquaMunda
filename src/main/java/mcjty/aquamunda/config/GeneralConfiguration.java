@@ -40,7 +40,8 @@ public class GeneralConfiguration {
         baseGrindstoneVolume = (float) cfg.get(CATEGORY_GENERAL, "baseGrindstoneVolume", baseGrindstoneVolume,
                 "The volume for the grindstone sound (0.0 is off)").getDouble();
 
-        String overhaul = cfg.get(CATEGORY_GENERAL, "farmlandOverhaulType", GeneralConfiguration.farmlandOverhaulType.getName(), "The type of overhaul for farmland: 'none' means vanilla water will work, 'fresh' means fresh water is required, 'harsh' means fresh water is required and the farmland must be sprinkled").getString();
+        String overhaul = cfg.get(CATEGORY_GENERAL, "farmlandOverhaulType", GeneralConfiguration.farmlandOverhaulType.getName(),
+                "The type of overhaul for farmland: 'none' means vanilla water will work, 'vanilla' means the farmland is not replaced, 'fresh' means fresh water is required, 'harsh' means fresh water is required and the farmland must be sprinkled").getString();
         farmlandOverhaulType = FarmlandOverhaulType.getByName(overhaul);
         if (farmlandOverhaulType == null) {
             farmlandOverhaulType = FarmlandOverhaulType.FRESH;

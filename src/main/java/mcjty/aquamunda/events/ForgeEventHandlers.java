@@ -27,6 +27,10 @@ public class ForgeEventHandlers {
 
     @SubscribeEvent
     public void onUseHoeEvent(UseHoeEvent event) {
+        if (ModBlocks.customFarmLand == null) {
+            return;
+        }
+
         World world = event.getWorld();
         BlockPos pos = event.getPos();
         EntityPlayer player = event.getEntityPlayer();
