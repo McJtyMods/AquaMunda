@@ -91,15 +91,9 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     private boolean startProcessing(EntityPlayer player, CuttingBoardRecipe recipe) {
         maxChopCounter = recipe.getChopTime();
         ItemStack outputItem = recipe.getOutputItem();
-        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
-            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the board first!"));
-        if (!getStackInSlot(SLOT_OUTPUT).isEmpty() && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+        if (!getStackInSlot(SLOT_OUTPUT).isEmpty() && !InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
             ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "Clean up the board first!");
-            if (player instanceof EntityPlayer) {
-                ((EntityPlayer) player).sendStatusMessage(component, false);
-            } else {
-                player.sendMessage(component);
-            }
+            player.sendStatusMessage(component, false);
             return false;
         } else {
             chopCounter = 0;

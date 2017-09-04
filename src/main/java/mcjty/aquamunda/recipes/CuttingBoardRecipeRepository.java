@@ -1,7 +1,6 @@
 package mcjty.aquamunda.recipes;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -30,8 +29,6 @@ public class CuttingBoardRecipeRepository {
             for (int i = 0 ; i < items.length ; i++) {
                 ItemStack item = items[i];
                 if (!item.isEmpty()) {
-                    if (!ItemStack.areItemStackTagsEqual(recipe.getInputItems()[i], item)) {
-                if (ItemStackTools.isValid(item)) {
                     if (!InventoryHelper.isItemStackConsideredEqual(recipe.getInputItems()[i], item)) {
                         return null;
                     }

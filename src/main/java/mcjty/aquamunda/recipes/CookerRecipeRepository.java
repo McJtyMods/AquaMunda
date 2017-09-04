@@ -1,7 +1,6 @@
 package mcjty.aquamunda.recipes;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
