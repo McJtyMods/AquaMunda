@@ -8,6 +8,7 @@ import mcjty.aquamunda.recipes.CuttingBoardRecipeRepository;
 import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
@@ -71,7 +72,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     private boolean startProcessing(EntityPlayer player, CuttingBoardRecipe recipe) {
         maxChopCounter = recipe.getChopTime();
         ItemStack outputItem = recipe.getOutputItem();
-        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the board first!"));
             return false;
         } else {

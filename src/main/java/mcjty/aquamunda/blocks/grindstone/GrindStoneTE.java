@@ -8,6 +8,7 @@ import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
@@ -46,7 +47,7 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
         }
 
         ItemStack outputItem = recipe.getOutputItem();
-        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
             ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"));
         } else {
             grindCounter = 0;
@@ -69,8 +70,8 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
                 }
                 ItemStack outputItem = recipe.getOutputItem();
 
-                if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT)) || ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
-                    if (ItemStackTools.isValid(input) && ItemStack.areItemStackTagsEqual(input, recipe.getInputItem())) {
+                if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT)) || InventoryHelper.isItemStackConsideredEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+                    if (ItemStackTools.isValid(input) && InventoryHelper.isItemStackConsideredEqual(input, recipe.getInputItem())) {
                         // Check if there is room
                         if ((ItemStackTools.getStackSize(getStackInSlot(SLOT_OUTPUT)) + ItemStackTools.getStackSize(outputItem)) < outputItem.getMaxStackSize()) {
                             input = ItemStackTools.incStackSize(input, -1);
