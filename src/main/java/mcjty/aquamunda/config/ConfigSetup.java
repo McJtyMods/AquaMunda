@@ -43,9 +43,11 @@ public class ConfigSetup {
             cfg.load();
             cfg.addCustomCategoryComment(GeneralConfiguration.CATEGORY_RECIPES_CUTTINGBOARD, "Cuttingboard recipes");
             cfg.addCustomCategoryComment(GeneralConfiguration.CATEGORY_RECIPES_COOKER, "Cooker recipes");
+            cfg.addCustomCategoryComment(GeneralConfiguration.CATEGORY_RECIPES_GRINDSTONE, "Grindstone recipes");
 
             GeneralConfiguration.initCookingBoardRecipes(cfg);
             GeneralConfiguration.initCookerRecipes(cfg);
+            GeneralConfiguration.initGrindstoneRecipes(cfg);
         } catch (Exception e1) {
             FMLLog.log(Level.ERROR, e1, "Problem loading config file!");
         } finally {

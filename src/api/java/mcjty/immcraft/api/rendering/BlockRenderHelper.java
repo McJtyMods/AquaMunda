@@ -124,6 +124,9 @@ public final class BlockRenderHelper {
 
 
     public static void rotateFacing(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {
+        if (tileEntity.getWorld().isAirBlock(tileEntity.getPos())) {
+            return;
+        }
         EnumFacing orientation = GenericBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
         switch (orientation) {
             case NORTH:

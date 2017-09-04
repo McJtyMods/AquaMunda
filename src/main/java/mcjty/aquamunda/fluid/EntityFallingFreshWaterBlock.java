@@ -20,6 +20,8 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
+
 public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements IEntityAdditionalSpawnData {
     private IBlockState fallTile;
     public int fallTime;

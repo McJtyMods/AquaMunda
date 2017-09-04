@@ -1,0 +1,85 @@
+[
+  {
+    "section": "Title",
+    "text": [
+      "#I7:aquamunda:textures/gui/titles.png:0,64,64,64,128,128", "#",
+      "##",
+      "##",
+      "#:3,white,center:Grindstone", "##", "#:3,white,center:Recipes",
+      "##",
+      "#:1,white,center,italic:By McJty "
+    ]
+  },
+  {
+    "page": true
+  },
+  {
+    "text": [
+      "#:2,bold:Flour", "#",
+      "#i9:aquamunda:flour", "#",
+      "##",
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:wheat"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
+    "text": [
+      "#:2,bold:Bonemeal", "#",
+      "#i9:minecraft:dye@15", "(5x)", "#",
+      "##",
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:bone"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
+    "text": [
+      "#:2,bold:Glowstone", "#",
+      "#i9:minecraft:glowstone_dust", "(4x)", "#",
+      "##",
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:glowstone"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
+    "text": [
+      "#:2,bold:Blaze Powder", "#",
+      "#i9:minecraft:blaze_powder", "(3x)", "#",
+      "##",
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:blaze_rod"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
+    "text": [
+      "#:2,bold:Flint", "#",
+      "#i9:minecraft:flint", "(2x)", "#",
+      "##",
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:gravel"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
+    "text": [
+      "#:2,bold:Sugar", "#",
+      "#i9:minecraft:sugar", "(2x)", "#",
+      "##",
+      "#:bold:Ingredients: ", "#",
+      "#i3:minecraft:reeds"
+    ]
+  }
+]

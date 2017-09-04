@@ -19,6 +19,7 @@ public class ModItems {
     public static AquaMundaManual manual;
     public static BoardManual boardManual;
     public static CookerManual cookerManual;
+    public static GrindstoneManual grindstoneManual;
 
     public static void init() {
         cookedCarrot = new ItemCookedCarrot();
@@ -32,10 +33,17 @@ public class ModItems {
         manual = new AquaMundaManual();
         boardManual = new BoardManual();
         cookerManual = new CookerManual();
+        grindstoneManual = new GrindstoneManual();
     }
 
     public static void initCrafting() {
         GameRegistry.addSmelting(dough, new ItemStack(Items.BREAD), 0);
+        GameRegistry.addShapedRecipe(new ItemStack(kitchenKnife), "i  ", " i ", "  r", 'i', Items.IRON_INGOT, 'r', rock);
+        GameRegistry.addShapedRecipe(new ItemStack(doughRoller), "  s", " p ", "s  ", 's', Items.STICK, 'p', Blocks.PLANKS);
+        GameRegistry.addShapedRecipe(new ItemStack(manual), "br", "s ", 'b', Items.BOOK, 'r', rock, 's', Items.WHEAT_SEEDS);
+        GameRegistry.addShapedRecipe(new ItemStack(boardManual), "br", "s ", 'b', Items.BOOK, 'r', rock, 's', kitchenKnife);
+        GameRegistry.addShapedRecipe(new ItemStack(cookerManual), "br", "ss", 'b', Items.BOOK, 'r', rock, 's', Items.WHEAT_SEEDS);
+        GameRegistry.addShapedRecipe(new ItemStack(grindstoneManual), "br", "B ", 'b', Items.BOOK, 'r', rock, 'B', Items.BONE);
     }
 
 
@@ -52,5 +60,6 @@ public class ModItems {
         manual.initModel();
         boardManual.initModel();
         cookerManual.initModel();
+        grindstoneManual.initModel();
     }
 }

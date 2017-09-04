@@ -12,6 +12,8 @@ import mcjty.aquamunda.blocks.grindstone.GrindStoneBlock;
 import mcjty.aquamunda.blocks.hose.HoseBlock;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerBlock;
 import mcjty.aquamunda.blocks.tank.TankBlock;
+import mcjty.aquamunda.config.GeneralConfiguration;
+import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.fluid.BlockFreshWater;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.varia.BlockReplacerHelper;
@@ -57,16 +59,32 @@ public class ModBlocks {
 //            throw new RuntimeException(e);
 //        }
 //        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
+        if (GeneralConfiguration.farmlandOverhaulType != FarmlandOverhaulType.VANILLA) {
+            customFarmLand = new CustomFarmLand();
+            GameRegistry.register(customFarmLand);
+            GameRegistry.register(new ItemBlock(customFarmLand), customFarmLand.getRegistryName());
+            //        try {
+            //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
+            //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));
+            //        } catch (ExistingSubstitutionException e) {
+            //            throw new RuntimeException(e);
+            //        }
+            //        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
 
-        System.out.println("Blocks.farmland = " + Blocks.FARMLAND);
-        System.out.println("Blocks.farmland.getClass() = " + Blocks.FARMLAND.getClass());
+            System.out.println("Blocks.farmland = " + Blocks.FARMLAND);
+            System.out.println("Blocks.farmland.getClass() = " + Blocks.FARMLAND.getClass());
+        } else {
+            customFarmLand = null;
+        }
 
         deadCarrot = new BlockDeadCrop("dead_carrot");
         deadWheat = new BlockDeadCrop("dead_wheat");
     }
 
     public static void postInit() {
-        BlockReplacerHelper.replaceBlock(Blocks.FARMLAND, customFarmLand);
+        if (customFarmLand != null) {
+            BlockReplacerHelper.replaceBlock(Blocks.FARMLAND, customFarmLand);
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -77,13 +95,15 @@ public class ModBlocks {
         sprinklerBlock.initModel();
         desalinationBoilerBlock.initModel();
         desalinationTankBlock.initModel();
-        customFarmLand.initModel();
         cookerBlock.initModel();
         cuttingBoardBlock.initModel();
         grindStoneBlock.initModel();
 
         deadCarrot.initModel();
         deadWheat.initModel();
+        if (customFarmLand != null) {
+            customFarmLand.initModel();
+        }
     }
 
     @SideOnly(Side.CLIENT)

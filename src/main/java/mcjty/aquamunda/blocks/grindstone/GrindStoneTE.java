@@ -2,14 +2,14 @@ package mcjty.aquamunda.blocks.grindstone;
 
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
-import mcjty.aquamunda.items.ModItems;
+import mcjty.aquamunda.recipes.GrindstoneRecipe;
+import mcjty.aquamunda.recipes.GrindstoneRecipeRepository;
 import mcjty.aquamunda.sound.SoundController;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
@@ -45,9 +45,19 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
             } else {
                 player.sendMessage(component);
             }
+        ItemStack input = getStackInSlot(SLOT_INPUT);
+        GrindstoneRecipe recipe = GrindstoneRecipeRepository.getRecipe(input);
+        if (recipe == null) {
+            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "You cannot grind this!"));
+            return;
+        }
+
+        ItemStack outputItem = recipe.getOutputItem();
+        if (ItemStackTools.isValid(getStackInSlot(SLOT_OUTPUT)) && !ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+            ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "Clean up the grinder first!"));
         } else {
             grindCounter = 0;
-            maxGrindCounter = MAX_GRIND_COUNTER;
+            maxGrindCounter = recipe.getGrindTime();
             markDirtyClient();
         }
     }
@@ -59,6 +69,24 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
                 grindCounter = -1;
                 maxGrindCounter = 0;
                 ItemStack input = getStackInSlot(SLOT_INPUT);
+                GrindstoneRecipe recipe = GrindstoneRecipeRepository.getRecipe(input);
+                if (recipe == null) {
+                    // Nothing happens. Somehow the input is invalid
+                    return;
+                }
+                ItemStack outputItem = recipe.getOutputItem();
+
+                if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT)) || ItemStack.areItemStackTagsEqual(outputItem, getStackInSlot(SLOT_OUTPUT))) {
+                    if (ItemStackTools.isValid(input) && ItemStack.areItemStackTagsEqual(input, recipe.getInputItem())) {
+                        // Check if there is room
+                        if ((ItemStackTools.getStackSize(getStackInSlot(SLOT_OUTPUT)) + ItemStackTools.getStackSize(outputItem)) < outputItem.getMaxStackSize()) {
+                            input = ItemStackTools.incStackSize(input, -1);
+                            setInventorySlotContents(SLOT_INPUT, input);
+                            if (ItemStackTools.isEmpty(getStackInSlot(SLOT_OUTPUT))) {
+                                setInventorySlotContents(SLOT_OUTPUT, outputItem);
+                            } else {
+                                ItemStackTools.incStackSize(getStackInSlot(SLOT_OUTPUT), ItemStackTools.getStackSize(outputItem));
+                            }
                 if (getStackInSlot(SLOT_OUTPUT).isEmpty() || ItemStack.areItemStackTagsEqual(new ItemStack(ModItems.flour), getStackInSlot(SLOT_OUTPUT))) {
                     if (!input.isEmpty() && input.getItem() == Items.WHEAT) {
                         int amount = -1;
@@ -102,7 +130,7 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
     }
 
     public void startGrindingSound() {
-        if (GeneralConfiguration.baseChoppingVolume > 0.01f) {
+        if (GeneralConfiguration.baseGrindstoneVolume > 0.01f) {
             if (!SoundController.isGrindstonePlaying(getWorld(), pos)) {
                 SoundController.playGrindstone(getWorld(), getPos(), 1.0f);
             }
