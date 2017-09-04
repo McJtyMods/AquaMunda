@@ -112,7 +112,7 @@ public class GrindStoneTE extends GenericInventoryTE implements ITickable {
     }
 
     public void startGrindingSound() {
-        if (GeneralConfiguration.baseChoppingVolume > 0.01f) {
+        if (GeneralConfiguration.baseGrindstoneVolume > 0.01f) {
             if (!SoundController.isGrindstonePlaying(getWorld(), pos)) {
                 SoundController.playGrindstone(getWorld(), getPos(), 1.0f);
             }
