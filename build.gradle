@@ -35,7 +35,7 @@ repositories {
     }
 }
 
-version = "0.2.0beta"
+version = "0.2.1beta"
 group= "mcjty.aquamunda"
 archivesBaseName = "aquamunda"
 
