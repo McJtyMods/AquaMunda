@@ -1,6 +1,5 @@
 package mcjty.aquamunda.blocks.customblocks;
 
-import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerTE;
 import mcjty.aquamunda.chunkdata.GameData;
@@ -32,7 +31,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -103,7 +101,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         if (!freshWaterNearby(world, pos) && !world.isRainingAt(pos.up())) {
             int l = state.getBlock().getMetaFromState(state);
             if (l > 0) {
-                world.setBlockState(pos, state.getBlock().getStateFromMeta(l-1), 2);
+                world.setBlockState(pos, state.getBlock().getStateFromMeta(l - 1), 2);
             } else if (!isASuitablePlant(world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             }
@@ -166,8 +164,21 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
 
     @Override
     public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
+        IBlockState plant = plantable.getPlant(world, pos.offset(direction));
         net.minecraftforge.common.EnumPlantType plantType = plantable.getPlantType(world, pos.offset(direction));
-        return plantType == EnumPlantType.Crop;
+
+        switch (plantType) {
+            case Crop:
+            case Plains:
+                return true;
+            case Desert:
+            case Nether:
+            case Cave:
+            case Water:
+            case Beach:
+            default:
+                return false;
+        }
     }
 
     public static boolean freshWaterNearby(World world, BlockPos pos) {
