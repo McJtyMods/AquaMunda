@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PacketHandler {
+public class AMPacketHandler {
     private static int ID = 12;
     private static int packetId = 0;
 
@@ -52,15 +52,15 @@ public class PacketHandler {
         return clientInfoPacketsToId.get(clazz);
     }
 
-    public PacketHandler() {
+    public AMPacketHandler() {
     }
 
     public static int nextID() {
         return ID++;
     }
 
-    public static void registerMessages(String channelName) {
-        INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+    public static void registerMessages(SimpleNetworkWrapper network) {
+        INSTANCE = network;
         registerMessages();
     }
 

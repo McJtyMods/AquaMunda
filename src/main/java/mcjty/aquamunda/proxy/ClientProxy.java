@@ -5,6 +5,7 @@ import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.tank.TankModelLoader;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.fluid.FluidSetup;
+import mcjty.lib.McJtyLibClient;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
+        McJtyLibClient.preInit(e);
 
         MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
         OBJLoader.INSTANCE.addDomain(AquaMunda.MODID);

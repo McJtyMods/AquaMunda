@@ -2,7 +2,7 @@ package mcjty.aquamunda.blocks.desalination;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
-import mcjty.aquamunda.network.PacketHandler;
+import mcjty.aquamunda.network.AMPacketHandler;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -76,7 +76,7 @@ public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE
         long time = System.currentTimeMillis();
         if ((time - lastUpdateTime) > 200) {
             lastUpdateTime = time;
-            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new TankContentsInfoPacketServer(te.getPos())));
+            AMPacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new TankContentsInfoPacketServer(te.getPos())));
         }
 
         currenttip.add(TextFormatting.GREEN + "Liquid: " + FluidRegistry.getFluidName(te.getSupportedFluid()));

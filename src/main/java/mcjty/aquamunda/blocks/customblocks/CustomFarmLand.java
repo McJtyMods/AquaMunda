@@ -8,7 +8,7 @@ import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
-import mcjty.aquamunda.network.PacketHandler;
+import mcjty.aquamunda.network.AMPacketHandler;
 import mcjty.aquamunda.waila.WailaProvider;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -61,7 +61,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         long time = System.currentTimeMillis();
         if ((time - lastUpdateTime) > 200) {
             lastUpdateTime = time;
-            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new FarmLandMoistnessPacketServer(accessor.getPosition())));
+            AMPacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new FarmLandMoistnessPacketServer(accessor.getPosition())));
         }
 
         if (clientLevel == -1) {

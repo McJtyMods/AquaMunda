@@ -7,12 +7,14 @@ import mcjty.aquamunda.events.ForgeEventHandlers;
 import mcjty.aquamunda.fluid.EntityFallingFreshWaterBlock;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.items.ModItems;
-import mcjty.aquamunda.network.PacketHandler;
+import mcjty.aquamunda.network.AMPacketHandler;
+import mcjty.lib.McJtyLib;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 /**
@@ -21,7 +23,10 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-        PacketHandler.registerMessages("aquamunda");
+        McJtyLib.preInit(e);
+
+        SimpleNetworkWrapper network = mcjty.lib.network.PacketHandler.registerMessages(AquaMunda.MODID, "aquamunda");
+        AMPacketHandler.registerMessages(network);
 
         ConfigSetup.preInit(e);
 

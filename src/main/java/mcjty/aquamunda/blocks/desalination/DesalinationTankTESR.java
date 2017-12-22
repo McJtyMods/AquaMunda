@@ -4,7 +4,7 @@ package mcjty.aquamunda.blocks.desalination;
 import mcjty.aquamunda.blocks.generic.GenericAMBlock;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.network.PacketGetInfoFromServer;
-import mcjty.aquamunda.network.PacketHandler;
+import mcjty.aquamunda.network.AMPacketHandler;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -52,7 +52,7 @@ public class DesalinationTankTESR extends TileEntitySpecialRenderer<Desalination
         long time = System.currentTimeMillis();
         if ((time - lastUpdateTime) > 200) {
             lastUpdateTime = time;
-            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new TankContentsInfoPacketServer(tileEntity.getPos())));
+            AMPacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new TankContentsInfoPacketServer(tileEntity.getPos())));
         }
         float percentage = tileEntity.getFilledPercentage();
 
