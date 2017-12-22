@@ -10,8 +10,8 @@ public class HoseBlock extends GenericAMBlock {
     }
 
     @Override
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.NONE;
+    public RotationType getRotationType() {
+        return RotationType.NONE;
     }
 
 }

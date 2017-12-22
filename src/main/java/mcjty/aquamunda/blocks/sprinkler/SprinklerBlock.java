@@ -20,8 +20,8 @@ public class SprinklerBlock extends GenericBlockWithTE<SprinklerTE> {
     }
 
     @Override
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.NONE;
+    public RotationType getRotationType() {
+        return RotationType.NONE;
     }
 
     @Override

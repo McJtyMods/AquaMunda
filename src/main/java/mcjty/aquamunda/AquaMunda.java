@@ -8,7 +8,9 @@ import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.proxy.CommonProxy;
 import mcjty.immcraft.api.IImmersiveCraft;
+import mcjty.lib.base.ModBase;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -24,16 +26,18 @@ import java.util.function.Function;
 
 @Mod(modid = AquaMunda.MODID, name = AquaMunda.MODNAME,
         dependencies =
+                "required-after:mcjtylib_ng@[" + AquaMunda.MIN_MCJTYLIB_VER + ",);" +
                 "required-after:immcraft@[" + AquaMunda.MIN_IMMCRAFT_VER + ",);" +
                 "after:forge@[" + AquaMunda.MIN_FORGE11_VER + ",)",
         acceptedMinecraftVersions = "[1.12,1.13)",
         version = AquaMunda.VERSION)
-public class AquaMunda {
+public class AquaMunda implements ModBase {
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
     public static final String MIN_IMMCRAFT_VER = "1.3.5";
     public static final String VERSION = "0.2.2beta";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
+    public static final String MIN_MCJTYLIB_VER = "2.5.2";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
     public static CommonProxy proxy;
@@ -106,4 +110,13 @@ public class AquaMunda {
         }
     }
 
+    @Override
+    public String getModId() {
+        return AquaMunda.MODID;
+    }
+
+    @Override
+    public void openManual(EntityPlayer player, int bookindex, String page) {
+        // @todo
+    }
 }

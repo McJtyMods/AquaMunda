@@ -1,8 +1,8 @@
 package mcjty.aquamunda.blocks.tank;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.aquamunda.network.NetworkTools;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
+import mcjty.lib.network.NetworkTools;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 

@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mcjty.aquamunda.network.InfoPacketClient;
 import mcjty.aquamunda.network.InfoPacketServer;
 import mcjty.aquamunda.varia.BlockTools;
-import mcjty.immcraft.api.helpers.BlockPosTools;
+import mcjty.lib.network.NetworkTools;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
@@ -23,12 +23,12 @@ public class BoilerContentsInfoPacketServer implements InfoPacketServer {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+        pos = NetworkTools.readPos(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        BlockPosTools.toBytes(pos, buf);
+        NetworkTools.writePos(buf, pos);
     }
 
     @Override

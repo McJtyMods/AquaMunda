@@ -1,9 +1,9 @@
 package mcjty.aquamunda.blocks.tank;
 
-import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockTile;
+import mcjty.lib.varia.BlockPosTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

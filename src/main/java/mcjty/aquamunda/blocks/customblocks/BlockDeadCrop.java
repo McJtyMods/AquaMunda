@@ -23,8 +23,8 @@ public class BlockDeadCrop extends GenericAMBlock {
     }
 
     @Override
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.NONE;
+    public RotationType getRotationType() {
+        return RotationType.NONE;
     }
 
     // @todo CHECK?

@@ -7,6 +7,7 @@ import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.util.Plane;
+import mcjty.lib.container.BaseBlock;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -123,11 +124,8 @@ public final class BlockRenderHelper {
     }
 
 
-    public static void rotateFacing(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {
-        if (tileEntity.getWorld().isAirBlock(tileEntity.getPos())) {
-            return;
-        }
-        EnumFacing orientation = GenericBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
+    public static void rotateFacing(TileEntity tileEntity, BaseBlock.RotationType rotateType) {
+        EnumFacing orientation = BaseBlock.getFrontDirection(rotateType, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
         switch (orientation) {
             case NORTH:
                 GlStateManager.rotate(180, 0, 1, 0);
@@ -302,57 +300,6 @@ public final class BlockRenderHelper {
         }
     }
 
-//    public static void renderBillboardQuad(double scalex, double scaley, double offsetx, double offsety, IIcon icon) {
-//        GL11.glPushMatrix();
-//
-//        rotateToPlayer();
-//
-//        Tessellator tessellator = Tessellator.instance;
-//        tessellator.startDrawingQuads();
-//        tessellator.addVertexWithUV(offsetx - scalex, offsety - scaley, 0, icon.getMinU(), icon.getMinV());
-//        tessellator.addVertexWithUV(offsetx - scalex, offsety + scaley, 0, icon.getMinU(), icon.getMaxV());
-//        tessellator.addVertexWithUV(offsetx + scalex, offsety + scaley, 0, icon.getMaxU(), icon.getMaxV());
-//        tessellator.addVertexWithUV(offsetx + scalex, offsety - scaley, 0, icon.getMaxU(), icon.getMinV());
-//        tessellator.draw();
-//        GL11.glPopMatrix();
-//    }
-
-
-    public static void renderBillboardQuad(double scale, float vAdd1, float vAdd2) {
-//        GL11.glPushMatrix();
-//
-//        rotateToPlayer();
-//
-//        Tessellator tessellator = Tessellator.instance;
-//        tessellator.startDrawingQuads();
-//        tessellator.addVertexWithUV(-scale, -scale, 0, 0, 0+vAdd1);
-//        tessellator.addVertexWithUV(-scale, +scale, 0, 0, 0+vAdd1+vAdd2);
-//        tessellator.addVertexWithUV(+scale, +scale, 0, 1, 0+vAdd1+vAdd2);
-//        tessellator.addVertexWithUV(+scale, -scale, 0, 1, 0+vAdd1);
-//        tessellator.draw();
-//        GL11.glPopMatrix();
-    }
-
-    public static void rotateToPlayer() {
-//        GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-//        GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
-    }
-
-    public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, int totw, int toth) {
-        float f = 1.0f/totw;
-        float f1 = 1.0f/toth;
-        double zLevel = 50;
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder vertexbuffer = tessellator.getBuffer();
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        vertexbuffer.pos((double)(x + 0), (double)(y + height), zLevel).tex((double)((float)(textureX + 0) *  f), (double)((float)(textureY + height) * f1)).endVertex();
-        vertexbuffer.pos((double)(x + width), (double)(y + height), zLevel).tex((double)((float)(textureX + width) * f), (double)((float)(textureY + height) * f1)).endVertex();
-        vertexbuffer.pos((double)(x + width), (double)(y + 0), zLevel).tex((double)((float)(textureX + width) * f), (double)((float)(textureY + 0) * f1)).endVertex();
-        vertexbuffer.pos((double)(x + 0), (double)(y + 0), zLevel).tex((double)((float)(textureX + 0) * f), (double)((float)(textureY + 0) * f1)).endVertex();
-        tessellator.draw();
-    }
-
-
 
     public static void drawSelectionBox(EntityPlayer player, AxisAlignedBB box, float partialTicks, float r, float g, float b, float a) {
         GlStateManager.enableBlend();
@@ -361,9 +308,9 @@ public final class BlockRenderHelper {
         GlStateManager.disableTexture2D();
         GlStateManager.depthMask(false);
 
-        double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
-        double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
-        double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
+        double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+        double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+        double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
         RenderGlobal.drawSelectionBoundingBox(box.expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-d0, -d1, -d2), r, g, b, a);
 
         GlStateManager.depthMask(true);

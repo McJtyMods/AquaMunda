@@ -8,6 +8,7 @@ import mcjty.aquamunda.varia.BlockTools;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.lib.varia.OrientationTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -57,7 +58,7 @@ public class DesalinationBoilerTE extends GenericAMTE implements IHoseConnector,
     @Override
     public Vec3d getConnectorLocation(int connectorId, EnumFacing rotation) {
         EnumFacing side = EnumFacing.values()[connectorId >> 2];
-        side = BlockTools.blockToWorldSpace(side, rotation);
+        side = OrientationTools.blockToWorldSpace(side, rotation);
         int xCoord = getPos().getX();
         int yCoord = getPos().getY();
         int zCoord = getPos().getZ();

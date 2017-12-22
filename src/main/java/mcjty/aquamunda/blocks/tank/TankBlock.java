@@ -4,9 +4,9 @@ import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
-import mcjty.aquamunda.varia.FluidTools;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
+import mcjty.lib.varia.FluidTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -66,8 +66,8 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     }
 
     @Override
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.NONE;
+    public RotationType getRotationType() {
+        return RotationType.NONE;
     }
 
     @Override

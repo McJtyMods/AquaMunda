@@ -50,7 +50,7 @@ public class GenericTESR<T extends GenericAMTE> extends TileEntitySpecialRendere
         GlStateManager.translate(x + .5, y, z + .5);
         GlStateManager.disableRescaleNormal();
 
-        BlockRenderHelper.rotateFacing(tileEntity, block.getMetaUsage());
+        BlockRenderHelper.rotateFacing(tileEntity, block.getRotationType());
 //        renderHandles(tileEntity);
 
         GlStateManager.popMatrix();
