@@ -7,7 +7,7 @@ import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketClient;
 import mcjty.aquamunda.blocks.desalination.BoilerContentsInfoPacketServer;
 import mcjty.aquamunda.blocks.desalination.TankContentsInfoPacketClient;
 import mcjty.aquamunda.blocks.desalination.TankContentsInfoPacketServer;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import mcjty.lib.network.PacketHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AMPacketHandler {
-    private static int ID = 12;
     private static int packetId = 0;
 
     public static SimpleNetworkWrapper INSTANCE = null;
@@ -55,10 +54,6 @@ public class AMPacketHandler {
     public AMPacketHandler() {
     }
 
-    public static int nextID() {
-        return ID++;
-    }
-
     public static void registerMessages(SimpleNetworkWrapper network) {
         INSTANCE = network;
         registerMessages();
@@ -66,10 +61,10 @@ public class AMPacketHandler {
 
     public static void registerMessages() {
         // Server side
-        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextID(), Side.SERVER);
 
         // Client side
-        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextID(), Side.CLIENT);
 
         register(nextPacketID(), BoilerContentsInfoPacketServer.class, BoilerContentsInfoPacketClient.class);
         register(nextPacketID(), TankContentsInfoPacketServer.class, TankContentsInfoPacketClient.class);
