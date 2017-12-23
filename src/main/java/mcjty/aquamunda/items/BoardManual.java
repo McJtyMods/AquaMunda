@@ -1,9 +1,9 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.book.IBook;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,7 +23,7 @@ public class BoardManual extends Item implements IBook {
         setRegistryName("board_manual");
         setUnlocalizedName(AquaMunda.MODID + ".board_manual");
         setCreativeTab(AquaMunda.creativeTab);
-        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
+        McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 
     @Override

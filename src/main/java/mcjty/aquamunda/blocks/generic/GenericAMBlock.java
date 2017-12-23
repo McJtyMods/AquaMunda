@@ -2,7 +2,6 @@ package mcjty.aquamunda.blocks.generic;
 
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.compat.top.TOPInfoProvider;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.waila.WailaProvider;

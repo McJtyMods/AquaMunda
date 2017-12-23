@@ -86,7 +86,7 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     @SideOnly(Side.CLIENT)
     public void initItemModel() {
         Item itemBlock = ForgeRegistries.ITEMS.getValue(new ResourceLocation(AquaMunda.MODID, "tank"));
-        ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(AquaMunda.MODID + ":tank", "inventory");
+        ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(getRegistryName(), "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
     }

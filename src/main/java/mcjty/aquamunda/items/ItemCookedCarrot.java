@@ -1,8 +1,8 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.blocks.cooker.ICookerResult;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -17,7 +17,7 @@ public class ItemCookedCarrot extends Item implements ICookerResult {
         setRegistryName("cooked_carrot");
         setUnlocalizedName(AquaMunda.MODID + ".cooked_carrot");
         setCreativeTab(AquaMunda.creativeTab);
-        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
+        McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 
     @SideOnly(Side.CLIENT)

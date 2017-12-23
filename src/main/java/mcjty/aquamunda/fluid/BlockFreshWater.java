@@ -2,7 +2,7 @@ package mcjty.aquamunda.fluid;
 
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.AquaMundaRegister;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -31,7 +31,7 @@ public class BlockFreshWater extends BlockFluidClassic {
         setCreativeTab(AquaMunda.creativeTab);
         setUnlocalizedName(AquaMunda.MODID + ".fresh_water");
         setRegistryName("fresh_water");
-        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID, ItemBlock.class, null);
+        McJtyRegister.registerLater(this, AquaMunda.instance, ItemBlock.class);
     }
 
     @SideOnly(Side.CLIENT)

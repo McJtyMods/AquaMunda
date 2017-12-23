@@ -1,16 +1,15 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.book.IBook;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -24,7 +23,7 @@ public class CookerManual extends Item implements IBook {
         setRegistryName("cooker_manual");
         setUnlocalizedName(AquaMunda.MODID + ".cooker_manual");
         setCreativeTab(AquaMunda.creativeTab);
-        AquaMundaRegister.getRegistry().registerLater(this, AquaMunda.MODID);
+        McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 
     @Override

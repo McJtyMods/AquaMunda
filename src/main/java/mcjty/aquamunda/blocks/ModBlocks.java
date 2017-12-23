@@ -1,7 +1,6 @@
 package mcjty.aquamunda.blocks;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.AquaMundaRegister;
 import mcjty.aquamunda.blocks.cooker.CookerBlock;
 import mcjty.aquamunda.blocks.customblocks.BlockDeadCrop;
 import mcjty.aquamunda.blocks.customblocks.CustomFarmLand;
@@ -17,6 +16,7 @@ import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.fluid.BlockFreshWater;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.varia.BlockReplacerHelper;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
@@ -52,7 +52,7 @@ public class ModBlocks {
 
         if (GeneralConfiguration.farmlandOverhaulType != FarmlandOverhaulType.VANILLA) {
             customFarmLand = new CustomFarmLand();
-            AquaMundaRegister.getRegistry().registerLater(customFarmLand, AquaMunda.MODID, ItemBlock.class, null);
+            McJtyRegister.registerLater(customFarmLand, AquaMunda.instance, ItemBlock.class);
             //        try {
             //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
             //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));

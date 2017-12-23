@@ -1,8 +1,9 @@
 package mcjty.aquamunda.events;
 
 
-import mcjty.aquamunda.AquaMundaRegister;
+import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.SoundType;
@@ -70,12 +71,12 @@ public class ForgeEventHandlers {
 
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        AquaMundaRegister.registerBlocks(event.getRegistry());
+        McJtyRegister.registerBlocks(AquaMunda.instance, event.getRegistry());
     }
 
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
-        AquaMundaRegister.registerItems(event.getRegistry());
+        McJtyRegister.registerItems(AquaMunda.instance, event.getRegistry());
     }
 
 
