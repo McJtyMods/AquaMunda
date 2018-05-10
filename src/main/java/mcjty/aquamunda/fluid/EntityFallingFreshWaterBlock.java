@@ -48,7 +48,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
     }
 
     /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
+     * returns if this bindings triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
      */
     @Override
@@ -70,7 +70,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
     }
 
     /**
-     * Called to update the entity's position/logic.
+     * Called to update the bindings's position/logic.
      */
     @Override
     public void onUpdate() {
@@ -134,7 +134,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
     }
 
     /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
+     * (abstract) Protected helper method to write subclass bindings data to NBT.
      */
     @Override
     protected void writeEntityToNBT(NBTTagCompound tagCompound) {
@@ -146,7 +146,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
     }
 
     /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
+     * (abstract) Protected helper method to read subclass bindings data from NBT.
      */
     @Override
     protected void readEntityFromNBT(NBTTagCompound tagCompund) {
@@ -198,7 +198,7 @@ public class EntityFallingFreshWaterBlock extends EntityFallingBlock implements 
     }
 
     /**
-     * Return whether this entity should be rendered as on fire.
+     * Return whether this bindings should be rendered as on fire.
      */
     @Override
     @SideOnly(Side.CLIENT)

@@ -70,7 +70,7 @@ public class RenderFallingFreshWaterBlock extends Render<EntityFallingFreshWater
     }
 
     /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     * Returns the location of an bindings's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
     @Override
     protected ResourceLocation getEntityTexture(EntityFallingFreshWaterBlock entity) {
