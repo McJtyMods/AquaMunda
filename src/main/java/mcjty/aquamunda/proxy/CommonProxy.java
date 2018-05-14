@@ -9,6 +9,7 @@ import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.AMPacketHandler;
 import mcjty.lib.McJtyLib;
+import mcjty.lib.proxy.AbstractCommonProxy;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -20,10 +21,13 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 /**
  * Created by jorrit on 16.12.16.
  */
-public class CommonProxy {
+public class CommonProxy extends AbstractCommonProxy {
+
+    @Override
     public void preInit(FMLPreInitializationEvent e) {
+        super.preInit(e);
+
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-        McJtyLib.preInit(e);
 
         SimpleNetworkWrapper network = mcjty.lib.network.PacketHandler.registerMessages(AquaMunda.MODID, "aquamunda");
         AMPacketHandler.registerMessages(network);
@@ -36,13 +40,17 @@ public class CommonProxy {
 //            WorldGen.init();
     }
 
+    @Override
     public void init(FMLInitializationEvent e) {
+        super.init(e);
+
         ModItems.initCrafting();
         EntityRegistry.registerModEntity(new ResourceLocation(AquaMunda.MODID, "fresh_water_falling"), EntityFallingFreshWaterBlock.class, "fresh_water_falling", 1, AquaMunda.instance, 250, 5, true);
 
         ConfigSetup.readRecipesConfig();
     }
 
+    @Override
     public void postInit(FMLPostInitializationEvent e) {
         ConfigSetup.postInit();
         ModBlocks.postInit();
