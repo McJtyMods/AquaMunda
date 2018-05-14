@@ -88,7 +88,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         if (!world.isRemote) {
             EnvironmentData environment = EnvironmentData.getEnvironmentData(world);
             if (environment.getData().set(world.provider.getDimension(), pos, (byte) 0)) {
-                environment.save(world);
+                environment.save();
             }
         }
     }
@@ -122,7 +122,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
                         moistness = SprinklerTE.MAX_MOISTNESS;
                     }
                     data.set(world.provider.getDimension(), pos, moistness);
-                    environmentData.save(world);
+                    environmentData.save();
                 }
             }
         }
@@ -141,7 +141,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         } else {
             moistness--;
             data.set(world.provider.getDimension(), pos, moistness);
-            environmentData.save(world);
+            environmentData.save();
         }
     }
 

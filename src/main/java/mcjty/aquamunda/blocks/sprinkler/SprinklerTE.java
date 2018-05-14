@@ -183,7 +183,7 @@ public class SprinklerTE extends GenericAMTE implements IHoseConnector, ITickabl
             }
         }
         if (dirty) {
-            environment.save(getWorld());
+            environment.save();
         }
     }
 

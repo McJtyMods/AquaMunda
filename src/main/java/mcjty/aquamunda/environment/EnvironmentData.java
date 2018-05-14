@@ -1,14 +1,13 @@
 package mcjty.aquamunda.environment;
 
 import mcjty.aquamunda.chunkdata.GameData;
+import mcjty.lib.worlddata.AbstractWorldData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
 
-public class EnvironmentData extends WorldSavedData {
+public class EnvironmentData extends AbstractWorldData<EnvironmentData> {
 
-    public static final String NAME = "AquaMundaEnvironment";
-    private static EnvironmentData instance = null;
+    private static final String NAME = "AquaMundaEnvironment";
 
     private GameData environmentData = new GameData((byte) 0);
 
@@ -16,29 +15,13 @@ public class EnvironmentData extends WorldSavedData {
         super(name);
     }
 
+    @Override
+    public void clear() {
+        environmentData = new GameData((byte) 0);
+    }
+
     public static EnvironmentData getEnvironmentData(World world) {
-        if (world.isRemote) {
-            return null;
-        }
-        if (instance != null) {
-            return instance;
-        }
-        instance = (EnvironmentData) world.loadData(EnvironmentData.class, NAME);
-        if (instance == null) {
-            instance = new EnvironmentData(NAME);
-        }
-        return instance;
-    }
-
-    public static void clearInstance() {
-        if (instance != null) {
-            instance = null;
-        }
-    }
-
-    public void save(World world) {
-        world.getMapStorage().setData(NAME, this);
-        markDirty();
+        return getData(world, EnvironmentData.class, NAME);
     }
 
     public GameData getData() {

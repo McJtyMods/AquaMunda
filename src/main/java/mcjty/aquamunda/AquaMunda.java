@@ -74,11 +74,6 @@ public class AquaMunda implements ModBase {
     }
 
     @Mod.EventHandler
-    public void serverStopped(FMLServerStoppedEvent event) {
-        EnvironmentData.clearInstance();
-    }
-
-    @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
         proxy.init(e);
     }
