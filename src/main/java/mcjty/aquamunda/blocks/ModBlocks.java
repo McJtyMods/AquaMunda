@@ -52,7 +52,7 @@ public class ModBlocks {
 
         if (GeneralConfiguration.farmlandOverhaulType != FarmlandOverhaulType.VANILLA) {
             customFarmLand = new CustomFarmLand();
-            McJtyRegister.registerLater(customFarmLand, AquaMunda.instance, ItemBlock.class);
+            McJtyRegister.registerLater(customFarmLand, AquaMunda.instance, ItemBlock::new);
             //        try {
             //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.BLOCK, customFarmLand);
             //            GameRegistry.addSubstitutionAlias("minecraft:farmland", GameRegistry.Type.ITEM, new CustomFarmLandItemBlock(customFarmLand));

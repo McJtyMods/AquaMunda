@@ -31,7 +31,7 @@ public class BlockFreshWater extends BlockFluidClassic {
         setCreativeTab(AquaMunda.creativeTab);
         setUnlocalizedName(AquaMunda.MODID + ".fresh_water");
         setRegistryName("fresh_water");
-        McJtyRegister.registerLater(this, AquaMunda.instance, ItemBlock.class);
+        McJtyRegister.registerLater(this, AquaMunda.instance, ItemBlock::new);
     }
 
     @SideOnly(Side.CLIENT)
