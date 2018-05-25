@@ -61,10 +61,10 @@ public class AMPacketHandler {
 
     public static void registerMessages() {
         // Server side
-        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextPacketID(), Side.SERVER);
 
         // Client side
-        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextPacketID(), Side.CLIENT);
 
         register(nextPacketID(), BoilerContentsInfoPacketServer.class, BoilerContentsInfoPacketClient.class);
         register(nextPacketID(), TankContentsInfoPacketServer.class, TankContentsInfoPacketClient.class);

@@ -13,6 +13,7 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,15 +22,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class GenericAMBlock extends GenericBlock implements WailaProvider, TOPInfoProvider {
 
     public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz) {
-        this(material, name, clazz, ItemBlock.class);
+        this(material, name, clazz, ItemBlock::new);
     }
 
-    public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        super(material, AquaMunda.instance, name, itemBlockClass);
+    public GenericAMBlock(Material material, String name, Class<? extends GenericAMTE> clazz, Function<Block, ItemBlock> itemBlockFactory) {
+        super(material, AquaMunda.instance, name, itemBlockFactory);
         if (clazz != null) {
             McJtyRegister.registerLater(this, clazz);
         }

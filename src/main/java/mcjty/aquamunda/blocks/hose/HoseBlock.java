@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 public class HoseBlock extends GenericAMBlock {
 
     public HoseBlock() {
-        super(Material.CLOTH, "hose", null, HoseItemBlock.class);
+        super(Material.CLOTH, "hose", null, HoseItemBlock::new);
     }
 
     @Override
