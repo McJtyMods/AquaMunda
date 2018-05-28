@@ -145,6 +145,5 @@ curseforge {
             requiredLibrary 'immersive-craft'
             optionalLibrary 'the-one-probe'
         }
-        addArtifact(apiJar)
     }
 }
