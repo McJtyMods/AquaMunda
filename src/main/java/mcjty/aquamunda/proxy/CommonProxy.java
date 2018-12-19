@@ -34,7 +34,7 @@ public class CommonProxy extends AbstractCommonProxy {
 
         ConfigSetup.preInit(e);
 
-        FluidSetup.preInitFluids();
+            FluidSetup.preInitFluids();
         ModBlocks.init();
         ModItems.init();
 //            WorldGen.init();
