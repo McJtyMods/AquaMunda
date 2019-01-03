@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -51,11 +50,10 @@ public class CuttingBoardBlock extends GenericBlockWithTE<CuttingBoardTE> implem
         return new HandleSelector(id, new AxisAlignedBB(boundsdx * x + .1f, 0.15f, boundsdz * y + .1f, boundsdx * (x + 1) + .1f, 0.25f, boundsdz * (y + 1) + .1f));
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(CuttingBoardTE.class, new CuttingBoardTESR());
+        CuttingBoardTESR.register();
     }
 
     @Override

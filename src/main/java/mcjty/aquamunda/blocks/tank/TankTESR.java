@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -85,5 +86,9 @@ public class TankTESR extends TileEntitySpecialRenderer<TankTE> {
 
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
         }
+    }
+
+    public static void register() {
+        ClientRegistry.bindTileEntitySpecialRenderer(TankTE.class, new TankTESR());
     }
 }

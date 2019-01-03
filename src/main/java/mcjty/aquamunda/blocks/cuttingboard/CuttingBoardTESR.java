@@ -6,6 +6,7 @@ import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -23,5 +24,9 @@ public class CuttingBoardTESR extends HandleTESR<CuttingBoardTE> {
     @Override
     protected IImmersiveCraft getApi() {
         return ImmersiveCraftHandler.immersiveCraft;
+    }
+
+    public static void register() {
+        ClientRegistry.bindTileEntitySpecialRenderer(CuttingBoardTE.class, new CuttingBoardTESR());
     }
 }

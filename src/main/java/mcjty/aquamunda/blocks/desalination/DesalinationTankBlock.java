@@ -1,8 +1,8 @@
 package mcjty.aquamunda.blocks.desalination;
 
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
-import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.AMPacketHandler;
+import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -21,7 +21,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,11 +36,10 @@ public class DesalinationTankBlock extends GenericBlockWithTE<DesalinationTankTE
         setHarvestLevel("pickaxe", 0);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(DesalinationTankTE.class, new DesalinationTankTESR());
+        DesalinationTankTESR.register();
     }
 
     @Override

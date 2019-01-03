@@ -31,7 +31,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -52,11 +51,10 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
         addSelector(new HandleSelector("slot", new AxisAlignedBB(.33, .4, .33, .66, 1, .66)));
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(CookerTE.class, new CookerTESR());
+        CookerTESR.register();
     }
 
 

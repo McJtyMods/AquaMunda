@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,11 +36,10 @@ public class GrindStoneBlock extends GenericBlockWithTE<GrindStoneTE> implements
         addSelector(new HandleSelector("output", new AxisAlignedBB(.51, .4, .35, .75, .65, .65)));
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(GrindStoneTE.class, new GrindStoneTESR());
+        GrindStoneTESR.register();
     }
 
 

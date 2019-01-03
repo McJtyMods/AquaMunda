@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.TRSRTransformation;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -88,5 +89,9 @@ public class GrindStoneTESR extends HandleTESR<GrindStoneTE> {
     @Override
     protected IImmersiveCraft getApi() {
         return ImmersiveCraftHandler.immersiveCraft;
+    }
+
+    public static void register() {
+        ClientRegistry.bindTileEntitySpecialRenderer(GrindStoneTE.class, new GrindStoneTESR());
     }
 }

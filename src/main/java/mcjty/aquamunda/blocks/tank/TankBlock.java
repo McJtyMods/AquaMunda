@@ -6,6 +6,7 @@ import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
 import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
+import mcjty.lib.McJtyLib;
 import mcjty.lib.varia.FluidTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -17,9 +18,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,14 +33,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -71,24 +68,16 @@ public class TankBlock extends GenericBlockWithTE<TankTE> {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void initModel() {
-        StateMapperBase ignoreState = new StateMapperBase() {
-            @Override
-            protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-                return TankBakedModel.BAKED_TANK;
-            }
-        };
-        ModelLoader.setCustomStateMapper(this, ignoreState);
-        ClientRegistry.bindTileEntitySpecialRenderer(TankTE.class, new TankTESR());
+        McJtyLib.proxy.initStateMapper(this, TankBakedModel.BAKED_TANK);
+        TankTESR.register();
     }
 
-    @SideOnly(Side.CLIENT)
     public void initItemModel() {
         Item itemBlock = ForgeRegistries.ITEMS.getValue(new ResourceLocation(AquaMunda.MODID, "tank"));
         ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(getRegistryName(), "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
+        McJtyLib.proxy.initItemModelMesher(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
     }
 
 
