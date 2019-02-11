@@ -61,8 +61,8 @@ public class ModBlocks {
             //        }
             //        BlockReplacerHelper.replaceBlock(Blocks.farmland, customFarmLand);
 
-            System.out.println("Blocks.farmland = " + Blocks.FARMLAND);
-            System.out.println("Blocks.farmland.getClass() = " + Blocks.FARMLAND.getClass());
+//            System.out.println("Blocks.farmland = " + Blocks.FARMLAND);
+//            System.out.println("Blocks.farmland.getClass() = " + Blocks.FARMLAND.getClass());
         } else {
             customFarmLand = null;
         }
