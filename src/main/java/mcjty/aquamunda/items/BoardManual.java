@@ -22,7 +22,7 @@ public class BoardManual extends Item implements IBook {
         setMaxStackSize(1);
         setRegistryName("board_manual");
         setUnlocalizedName(AquaMunda.MODID + ".board_manual");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

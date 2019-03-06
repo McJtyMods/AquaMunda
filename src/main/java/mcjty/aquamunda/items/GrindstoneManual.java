@@ -22,7 +22,7 @@ public class GrindstoneManual extends Item implements IBook {
         setMaxStackSize(1);
         setRegistryName("grindstone_manual");
         setUnlocalizedName(AquaMunda.MODID + ".grindstone_manual");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

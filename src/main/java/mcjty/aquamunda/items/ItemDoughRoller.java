@@ -15,7 +15,7 @@ public class ItemDoughRoller extends Item {
         setMaxStackSize(1);
         setRegistryName("dough_roller");
         setUnlocalizedName(AquaMunda.MODID + ".dough_roller");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

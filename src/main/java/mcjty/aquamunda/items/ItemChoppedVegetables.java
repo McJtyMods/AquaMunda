@@ -15,7 +15,7 @@ public class ItemChoppedVegetables extends Item {
         setMaxStackSize(16);
         setRegistryName("chopped_vegetables");
         setUnlocalizedName(AquaMunda.MODID + ".chopped_vegetables");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

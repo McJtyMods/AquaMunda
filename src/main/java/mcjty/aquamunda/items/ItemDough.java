@@ -15,7 +15,7 @@ public class ItemDough extends Item {
         setMaxStackSize(16);
         setRegistryName("dough");
         setUnlocalizedName(AquaMunda.MODID + ".dough");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

@@ -7,6 +7,7 @@ import mcjty.aquamunda.blocks.tank.TankModelLoader;
 import mcjty.aquamunda.events.ClientForgeEventHandlers;
 import mcjty.aquamunda.fluid.FluidSetup;
 import mcjty.lib.McJtyLibClient;
+import mcjty.lib.setup.DefaultClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -18,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.util.concurrent.Callable;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends DefaultClientProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
@@ -35,25 +36,4 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
         ModBlocks.initItemModels();
     }
-
-    @Override
-    public World getClientWorld() {
-        return Minecraft.getMinecraft().world;
-    }
-
-    @Override
-    public EntityPlayer getClientPlayer() {
-        return Minecraft.getMinecraft().player;
-    }
-
-    @Override
-    public <V> ListenableFuture<V> addScheduledTaskClient(Callable<V> callableToSchedule) {
-        return Minecraft.getMinecraft().addScheduledTask(callableToSchedule);
-    }
-
-    @Override
-    public ListenableFuture<Object> addScheduledTaskClient(Runnable runnableToSchedule) {
-        return Minecraft.getMinecraft().addScheduledTask(runnableToSchedule);
-    }
-
 }

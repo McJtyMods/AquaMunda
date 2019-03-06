@@ -23,7 +23,7 @@ public class GenericAMBlock extends GenericBlock {
         if (clazz != null) {
             McJtyRegister.registerLater(this, clazz);
         }
-        this.setCreativeTab(AquaMunda.creativeTab);
+        this.setCreativeTab(AquaMunda.setup.getTab());
     }
 
     @Override

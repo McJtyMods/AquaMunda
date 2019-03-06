@@ -22,7 +22,7 @@ public class CookerManual extends Item implements IBook {
         setMaxStackSize(1);
         setRegistryName("cooker_manual");
         setUnlocalizedName(AquaMunda.MODID + ".cooker_manual");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

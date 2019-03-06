@@ -15,7 +15,7 @@ public class ItemKitchenKnife extends Item {
         setMaxStackSize(1);
         setRegistryName("kitchen_knife");
         setUnlocalizedName(AquaMunda.MODID + ".kitchen_knife");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

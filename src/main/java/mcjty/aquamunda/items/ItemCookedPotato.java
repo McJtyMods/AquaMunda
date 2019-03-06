@@ -16,7 +16,7 @@ public class ItemCookedPotato extends Item implements ICookerResult {
         setMaxStackSize(16);
         setRegistryName("cooked_potato");
         setUnlocalizedName(AquaMunda.MODID + ".cooked_potato");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

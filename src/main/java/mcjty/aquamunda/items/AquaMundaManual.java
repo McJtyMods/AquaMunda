@@ -23,7 +23,7 @@ public class AquaMundaManual extends Item implements IBook {
         setMaxStackSize(1);
         setRegistryName("manual");
         setUnlocalizedName(AquaMunda.MODID + ".manual");
-        setCreativeTab(AquaMunda.creativeTab);
+        setCreativeTab(AquaMunda.setup.getTab());
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }
 

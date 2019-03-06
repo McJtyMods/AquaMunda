@@ -83,7 +83,7 @@ public class ItemDish extends ItemFood {
     public ItemDish() {
         super(5, 0.6f, false);
         this.setRegistryName("dish");
-        this.setCreativeTab(AquaMunda.creativeTab);
+        this.setCreativeTab(AquaMunda.setup.getTab());
         this.setMaxStackSize(1);
         McJtyRegister.registerLater(this, AquaMunda.instance);
     }

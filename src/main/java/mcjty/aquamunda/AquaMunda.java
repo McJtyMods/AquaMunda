@@ -3,23 +3,18 @@ package mcjty.aquamunda;
 
 import mcjty.aquamunda.api.IAquaMunda;
 import mcjty.aquamunda.apiimpl.AquaMundaImp;
-import mcjty.aquamunda.compat.MainCompatHandler;
-import mcjty.aquamunda.environment.EnvironmentData;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
-import mcjty.aquamunda.proxy.CommonProxy;
-import mcjty.immcraft.api.IImmersiveCraft;
+import mcjty.aquamunda.proxy.CommonSetup;
 import mcjty.lib.base.ModBase;
-import net.minecraft.creativetab.CreativeTabs;
+import mcjty.lib.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -40,16 +35,13 @@ public class AquaMunda implements ModBase {
     public static final String MIN_MCJTYLIB_VER = "3.1.0";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
-    public static CommonProxy proxy;
+    public static IProxy proxy;
+    public static CommonSetup setup = new CommonSetup();
 
     @Mod.Instance
     public static AquaMunda instance;
 
     public static AquaMundaImp aquaMundaImp = new AquaMundaImp();
-
-    public static CreativeTabs creativeTab;
-
-    public static Logger logger;
 
     public AquaMunda() {
         // This has to be done VERY early
@@ -59,41 +51,22 @@ public class AquaMunda implements ModBase {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.AquaMunda$GetImmCraftApi");
-
-        logger = event.getModLog();
-        creativeTab = new CreativeTabs("aquamunda") {
-            @Override
-            public ItemStack getTabIconItem() {
-                return new ItemStack(Items.WATER_BUCKET);
-            }
-        };
+        setup.preInit(event);
         proxy.preInit(event);
-        MainCompatHandler.registerWaila();
-        MainCompatHandler.registerTOP();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
+        setup.init(e);
         proxy.init(e);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
+        setup.postInit(e);
         proxy.postInit(e);
     }
 
-
-    public static class GetImmCraftApi implements com.google.common.base.Function<IImmersiveCraft, Void> {
-        @Nullable
-        @Override
-        public Void apply(IImmersiveCraft immcraft) {
-            System.out.println("##############################################");
-            System.out.println("immcraft = " + immcraft);
-            ImmersiveCraftHandler.setImmersiveCraft(immcraft);
-            return null;
-        }
-    }
 
     @Mod.EventHandler
     public void imcCallback(FMLInterModComms.IMCEvent event) {
