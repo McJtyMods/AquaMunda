@@ -1,10 +1,10 @@
 package mcjty.aquamunda.blocks.desalination;
 
 import io.netty.buffer.ByteBuf;
+import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.network.InfoPacketClient;
 import mcjty.aquamunda.varia.BlockTools;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 
 public class BoilerContentsInfoPacketClient implements InfoPacketClient {
@@ -39,8 +39,8 @@ public class BoilerContentsInfoPacketClient implements InfoPacketClient {
     }
 
     @Override
-    public void onMessageClient(EntityPlayerSP player) {
-        BlockTools.getTE(DesalinationBoilerTE.class, Minecraft.getMinecraft().world, pos)
+    public void onMessageClient(EntityPlayer player) {
+        BlockTools.getTE(DesalinationBoilerTE.class, AquaMunda.proxy.getClientWorld(), pos)
                 .ifPresent(p -> p.setClientInfo(contents, temperature));
     }
 }

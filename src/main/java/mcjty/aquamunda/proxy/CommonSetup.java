@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import javax.annotation.Nullable;
@@ -41,8 +40,7 @@ public class CommonSetup extends DefaultCommonSetup {
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
-        SimpleNetworkWrapper network = mcjty.lib.network.PacketHandler.registerMessages(AquaMunda.MODID, "aquamunda");
-        AMPacketHandler.registerMessages(network);
+        AMPacketHandler.registerMessages("aquamunda");
 
         ConfigSetup.preInit(e);
 

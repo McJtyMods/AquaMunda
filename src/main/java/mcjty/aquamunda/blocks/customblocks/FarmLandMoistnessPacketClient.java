@@ -2,7 +2,7 @@ package mcjty.aquamunda.blocks.customblocks;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.aquamunda.network.InfoPacketClient;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class FarmLandMoistnessPacketClient implements InfoPacketClient {
 
@@ -26,7 +26,7 @@ public class FarmLandMoistnessPacketClient implements InfoPacketClient {
     }
 
     @Override
-    public void onMessageClient(EntityPlayerSP player) {
+    public void onMessageClient(EntityPlayer player) {
         CustomFarmLand.clientLevel = level;
     }
 }
