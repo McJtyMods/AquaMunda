@@ -313,7 +313,7 @@ public class CookerTE extends GenericInventoryTE implements IHoseConnector, ITic
     }
 
     private void updateBoilingSound() {
-        if (GeneralConfiguration.baseCookerVolume > 0.01f) {
+        if (GeneralConfiguration.baseCookerVolume.get() > 0.01f) {
             int boilingState = getBoilingState();
             if (boilingState >= 1) {
                 float vol = (boilingState-1.0f)/9.0f;

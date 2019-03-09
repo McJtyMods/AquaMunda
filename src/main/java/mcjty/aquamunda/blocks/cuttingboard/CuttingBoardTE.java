@@ -177,7 +177,7 @@ public class CuttingBoardTE extends GenericInventoryTE implements ITickable {
     }
 
     public void startChoppingSound() {
-        if (GeneralConfiguration.baseChoppingVolume > 0.01f) {
+        if (GeneralConfiguration.baseChoppingVolume.get() > 0.01f) {
             if (!SoundController.isChoppingPlaying(getWorld(), pos)) {
                 SoundController.playChopping(getWorld(), getPos(), 1.0f);
             }

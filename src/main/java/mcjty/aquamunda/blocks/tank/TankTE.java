@@ -178,11 +178,11 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
             return;
         }
         if (getWorld().isRaining()) {
-            if (GeneralConfiguration.tankCatchesRain > 0) {
+            if (GeneralConfiguration.tankCatchesRain.get() > 0) {
                 checkRain();
             }
         } else {
-            if (GeneralConfiguration.tankEvaporation > 0) {
+            if (GeneralConfiguration.tankEvaporation.get() > 0) {
                 checkEvaporation();
             }
         }
@@ -212,7 +212,7 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
             if (getWorld().canBlockSeeSky(getPos())) {
                 Tank tank = getMultiBlock();
                 if (tank.getFluid() == FluidSetup.freshWater || tank.getFluid() == FluidRegistry.WATER) {
-                    int newContents = tank.getContents() - GeneralConfiguration.tankEvaporation;
+                    int newContents = tank.getContents() - GeneralConfiguration.tankEvaporation.get();
                     if (newContents < 0) {
                         newContents = 0;
                     }
@@ -230,7 +230,7 @@ public class TankTE extends GenericAMTE implements IHoseConnector, IMultiBlockTi
                 tank.setFluid(FluidSetup.freshWater);
             }
             if (tank.getFluid() == FluidSetup.freshWater || tank.getFluid() == FluidRegistry.WATER) {
-                int newContents = tank.getContents() + GeneralConfiguration.tankCatchesRain;
+                int newContents = tank.getContents() + GeneralConfiguration.tankCatchesRain.get();
                 if (newContents > tank.getMaxContents()) {
                     newContents = tank.getMaxContents();
                 }

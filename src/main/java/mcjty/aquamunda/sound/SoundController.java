@@ -57,15 +57,15 @@ public final class SoundController {
 
 
     public static void playBoiling(World worldObj, BlockPos pos, float volume) {
-        playSound(worldObj, pos, boilingwater, volume, GeneralConfiguration.baseCookerVolume);
+        playSound(worldObj, pos, boilingwater, volume, (float) GeneralConfiguration.baseCookerVolume.get());
     }
 
     public static void playChopping(World worldObj, BlockPos pos, float volume) {
-        playSound(worldObj, pos, chopping, volume, GeneralConfiguration.baseCookerVolume);
+        playSound(worldObj, pos, chopping, volume, (float) GeneralConfiguration.baseCookerVolume.get());
     }
 
     public static void playGrindstone(World worldObj, BlockPos pos, float volume) {
-        playSound(worldObj, pos, grindstone, volume, GeneralConfiguration.baseGrindstoneVolume);
+        playSound(worldObj, pos, grindstone, volume, (float) GeneralConfiguration.baseGrindstoneVolume.get());
     }
 
     public static void updateVolume(World worldObj, BlockPos pos, float volume) {

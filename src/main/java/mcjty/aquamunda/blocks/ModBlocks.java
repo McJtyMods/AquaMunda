@@ -50,7 +50,7 @@ public class ModBlocks {
         cuttingBoardBlock = new CuttingBoardBlock();
         grindStoneBlock = new GrindStoneBlock();
 
-        if (GeneralConfiguration.farmlandOverhaulType != FarmlandOverhaulType.VANILLA) {
+        if (GeneralConfiguration.farmlandOverhaulType.get() != FarmlandOverhaulType.VANILLA) {
             customFarmLand = new CustomFarmLand();
             McJtyRegister.registerLater(customFarmLand, AquaMunda.instance, ItemBlock::new);
             //        try {

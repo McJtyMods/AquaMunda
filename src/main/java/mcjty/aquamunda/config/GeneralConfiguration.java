@@ -4,6 +4,7 @@ import mcjty.aquamunda.environment.FarmlandOverhaulType;
 import mcjty.aquamunda.items.ItemDish;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.recipes.*;
+import mcjty.lib.thirteen.ConfigSpec;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -25,32 +26,42 @@ public class GeneralConfiguration {
     public static final String CATEGORY_RECIPES_COOKER = "recipescooker";
     public static final String CATEGORY_RECIPES_GRINDSTONE = "recipesgrindstone";
 
-    public static float baseCookerVolume = 0.6f;     // Use 0 to turn off
-    public static float baseChoppingVolume = 1.0f;   // Use 0 to turn off
-    public static float baseGrindstoneVolume = 0.6f; // Use 0 to turn off
+    public static ConfigSpec.DoubleValue baseCookerVolume;
+    public static ConfigSpec.DoubleValue baseChoppingVolume;
+    public static ConfigSpec.DoubleValue baseGrindstoneVolume;
 
-    public static int tankCatchesRain = 200;
-    public static int tankEvaporation = 5;
+    public static ConfigSpec.IntValue tankCatchesRain;
+    public static ConfigSpec.IntValue tankEvaporation;
 
-    public static FarmlandOverhaulType farmlandOverhaulType = FarmlandOverhaulType.FRESH;
+    public static ConfigSpec.ConfigValue<FarmlandOverhaulType> farmlandOverhaulType;
 
-    public static void init(Configuration cfg) {
-        baseCookerVolume = (float) cfg.get(CATEGORY_GENERAL, "baseCookerVolume", baseCookerVolume,
-                "The volume for the cooker sound (0.0 is off)").getDouble();
-        baseChoppingVolume = (float) cfg.get(CATEGORY_GENERAL, "baseChoppingVolume", baseChoppingVolume,
-                "The volume for the chopping sound (0.0 is off)").getDouble();
-        baseGrindstoneVolume = (float) cfg.get(CATEGORY_GENERAL, "baseGrindstoneVolume", baseGrindstoneVolume,
-                "The volume for the grindstone sound (0.0 is off)").getDouble();
+    public static void init(ConfigSpec.Builder SERVER_BUILDER, ConfigSpec.Builder CLIENT_BUILDER) {
+        SERVER_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
+        CLIENT_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
 
-        tankCatchesRain = cfg.getInt("tankCatchesRain", CATEGORY_GENERAL, tankCatchesRain, 0, 100000, "By default tanks will catch this amount of rainfall every update tick. Set this to 0 if you don't want that");
-        tankEvaporation = cfg.getInt("tankEvaporation", CATEGORY_GENERAL, tankEvaporation, 0, 100000, "By default water in tanks in the sun will evaporate this amount of water every update tick. Set this to 0 if you don't want that");
+        baseCookerVolume = CLIENT_BUILDER
+                .comment("The volume for the cooker sound (0.0 is off)")
+                .defineInRange("baseCookerVolume", 0.6, 0, 1);
+        baseChoppingVolume = CLIENT_BUILDER
+                .comment("The volume for the chopping sound (0.0 is off)")
+                .defineInRange("baseChoppingVolume", 1.0, 0, 1);
+        baseGrindstoneVolume = CLIENT_BUILDER
+                .comment("The volume for the grindstone sound (0.0 is off)")
+                .defineInRange("baseGrindstoneVolume", 0.6, 0, 1);
 
-        String overhaul = cfg.get(CATEGORY_GENERAL, "farmlandOverhaulType", GeneralConfiguration.farmlandOverhaulType.getName(),
-                "The type of overhaul for farmland: 'none' means vanilla water will work, 'vanilla' means the farmland is not replaced, 'fresh' means fresh water is required, 'harsh' means fresh water is required and the farmland must be sprinkled").getString();
-        farmlandOverhaulType = FarmlandOverhaulType.getByName(overhaul);
-        if (farmlandOverhaulType == null) {
-            farmlandOverhaulType = FarmlandOverhaulType.FRESH;
-        }
+        tankCatchesRain = SERVER_BUILDER
+                .comment("By default tanks will catch this amount of rainfall every update tick. Set this to 0 if you don't want that")
+                .defineInRange("tankCatchesRain", 200, 0, 100000);
+        tankEvaporation = SERVER_BUILDER
+                .comment("By default water in tanks in the sun will evaporate this amount of water every update tick. Set this to 0 if you don't want that")
+                .defineInRange("tankEvaporation", 5, 0, 100000);
+
+        farmlandOverhaulType = SERVER_BUILDER
+                .comment("The type of overhaul for farmland: 'none' means vanilla water will work, 'vanilla' means the farmland is not replaced, 'fresh' means fresh water is required, 'harsh' means fresh water is required and the farmland must be sprinkled")
+                .defineEnum("farmlandOverhaulType", FarmlandOverhaulType.FRESH, FarmlandOverhaulType.values());
+
+        SERVER_BUILDER.pop();
+        CLIENT_BUILDER.pop();
     }
 
     public static void initGrindstoneRecipes(Configuration cfg) {

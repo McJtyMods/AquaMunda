@@ -133,7 +133,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
         GameData data = environmentData.getData();
         byte moistness = data.get(world.provider.getDimension(), pos);
         if (moistness == 0) {
-            if (GeneralConfiguration.farmlandOverhaulType == FarmlandOverhaulType.HARSH) {
+            if (GeneralConfiguration.farmlandOverhaulType.get() == FarmlandOverhaulType.HARSH) {
                 if (random.nextInt(8) == 2) {
                     killPlant(world, pos);
                 }
@@ -189,7 +189,7 @@ public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPI
             for (int i1 = y; i1 <= y + 1; ++i1) {
                 for (int j1 = z - 4; j1 <= z + 4; ++j1) {
                     Block block = world.getBlockState(new BlockPos(l, i1, j1)).getBlock();
-                    if (GeneralConfiguration.farmlandOverhaulType == FarmlandOverhaulType.NONE) {
+                    if (GeneralConfiguration.farmlandOverhaulType.get() == FarmlandOverhaulType.NONE) {
                         if (block == ModBlocks.blockFreshWater || block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
                             return true;
                         }
