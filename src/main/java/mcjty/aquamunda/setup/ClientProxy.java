@@ -15,7 +15,6 @@ public class ClientProxy extends DefaultClientProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
-        McJtyLibClient.preInit(e);
 
         OBJLoader.INSTANCE.addDomain(AquaMunda.MODID);
         ModelLoaderRegistry.registerLoader(new TankModelLoader());
