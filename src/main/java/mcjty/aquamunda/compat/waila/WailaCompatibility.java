@@ -1,6 +1,7 @@
 package mcjty.aquamunda.compat.waila;
 
 import mcjty.aquamunda.blocks.generic.GenericAMBlock;
+import mcjty.lib.compat.waila.WailaInfoProvider;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

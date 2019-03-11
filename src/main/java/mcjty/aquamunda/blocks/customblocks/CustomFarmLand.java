@@ -3,13 +3,13 @@ package mcjty.aquamunda.blocks.customblocks;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.sprinkler.SprinklerTE;
 import mcjty.aquamunda.chunkdata.GameData;
-import mcjty.aquamunda.compat.top.TOPInfoProvider;
 import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.environment.FarmlandOverhaulType;
-import mcjty.aquamunda.network.PacketGetInfoFromServer;
 import mcjty.aquamunda.network.AMPacketHandler;
-import mcjty.aquamunda.waila.WailaProvider;
+import mcjty.aquamunda.network.PacketGetInfoFromServer;
+import mcjty.lib.compat.theoneprobe.TOPInfoProvider;
+import mcjty.lib.compat.waila.WailaInfoProvider;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -38,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
 
-public class CustomFarmLand extends BlockFarmland implements WailaProvider, TOPInfoProvider {
+public class CustomFarmLand extends BlockFarmland implements WailaInfoProvider, TOPInfoProvider {
 
     public CustomFarmLand() {
         super();

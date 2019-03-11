@@ -1,6 +1,7 @@
 package mcjty.aquamunda.compat.top;
 
 import mcjty.aquamunda.AquaMunda;
+import mcjty.lib.compat.theoneprobe.TOPInfoProvider;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
