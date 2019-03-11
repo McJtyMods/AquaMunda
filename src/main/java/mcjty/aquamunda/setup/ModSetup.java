@@ -12,7 +12,7 @@ import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.AMPacketHandler;
 import mcjty.immcraft.api.IImmersiveCraft;
-import mcjty.lib.setup.DefaultCommonSetup;
+import mcjty.lib.setup.DefaultModSetup;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import javax.annotation.Nullable;
 
-public class CommonSetup extends DefaultCommonSetup {
+public class ModSetup extends DefaultModSetup {
 
     @Override
     public void preInit(FMLPreInitializationEvent e) {

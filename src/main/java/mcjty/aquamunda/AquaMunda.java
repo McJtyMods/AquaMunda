@@ -3,7 +3,7 @@ package mcjty.aquamunda;
 
 import mcjty.aquamunda.api.IAquaMunda;
 import mcjty.aquamunda.apiimpl.AquaMundaImp;
-import mcjty.aquamunda.setup.CommonSetup;
+import mcjty.aquamunda.setup.ModSetup;
 import mcjty.lib.base.ModBase;
 import mcjty.lib.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +36,7 @@ public class AquaMunda implements ModBase {
 
     @SidedProxy(clientSide = "mcjty.aquamunda.setup.ClientProxy", serverSide = "mcjty.aquamunda.setup.ServerProxy")
     public static IProxy proxy;
-    public static CommonSetup setup = new CommonSetup();
+    public static ModSetup setup = new ModSetup();
 
     @Mod.Instance
     public static AquaMunda instance;
