@@ -4,7 +4,7 @@ import mcjty.aquamunda.api.IHoseConnector;
 import mcjty.aquamunda.blocks.generic.GenericInventoryTE;
 import mcjty.aquamunda.config.GeneralConfiguration;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.recipes.CookerRecipe;
 import mcjty.aquamunda.recipes.CookerRecipeRepository;
 import mcjty.aquamunda.sound.SoundController;

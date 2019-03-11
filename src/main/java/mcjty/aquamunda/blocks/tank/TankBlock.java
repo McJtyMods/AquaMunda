@@ -3,7 +3,7 @@ package mcjty.aquamunda.blocks.tank;
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.generic.GenericBlockWithTE;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.lib.McJtyLib;

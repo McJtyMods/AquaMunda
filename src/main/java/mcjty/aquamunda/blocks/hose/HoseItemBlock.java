@@ -1,6 +1,6 @@
 package mcjty.aquamunda.blocks.hose;
 
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import net.minecraft.block.Block;
 
 public class HoseItemBlock extends CableItemBlock {

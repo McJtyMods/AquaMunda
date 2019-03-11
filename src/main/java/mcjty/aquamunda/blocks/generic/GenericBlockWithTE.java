@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.generic;
 
 
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

@@ -1,4 +1,4 @@
-package mcjty.aquamunda.immcraft;
+package mcjty.aquamunda.compat.immcraft;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;

@@ -8,7 +8,7 @@ import mcjty.aquamunda.config.ConfigSetup;
 import mcjty.aquamunda.events.ForgeEventHandlers;
 import mcjty.aquamunda.fluid.EntityFallingFreshWaterBlock;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.aquamunda.items.ModItems;
 import mcjty.aquamunda.network.AMPacketHandler;
 import mcjty.immcraft.api.IImmersiveCraft;

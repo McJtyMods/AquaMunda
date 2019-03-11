@@ -2,7 +2,7 @@ package mcjty.aquamunda.apiimpl;
 
 import mcjty.aquamunda.api.IAquaMunda;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableType;
 import net.minecraftforge.fluids.Fluid;
 

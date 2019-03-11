@@ -2,7 +2,7 @@ package mcjty.aquamunda.blocks.generic;
 
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.lib.McJtyRegister;

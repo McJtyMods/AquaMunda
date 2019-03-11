@@ -1,4 +1,4 @@
-package mcjty.aquamunda.immcraft;
+package mcjty.aquamunda.compat.immcraft;
 
 import mcjty.aquamunda.blocks.tank.Tank;
 import mcjty.aquamunda.blocks.tank.TankClientInfo;

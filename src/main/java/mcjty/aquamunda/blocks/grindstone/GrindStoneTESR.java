@@ -3,7 +3,7 @@ package mcjty.aquamunda.blocks.grindstone;
 
 import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.Minecraft;

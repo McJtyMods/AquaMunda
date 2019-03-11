@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.tank;
 
 
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;

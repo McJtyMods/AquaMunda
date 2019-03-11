@@ -1,7 +1,7 @@
 package mcjty.aquamunda.items;
 
 import mcjty.aquamunda.AquaMunda;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.book.IBook;
 import mcjty.lib.McJtyRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

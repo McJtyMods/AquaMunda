@@ -1,7 +1,7 @@
 package mcjty.aquamunda.blocks.hose;
 
 
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;

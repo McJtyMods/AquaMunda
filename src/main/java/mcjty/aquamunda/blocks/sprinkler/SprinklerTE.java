@@ -6,7 +6,7 @@ import mcjty.aquamunda.blocks.generic.GenericAMTE;
 import mcjty.aquamunda.chunkdata.GameData;
 import mcjty.aquamunda.environment.EnvironmentData;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.aquamunda.immcraft.ImmersiveCraftHandler;
+import mcjty.aquamunda.compat.immcraft.ImmersiveCraftHandler;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.helpers.NBTHelper;
