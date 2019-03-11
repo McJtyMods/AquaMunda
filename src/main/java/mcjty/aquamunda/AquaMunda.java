@@ -3,7 +3,7 @@ package mcjty.aquamunda;
 
 import mcjty.aquamunda.api.IAquaMunda;
 import mcjty.aquamunda.apiimpl.AquaMundaImp;
-import mcjty.aquamunda.proxy.CommonSetup;
+import mcjty.aquamunda.setup.CommonSetup;
 import mcjty.lib.base.ModBase;
 import mcjty.lib.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;

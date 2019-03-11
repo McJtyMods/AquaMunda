@@ -1,4 +1,4 @@
-package mcjty.aquamunda.proxy;
+package mcjty.aquamunda.setup;
 
 import mcjty.lib.setup.DefaultServerProxy;
 

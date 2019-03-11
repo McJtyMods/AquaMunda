@@ -1,4 +1,4 @@
-package mcjty.aquamunda.proxy;
+package mcjty.aquamunda.setup;
 
 import com.google.common.base.Function;
 import mcjty.aquamunda.AquaMunda;
