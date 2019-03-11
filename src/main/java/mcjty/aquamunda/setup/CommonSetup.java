@@ -43,7 +43,7 @@ public class CommonSetup extends DefaultCommonSetup {
 
     @Override
     protected void setupModCompat() {
-        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.proxy.CommonSetup$GetImmCraftApi");
+        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.setup.CommonSetup$GetImmCraftApi");
         MainCompatHandler.registerWaila();
         MainCompatHandler.registerTOP();
     }

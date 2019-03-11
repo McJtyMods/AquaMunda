@@ -34,7 +34,7 @@ public class AquaMunda implements ModBase {
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
     public static final String MIN_MCJTYLIB_VER = "3.1.0";
 
-    @SidedProxy(clientSide = "mcjty.aquamunda.proxy.ClientProxy", serverSide = "mcjty.aquamunda.proxy.ServerProxy")
+    @SidedProxy(clientSide = "mcjty.aquamunda.setup.ClientProxy", serverSide = "mcjty.aquamunda.setup.ServerProxy")
     public static IProxy proxy;
     public static CommonSetup setup = new CommonSetup();
 
