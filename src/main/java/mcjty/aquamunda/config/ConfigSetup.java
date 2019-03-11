@@ -1,16 +1,15 @@
 package mcjty.aquamunda.config;
 
+import mcjty.aquamunda.AquaMunda;
 import mcjty.lib.thirteen.ConfigSpec;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
 
 public class ConfigSetup {
 
-    public static File modConfigDir;
     private static Configuration mainConfig;
     private static Configuration recipesConfig;
 
@@ -24,16 +23,10 @@ public class ConfigSetup {
     public static ConfigSpec SERVER_CONFIG;
     public static ConfigSpec CLIENT_CONFIG;
 
-    public static void preInit(FMLPreInitializationEvent e) {
-        modConfigDir = e.getModConfigurationDirectory();
+    public static void init() {
+        mainConfig = new Configuration(new File(AquaMunda.setup.getModConfigDir().getPath(), "aquamunda.cfg"));
+        recipesConfig = new Configuration(new File(AquaMunda.setup.getModConfigDir().getPath(), "aquamunda_recipes.cfg"));
 
-        mainConfig = new Configuration(new File(modConfigDir.getPath(), "aquamunda.cfg"));
-        recipesConfig = new Configuration(new File(modConfigDir.getPath(), "aquamunda_recipes.cfg"));
-
-        readMainConfig();
-    }
-
-    private static void readMainConfig() {
         Configuration cfg = mainConfig;
         try {
             cfg.load();

@@ -25,29 +25,28 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import javax.annotation.Nullable;
 
-/**
- * Created by jorrit on 16.12.16.
- */
 public class CommonSetup extends DefaultCommonSetup {
 
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
 
-        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.proxy.CommonSetup$GetImmCraftApi");
-        MainCompatHandler.registerWaila();
-        MainCompatHandler.registerTOP();
-
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+
+        setupModCompat();
 
         AMPacketHandler.registerMessages("aquamunda");
 
-        ConfigSetup.preInit(e);
-
-        FluidSetup.preInitFluids();
+        ConfigSetup.init();
+        FluidSetup.init();
         ModBlocks.init();
         ModItems.init();
-//            WorldGen.init();
+    }
+
+    private void setupModCompat() {
+        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.proxy.CommonSetup$GetImmCraftApi");
+        MainCompatHandler.registerWaila();
+        MainCompatHandler.registerTOP();
     }
 
     public static class GetImmCraftApi implements Function<IImmersiveCraft, Void> {

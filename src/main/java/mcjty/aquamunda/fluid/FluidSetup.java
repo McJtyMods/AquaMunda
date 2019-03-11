@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class FluidSetup {
     public static final Fluid freshWater = new Fluid("fresh_water", new ResourceLocation("blocks/water_still"), new ResourceLocation("blocks/water_flow"));
 
-    public static void preInitFluids() {
+    public static void init() {
         FluidRegistry.registerFluid(freshWater);
         FluidRegistry.addBucketForFluid(freshWater);
     }
