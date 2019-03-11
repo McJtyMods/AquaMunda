@@ -1,4 +1,4 @@
-package mcjty.aquamunda.events;
+package mcjty.aquamunda.setup;
 
 
 import mcjty.aquamunda.blocks.ModBlocks;
@@ -7,23 +7,22 @@ import mcjty.aquamunda.sound.SoundController;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-public class ClientForgeEventHandlers {
+@Mod.EventBusSubscriber(Side.CLIENT)
+public class ClientRegistration {
 
     @SubscribeEvent
-    public void registerModels(ModelRegistryEvent event) {
+    public static void registerModels(ModelRegistryEvent event) {
         ModBlocks.initModels();
         ModItems.initModels();
     }
 
     @SubscribeEvent
-    public void registerSounds(RegistryEvent.Register<SoundEvent> sounds) {
+    public static void registerSounds(RegistryEvent.Register<SoundEvent> sounds) {
         SoundController.init(sounds);
     }
-
 
 }
