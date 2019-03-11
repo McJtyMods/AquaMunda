@@ -43,7 +43,7 @@ public class ModSetup extends DefaultModSetup {
 
     @Override
     protected void setupModCompat() {
-        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.setup.CommonSetup$GetImmCraftApi");
+        FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.setup.ModSetup$GetImmCraftApi");
         MainCompatHandler.registerWaila();
         MainCompatHandler.registerTOP();
     }
