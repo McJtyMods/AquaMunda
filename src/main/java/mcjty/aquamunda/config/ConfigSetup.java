@@ -65,12 +65,10 @@ public class ConfigSetup {
         if (mainConfig.hasChanged()) {
             mainConfig.save();
         }
-        mainConfig = null;
 
         if (recipesConfig.hasChanged()) {
             recipesConfig.save();
         }
-        recipesConfig = null;
     }
 
 }
