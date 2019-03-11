@@ -33,8 +33,6 @@ public class CommonSetup extends DefaultCommonSetup {
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
-        setupModCompat();
-
         AMPacketHandler.registerMessages("aquamunda");
 
         ConfigSetup.init();
@@ -43,7 +41,8 @@ public class CommonSetup extends DefaultCommonSetup {
         ModItems.init();
     }
 
-    private void setupModCompat() {
+    @Override
+    protected void setupModCompat() {
         FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.proxy.CommonSetup$GetImmCraftApi");
         MainCompatHandler.registerWaila();
         MainCompatHandler.registerTOP();
