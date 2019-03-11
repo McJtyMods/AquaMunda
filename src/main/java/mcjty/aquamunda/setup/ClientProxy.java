@@ -4,7 +4,6 @@ import mcjty.aquamunda.AquaMunda;
 import mcjty.aquamunda.blocks.ModBlocks;
 import mcjty.aquamunda.blocks.tank.TankModelLoader;
 import mcjty.aquamunda.fluid.FluidSetup;
-import mcjty.lib.McJtyLibClient;
 import mcjty.lib.setup.DefaultClientProxy;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
