@@ -33,8 +33,6 @@ public class ModSetup extends DefaultModSetup {
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
-        ConfigSetup.init();
-
         AMPacketHandler.registerMessages("aquamunda");
 
         FluidSetup.init();
@@ -47,6 +45,11 @@ public class ModSetup extends DefaultModSetup {
         FMLInterModComms.sendFunctionMessage("immcraft", "getApi", "mcjty.aquamunda.setup.ModSetup$GetImmCraftApi");
         MainCompatHandler.registerWaila();
         MainCompatHandler.registerTOP();
+    }
+
+    @Override
+    protected void setupConfig() {
+        ConfigSetup.init();
     }
 
     public static class GetImmCraftApi implements Function<IImmersiveCraft, Void> {
