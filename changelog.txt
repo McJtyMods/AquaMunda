@@ -1,3 +1,6 @@
+Upcoming:
+- Fixed recipe for the grindstone manual
+
 0.5.0:
 - Fixes for latest McJtyLib
 
