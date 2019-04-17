@@ -16,6 +16,10 @@ public class CuttingBoardRecipeRepository {
         recipeMap.put(key, recipe);
     }
 
+    public static Map<KeyResourceLocations, CuttingBoardRecipe> getRecipeMap() {
+        return recipeMap;
+    }
+
     @Nullable
     public static CuttingBoardRecipe getRecipe(ItemStack stack1, ItemStack stack2, ItemStack stack3) {
         if (stack1.isEmpty() && stack2.isEmpty() && stack3.isEmpty()) {

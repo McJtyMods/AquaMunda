@@ -17,6 +17,10 @@ public class GrindstoneRecipeRepository {
         recipeMap.put(key, recipe);
     }
 
+    public static Map<ResourceLocation, GrindstoneRecipe> getRecipeMap() {
+        return recipeMap;
+    }
+
     @Nullable
     public static GrindstoneRecipe getRecipe(ItemStack stack) {
         if (stack.isEmpty()) {

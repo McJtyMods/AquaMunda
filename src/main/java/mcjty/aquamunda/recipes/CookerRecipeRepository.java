@@ -17,6 +17,10 @@ public class CookerRecipeRepository {
         recipeMap.put(key, recipe);
     }
 
+    public static Map<ResourceLocation, CookerRecipe> getRecipeMap() {
+        return recipeMap;
+    }
+
     @Nullable
     public static CookerRecipe getRecipe(ItemStack stack) {
         if (stack.isEmpty()) {

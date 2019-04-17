@@ -115,7 +115,7 @@ public class CookerBlock extends GenericBlockWithTE<CookerTE> implements ISoundP
                 } else {
                     ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "You need a bowl to get the soup out");
                     if (player instanceof EntityPlayer) {
-                        ((EntityPlayer) player).sendStatusMessage(component, false);
+                        player.sendStatusMessage(component, false);
                     } else {
                         player.sendMessage(component);
                     }
