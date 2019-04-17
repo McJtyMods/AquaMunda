@@ -154,6 +154,9 @@ public class Tank implements IMultiBlock {
 
     @Override
     public Collection<? extends IMultiBlock> remove(World world, BlockPos c) {
+        if (tankBlocks.isEmpty()) {
+            return Collections.emptyList();
+        }
         // We assume here that the relevant portion of the tank contents has already been removed
         // before this function is called.
         int contentsPerBlock = contents / tankBlocks.size();
