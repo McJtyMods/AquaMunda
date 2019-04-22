@@ -64,7 +64,7 @@ public class ModSetup extends DefaultModSetup {
 
     @Override
     public void createTabs() {
-        createTab("aquamunda", new ItemStack(Items.WATER_BUCKET));
+        createTab("aquamunda", () -> new ItemStack(Items.WATER_BUCKET));
     }
 
     @Override
