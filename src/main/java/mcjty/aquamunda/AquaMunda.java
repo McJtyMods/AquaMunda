@@ -29,10 +29,10 @@ import java.util.function.Function;
 public class AquaMunda implements ModBase {
     public static final String MODID = "aquamunda";
     public static final String MODNAME = "Aqua Munda";
-    public static final String MIN_IMMCRAFT_VER = "1.5.0";
-    public static final String VERSION = "0.5.0";
+    public static final String MIN_IMMCRAFT_VER = "1.6.0";
+    public static final String VERSION = "0.6.0";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
-    public static final String MIN_MCJTYLIB_VER = "3.1.0";
+    public static final String MIN_MCJTYLIB_VER = "3.5.0";
 
     @SidedProxy(clientSide = "mcjty.aquamunda.setup.ClientProxy", serverSide = "mcjty.aquamunda.setup.ServerProxy")
     public static IProxy proxy;

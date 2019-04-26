@@ -1,4 +1,5 @@
-Upcoming:
+0.6.0:
+- Depends on McJtyLib 3.5.0!
 - Fixed recipe for the grindstone manual
 - Fixed a crash when breaking a tank in creative mode
 - Fixed a few grindstone recipes (wheat->flour and sugarcane->sugar)
